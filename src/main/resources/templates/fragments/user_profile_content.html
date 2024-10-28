@@ -1,0 +1,83 @@
+<div  th:fragment="user_profile_content" class="content-section profile" >
+    <div class="user-avatar-group">
+        <div
+                class="my-3 border mx-auto w-100 d-flex justify-content-center "
+        >
+            <div
+                    class="avatar-container"
+                    style="width: fit-content"
+            >
+                <img
+                        th:src="@{/images/common/avatar.svg}"
+                        class="rounded-circle mx-auto d-block w-100 user-avatar"
+                        alt="大頭貼"
+                        style="
+                        object-fit: cover;
+                        width: 150px !important;
+                        height: 150px;
+                        cursor: pointer;
+                      "
+                />
+                <input type="file" class="d-none upload-avatar"/>
+            </div>
+        </div>
+    </div>
+    <div class="px-0 w-100 d-flex flex-column align-items-center">
+        <div class="mb-3 row w-100">
+            <label class="col-form-label col-2 text-nowrap">姓名</label>
+            <div class="col-9">
+                <input type="text" class="form-control username-input" value="湯姆貓"/>
+            </div>
+        </div>
+        <div class="mb-3 row w-100">
+            <label class="col-form-label col-2 text-nowrap">角色</label>
+            <div class="col-9">
+                <input type="text" readonly class="form-control-plaintext ps-2 user-role-input"
+                       value="會員" style="cursor: default"/>
+            </div>
+        </div>
+        <div class="mb-3 row w-100">
+            <label class="col-form-label col-2  text-nowrap">信箱</label>
+            <div class="col-9">
+                    <textarea class="form-control ps-2 bg-white user-email-input" readonly
+                              rows="2" style="overflow:hidden; resize:none;cursor: default">xxxxxxxxxxxxxxxxxxxxxxxxxx@fake.com</textarea>
+            </div>
+        </div>
+        <div class="mb-5 row w-100">
+            <label class="col-form-label col-2 text-nowrap">標籤</label>
+            <div class="col-9">
+                <div class=" btn-group dropup">
+                    <button
+                            class="btn btn-outline-warning text-warning bg-white dropdown-toggle dropdown-menu-button"
+                            type="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                    >
+                        請選擇
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-item" data-id="1">桌球</li>
+                        <li class="dropdown-item" data-id="2">籃球</li>
+                        <li class="dropdown-item" data-id="3">排球</li>
+                        <li class="dropdown-item" data-id="4">棒球</li>
+                        <li class="dropdown-item" data-id="5">壘球</li>
+                        <li class="dropdown-item" data-id="6">羽球</li>
+                        <li class="dropdown-item" data-id="7">網球</li>
+                        <li class="dropdown-item" data-id="8">足球</li>
+                        <li class="dropdown-item" data-id="9">保齡球</li>
+                        <li class="dropdown-item" data-id="10">壁球</li>
+                        <li class="dropdown-item" data-id="11">撞球</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="button-group mb-5">
+            <button class="btn btn-outline-success text-success bg-white me-3 save-btn">
+                保存
+            </button>
+            <button class="btn btn-outline-danger text-danger bg-white ms-3 cancel-btn">
+                取消
+            </button>
+        </div>
+    </div>
+</div>

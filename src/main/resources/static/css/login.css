@@ -1,0 +1,70 @@
+@media (min-width: 992px) {
+  .rounded-when-lg-right {
+    border-radius: 0px 20px 20px 0 !important;
+  }
+  .rounded-when-lg-left {
+    border-radius: 20px 0px 0px 20px !important;
+  }
+}
+@media (max-width: 576px) {
+  .keep-width {
+    width: 100%;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+  .smaller-modal {
+    transform: scale(75%);
+  }
+}
+@media (max-width: 576px) and (min-width: 400px) {
+  .yellow-button {
+    margin-left: 3rem !important;
+  }
+}
+@media (max-width: 385px) and (min-width: 325px) {
+  .yellow-button {
+    margin-left: 10px !important;
+  }
+}
+@media (max-width: 576px) and (min-width: 325px) {
+  .smallest-modal {
+    transform: scale(80%);
+  }
+  .smaller-text {
+    font-size: 1.2rem !important;
+  }
+}
+.anchor-text {
+  color: rgba(236, 109, 181, 1);
+  text-decoration: none;
+  font-weight: 700;
+}
+.anchor-text:hover {
+  color: rgba(236, 109, 181, 0.8);
+}
+#login-btn {
+  font-size: 1.1rem !important;
+}
+.third-party-btn {
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+.third-party-btn:hover {
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  outline: rgba(236, 109, 181, 1);
+}
+.third-party-btn:active,
+.third-party-btn:focus {
+  opacity: 0.3;
+}
+.yellow-button {
+  color: white;
+  padding: 0.2rem 1rem;
+  font-weight: 700;
+  font-size: 0.8rem;
+  margin-left: 2rem;
+}
+.yellow-button:hover,
+.yellow-button:focus {
+  color: white !important;
+}

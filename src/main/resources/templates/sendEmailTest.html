@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+
+</head>
+<body>
+<h1>測試頁面</h1>
+<label for="email">信箱:</label><br>
+<input type="email" name="" id="email">
+
+<button class="button" id="email-send">我是寄信按鈕</button>
+<span id="email-validate-icon"></span>
+<br>
+<br>
+<input type="text" id="authCode">
+<button type="button" id="validate">送出</button>
+
+
+</body>
+
+<script type="module" th:src="@{/js/emailComponent.js}"></script>
+</html>

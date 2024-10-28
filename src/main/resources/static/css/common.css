@@ -1,0 +1,134 @@
+/*將main撐開的排版*/
+html,
+body {
+  height: 100%;
+  margin: 0;
+  /*border: 2px solid red;*/
+}
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.header,
+.footer {
+  flex-shrink: 0;
+}
+.main {
+  flex-grow: 1;
+  overflow-y: auto;
+}
+/*fonts部分*/
+body {
+  font-size: 16px;
+  font-family: "Noto Sans TC", system-ui;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+/*logo的部分*/
+.logo-pic-container {
+  width: 100px !important;
+  height: 100px;
+}
+.logo {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border: 5px solid hsl(0, 100%, 80%) !important;
+  border-radius: 50%;
+}
+
+.logo-text {
+  font-size: 1.5rem;
+  font-weight: 900;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+/*footer部分*/
+.custom-footer-bg-color {
+  background-color: rgba(180, 205, 254, 0.75) !important;
+}
+footer {
+  font-weight: 600;
+}
+/*navbar的部分*/
+.custom-navbar-bg-color {
+  background-color: rgba(180, 205, 254, 0.75) !important;
+}
+.navbar-toggler {
+  border: none;
+}
+.navbar-toggler:focus {
+  box-shadow: none;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+}
+.navbar-toggler .navbar-toggler-icon {
+  color: black;
+}
+#nav-text {
+  color: white;
+  font-weight: 900;
+  text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
+}
+.nav-link {
+  color: black !important;
+  font-weight: 700;
+}
+#login::after {
+  content: "|";
+  margin: 0.5rem;
+  color: black;
+  font-size: 0.9rem;
+  font-weight: 400;
+  vertical-align: top;
+}
+@media (max-width: 768px) {
+  #login::after {
+    display: none;
+  }
+}
+.navbar-nav .nav-link-h {
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.navbar-nav .nav-link-h:hover {
+  background-color: #b4cdfe;
+  color: black;
+}
+
+#login:focus::after,
+#login:active::after {
+  color: black;
+}
+.navbar-brand {
+  transition: color 0.3s;
+  font-weight: 700;
+}
+.login-user-avatar {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  margin-left: 0;
+}
+#logout::after {
+  content: "|";
+  margin: 0.5rem;
+  color: black;
+  font-size: 0.9rem;
+  font-weight: 400;
+  vertical-align: top;
+}
+/*註冊modal*/
+.yellow-button {
+  color: white;
+  padding: 0.2rem 1rem;
+  font-weight: 700;
+  font-size: 0.8rem;
+  margin-left: 2rem;
+}
+.yellow-button:hover,
+.yellow-button:focus {
+  color: white !important;
+}

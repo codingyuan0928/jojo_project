@@ -1,0 +1,233 @@
+<nav th:fragment="navbar" class="navbar custom-navbar-bg-color navbar-light bg-light">
+    <div class="container-fluid">
+        <!-- 品牌名稱 -->
+        <a class="navbar-brand" th:href="@{/}"
+        ><i class="bi bi-house-door-fill"></i>首頁</a
+        >
+
+        <!-- 中央的導航 -->
+        <div class="navbar-nav mx-auto d-none d-sm-flex" id="nav-text">
+            🔥 快加入運動揪揪 Exercise together 🔥
+        </div>
+
+        <!-- 右側的登入/註冊按鈕 -->
+        <ul th:if="${isAuthenticated==false}" class="navbar-nav d-none d-md-flex flex-row">
+            <li>
+                <a class="nav-link d-inline-block ps-3" id="login" th:href="@{/login}"
+                >登入</a
+                >
+            </li>
+            <li>
+                <a class="nav-link d-inline-block pe-3 px-2 anchor-text " id="register" href="javascript:void(0);"
+                   data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                    註冊
+                </a>
+            </li>
+            <li>
+
+            </li>
+        </ul>
+
+        <ul th:if="${isAuthenticated==true}" class="navbar-nav d-none d-md-flex flex-row" >
+            <li>
+                <a class="nav-link d-inline-block ps-3" id="logout" th:href="@{/}" onclick="logout()"
+                >登出</a
+                >
+            </li>
+            <li>
+                <a class="nav-link d-inline-block pe-3 px-2 anchor-text " id="user-profile" th:href="@{/user_profile}"
+                >
+                    <img th:src="${avatar}" alt="User Avatar" class="login-user-avatar">
+                    <span th:text="${username}">使用者名稱</span>
+                </a>
+            </li>
+            <li>
+                <div
+                        class="nav-link d-inline-block pe-5 position-relative"
+                        id="notify"
+                >
+                    <a th:href="@{/user_profile(section='notifications')}"> <img th:src="@{/images/common/navbar-bell.svg}" alt="小鈴鐺"/></a>
+                    <a th:href="@{/user_profile(section='notifications')}">                    <span
+                            class="position-absolute top-1 start-50 translate-middle badge rounded-pill bg-danger"
+                    >
+            99+
+          </span></a>
+
+                </div
+                >
+            </li>
+        </ul>
+        <!-- 漢堡選單按鈕 -->
+        <button
+                class="navbar-toggler px-1"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav"
+                aria-controls="navbarNav"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+        >
+            <div>
+                <i class="bi bi-list" style="color: black"></i>
+            </div>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li th:if="${isAuthenticated==false}" class="nav-item d-md-none">
+                    <a class="nav-link nav-link-h" th:href="@{/login}" id="login-md">
+                        <img th:src="@{/images/common/navbar-login.svg}" alt="登入"/>
+
+                        登入
+                    </a>
+                </li>
+                <li th:if="${isAuthenticated==true}" class="nav-item d-md-none">
+                    <a class="nav-link nav-link-h" th:href="@{/}" id="logout-md" onclick="logout()" >
+                        <img th:src="@{/images/common/navbar-logout.svg}" alt="登出"/>
+
+                        登出
+                    </a>
+                </li>
+                <li th:if="${isAuthenticated==false}" class="nav-item d-md-none">
+                    <a
+                            class="nav-link nav-link-h pe-2 anchor-text"
+                            href="javascript:void(0);"
+                            data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop"
+                            id="register-md"
+                    >
+                        <img th:src="@{/images/common/navbar-register.svg}"/>註冊</a
+                    >
+                <li th:if="${isAuthenticated==true}" class="nav-item d-md-none">
+                    <a
+                            class="nav-link nav-link-h pe-2 anchor-text"
+                            href="/user_profile?section=profile"
+
+                    >
+                        <img th:src="${avatar}" alt="User Avatar" class="login-user-avatar">
+                        <span th:text="${username}">使用者名稱</span>
+                    </a
+                    >
+
+                </li>
+                <li th:if="${isAuthenticated==true}" class="nav-item d-md-none">
+                    <a
+                            class="nav-link nav-link-h"
+                            th:href="@{/user_profile(section='notifications')}"
+                            id="notify-md"
+                    ><i class="bi bi-bell"></i>訊息通知</a
+                    >
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#"
+                    ><i class="bi bi-people-fill"></i>揪團</a
+                    >
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-h" href="#"
+                    ><i class="bi bi-at"></i>論壇</a
+                    >
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-h" href="#"
+                    ><i class="bi bi-chat-text"></i>聊天室</a
+                    >
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-h" href="#"
+                    ><i class="bi bi-headset"></i>客服表單</a
+                    >
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-h" href="#"
+                    ><i class="bi bi-shop"></i>購物清單</a
+                    >
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- 註冊Modal -->
+    <div id="modal-container">
+        <div
+                class="modal fade"
+                id="staticBackdrop"
+                data-bs-backdrop="static"
+                data-bs-keyboard="false"
+                tabindex="1"
+                aria-labelledby="staticBackdropLabel"
+                aria-hidden="true"
+        >
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content smaller-modal smallest-modal">
+                    <div
+                            class="modal-header py-1"
+                            style="background-color: #c6d9fd; position: relative"
+                    >
+                        <div style="display: flex;justify-content: center;width: 100%; align-items: center;">
+                            <div>
+                                <img
+                                        th:src="@{/images/common/logo.svg}"
+                                        alt="Go Sport Logo"
+                                        class="logo"
+                                        style="max-width: 50px; max-height: 50px"
+                                />
+                            </div>
+                            <h5
+                                    class="modal-title ms-3"
+                                    id="staticBackdropLabel"
+                                    style="font-weight: 900"
+                            >
+                                Go Sport 運動揪揪
+                            </h5>
+                        </div>
+                        <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                        ></button>
+                    </div>
+                    <div class="modal-body">
+                        <div
+                                style="font-size: 1.25rem; font-weight: 900"
+                                class="my-3 text-center smaller-text"
+                        >
+                            🎉🎉歡迎您加入 go Sport 運動揪揪!!!!!!
+                        </div>
+                        <div
+                                style="font-size: 1.25rem; font-weight: 900"
+                                class="my-3 smaller-text"
+                        >
+                            請問您是想要...
+                        </div>
+                        <div class="d-flex mt-2 mb-4 ps-1 ps-sm-5">
+                            <p class="my-auto smaller-text" style="font-size: 1.25rem">
+                                🏋️成為運動揪揪的會員嗎?
+                            </p>
+                            <a
+                                    class="btn btn-warning yellow-button smaller-text ms-5"
+                                    id="user-registration-btn"
+                                    th:href="@{/user_registration}"
+                            >
+                                點選
+                            </a>
+                        </div>
+                        <div class="d-flex my-2 ps-1 ps-sm-5">
+                            <p class="my-auto smaller-text" style="font-size: 1.25rem">
+                                💡成為運動用品的廠商嗎?
+                            </p>
+                            <a
+                                    class="btn btn-warning yellow-button smaller-text ms-5"
+                                    id="vendor-registration-btn"
+                                    th:href="@{/vendor_registration}"
+                            >
+                                點選
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+

@@ -1,0 +1,10 @@
+.nav-item {
+  cursor: pointer;
+}
+.main{
+  width: 100%!important;
+  margin:0 auto;
+}
+section .active{
+ border-bottom: 2px solid black ;
+}

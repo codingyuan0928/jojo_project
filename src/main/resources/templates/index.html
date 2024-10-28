@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-Hant">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Go Sport首頁</title>
+    <!-- favicon -->
+    <link
+            rel="icon"
+            th:href="@{/images/common/favicon.png}"
+            type="image/png"
+    />
+    <!-- bootstrap css -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+            crossorigin="anonymous"
+    />
+    <!-- bootstrap icons -->
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400..900&display=swap"
+            rel="stylesheet"
+    />
+    <link rel="stylesheet" th:href="@{/css/common.css}"/>
+    <link rel="stylesheet" th:href="@{/css/index.css}"/>
+</head>
+<body>
+<div class="page-container">
+    <!-- 頁首導航欄 -->
+    <header th:replace="fragments/navbar :: navbar"></header>
+
+    <!-- 主頁內容 -->
+    <main class="container my-4 main">
+        <div class="row">
+            <!-- 左側Logo區域 -->
+            <div class="col-xl-3 d-flex align-items-center">
+                <!-- border border-primary -->
+                <div class="logo-container d-flex mb-2">
+                    <!--border border-danger -->
+                    <div class="logo-pic-container mt-2">
+                        <img th:src="@{/images/common/logo.svg}" class="logo"/>
+                    </div>
+                    <div class="logo-text container-fluid">
+                        <p class="my-1" style="white-space: nowrap">Go Sport</p>
+                        <p class="my-1">運動揪揪</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 輪播圖區域 -->
+            <div class="col-xl-9">
+                <!-- border border-danger -->
+                <div
+                        class="carousel-container bg-secondary text-white text-center p-0"
+                >
+                    <div
+                            id="carouselExampleIndicators"
+                            class="carousel slide"
+                            data-bs-ride="carousel"
+                    >
+                        <div class="carousel-indicators">
+                            <button
+                                    type="button"
+                                    data-bs-target="#carouselExampleIndicators"
+                                    data-bs-slide-to="0"
+                                    class="active"
+                                    aria-current="true"
+                                    aria-label="Slide 1"
+                            ></button>
+                            <button
+                                    type="button"
+                                    data-bs-target="#carouselExampleIndicators"
+                                    data-bs-slide-to="1"
+                                    aria-label="Slide 2"
+                            ></button>
+                            <button
+                                    type="button"
+                                    data-bs-target="#carouselExampleIndicators"
+                                    data-bs-slide-to="2"
+                                    aria-label="Slide 3"
+                            ></button>
+                        </div>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img
+                                        th:src="@{/images/homepage/首頁輪播-第一張圖.png}"
+                                        class="d-block w-100"
+                                        alt="第一張圖"
+                                        style="width: 400px; height: 200px; object-fit: fill"
+                                />
+                            </div>
+                            <div class="carousel-item">
+                                <img
+                                        th:src="@{/images/homepage/首頁輪播-第二張圖.png}"
+                                        class="d-block w-100"
+                                        alt="第二張圖"
+                                        style="width: 400px; height: 200px; object-fit: fill"
+                                />
+                            </div>
+                            <div class="carousel-item">
+                                <img
+                                        th:src="@{/images/homepage/首頁輪播-第三張圖.png}"
+                                        class="d-block w-100"
+                                        alt="第三張圖"
+                                        style="width: 400px; height: 200px; object-fit: fill"
+                                />
+                            </div>
+                        </div>
+                        <button
+                                class="carousel-control-prev"
+                                type="button"
+                                data-bs-target="#carouselExampleIndicators"
+                                data-bs-slide="prev"
+                        >
+                  <span
+                          class="carousel-control-prev-icon"
+                          aria-hidden="true"
+                  ></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button
+                                class="carousel-control-next"
+                                type="button"
+                                data-bs-target="#carouselExampleIndicators"
+                                data-bs-slide="next"
+                        >
+                  <span
+                          class="carousel-control-next-icon"
+                          aria-hidden="true"
+                  ></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 卡片區域 -->
+        <div class="row mt-4">
+            <!-- 卡片 1 -->
+            <div class="col-md-12 mb-4">
+                <div class="card h-100 border-md-0">
+                    <div class="row g-0">
+                        <div class="col-md-6">
+                            <img
+                                    th:src="@{/images/homepage/揪團首頁用圖.jpg}"
+                                    class="img-fluid rounded-start rounded-md-0"
+                                    alt="圖片"
+                            />
+                        </div>
+                        <div class="col-md-6 d-flex align-items-center">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    加入我們的團隊，運動更有趣！<br/>找到你的運動夥伴，讓挑戰不再孤單！
+                                </h5>
+                                <p class="card-text">
+                                    想要挑戰自己但找不到夥伴嗎？立即加入我們的揪團活動！無論你是跑步愛好者還是喜歡團隊運動，這裡有來自不同興趣的夥伴與你一同突破自我。
+                                </p>
+                                <a href="#" class="btn btn-primary">查看更多</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 卡片 2 -->
+            <div class="col-md-12 mb-4">
+                <div class="card h-100">
+                    <div class="row g-0">
+                        <div class="col-md-6 order-md-2">
+                            <img
+                                    th:src="@{/images/homepage/商城首頁用圖.jpg}"
+                                    alt="圖片"
+                                    class="img-fluid rounded-start rounded-md-0"
+                            />
+                        </div>
+                        <div class="col-md-6 d-flex align-items-center order-md-1">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    裝備升級，運動無極限！<br/>精選商品，限時優惠，搶購不停！
+                                </h5>
+                                <p class="card-text">
+                                    這個秋季，我們為你精選了超值運動裝備，讓你在運動過程中更加輕鬆舒適！現在就來我們的商城，享受專屬折扣，升級你的裝備！
+                                </p>
+                                <a href="#" class="btn btn-primary">查看更多</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 卡片 3 -->
+            <div class="col-md-12 mb-4">
+                <div class="card h-100">
+                    <div class="row g-0">
+                        <div class="col-md-6">
+                            <img
+                                    th:src="@{/images/homepage/論壇首頁用圖.jpg}"
+                                    class="img-fluid rounded-start rounded-md-0"
+                                    alt="圖片"
+                            />
+                        </div>
+                        <div class="col-md-6 d-flex align-items-center">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    分享你的運動故事，啟發更多人!<br/>在這裡，運動不只是挑戰，更是一段旅程。
+                                </h5>
+                                <p class="card-text">
+                                    在運動的旅途中，每個人都有自己的故事。來我們的論壇，與成千上萬的運動愛好者分享你的經驗與心得。無論你是初學者還是專業運動員，這裡都是你的舞台！
+                                </p>
+                                <a href="#" class="btn btn-primary">查看更多</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 頁尾 -->
+    <footer th:replace="fragments/footer :: footer"></footer>
+</div>
+<script  th:src="@{/js/common.js}"></script>
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+        crossorigin="anonymous"
+></script>
+</body>
+</html>

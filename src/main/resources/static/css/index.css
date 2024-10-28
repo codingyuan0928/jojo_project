@@ -1,0 +1,15 @@
+@media (min-width: 768px) {
+  .card {
+    border: none;
+  }
+  .rounded-md-0 {
+    border-radius: 0 !important;
+  }
+}
+.card-title {
+  font-weight: 800;
+}
+.carousel-inner img {
+  height: 300px;
+  object-fit: cover;
+}
