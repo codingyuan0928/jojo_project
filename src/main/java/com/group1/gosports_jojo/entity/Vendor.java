@@ -37,17 +37,7 @@ public class Vendor {
     @Column(name = "shop_name",nullable = false, unique = true)
     private String shopName;
     @Column(name="unified_business_number")
-    private String unifiedBusinessNumber;
-    @Column(name = "provider_name")
-    private String providerName;
-    @Column(name = "access_token")
-    private String accessToken;
-    @Column(name = "refresh_token")
-    private String refreshToken;
-    @Column(name = "access_token_expiry")
-    private Timestamp accessTokenExpiry;
-    @Column(name="refresh_token_expiry")
-    private Timestamp refreshTokenExpiry;
+    private String unifiedBusinessNumber;git 
     @CreationTimestamp
     @Column(name="created_at",updatable = false)
     private Timestamp createdAt;
@@ -163,46 +153,6 @@ public class Vendor {
 
     public void setUnifiedBusinessNumber(String unifiedBusinessNumber) {
         this.unifiedBusinessNumber = unifiedBusinessNumber;
-    }
-
-    public String getProviderName() {
-        return providerName;
-    }
-
-    public void setProviderName(String providerName) {
-        this.providerName = providerName;
-    }
-
-    public String getAccessToken() {
-        return accessToken;
-    }
-
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
-    }
-
-    public String getRefreshToken() {
-        return refreshToken;
-    }
-
-    public void setRefreshToken(String refreshToken) {
-        this.refreshToken = refreshToken;
-    }
-
-    public Timestamp getAccessTokenExpiry() {
-        return accessTokenExpiry;
-    }
-
-    public void setAccessTokenExpiry(Timestamp accessTokenExpiry) {
-        this.accessTokenExpiry = accessTokenExpiry;
-    }
-
-    public Timestamp getRefreshTokenExpiry() {
-        return refreshTokenExpiry;
-    }
-
-    public void setRefreshTokenExpiry(Timestamp refreshTokenExpiry) {
-        this.refreshTokenExpiry = refreshTokenExpiry;
     }
 
     public Timestamp getCreatedAt() {
