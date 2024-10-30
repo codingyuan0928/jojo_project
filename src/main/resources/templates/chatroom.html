@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Chat Interface with Collapsible Menu</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<link rel="stylesheet" th:href="@{/css/chatroom.css}">
+<!-- favicon -->
+<link
+        rel="icon"
+        th:href="@{/images/common/favicon.png}"
+        type="image/png"
+/>
+<!-- bootstrap icons -->
+<link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+/>
+<!-- google fonts-->
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400..900&display=swap"
+        rel="stylesheet"
+/>
+<link rel="stylesheet" th:href="@{/css/common.css}"/>
+
+
+<body>
+<!--<nav class="navbar navbar-light bg-light">-->
+<!--    <div class="container-fluid">-->
+<!--        <a class="navbar-brand">Navbar</a>-->
+<!--        <form class="d-flex">-->
+<!--            &lt;!&ndash; 模擬當前使用者 &ndash;&gt;-->
+<!--            <input class="form-control me-2" type="text" id="currentUserId" placeholder="Current User ID" aria-label="Current User ID">-->
+<!--            <button class="btn btn-outline-primary" type="button" id="confirm">確定</button>-->
+<!--            <span id="loginResult"></span>-->
+<!--        </form>-->
+<!--    </div>-->
+<!--</nav>-->
+
+<div class="page-container">
+    <!-- 頁首導航欄 -->
+    <header th:replace="fragments/navbar :: navbar"></header>
+
+    <!-- 主頁內容 -->
+<!--    <main class="container my-4 main">-->
+        <div class="container-fluid mt-4 p-3 main-content" style="width: 96vw; margin-left: auto; margin-right: auto;">
+            <div class="row">
+                <!-- Left Column - Chat List with Hamburger Menu -->
+                <div class="col-12 col-md-3 p-0">
+                    <nav class="navbar navbar-light bg-light d-md-none">
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#friendInvitationListCollapse"
+                                aria-controls="friendInvitationListCollapse" aria-expanded="false"
+                                aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <span class="navbar-brand mb-0 h1">聊天</span>
+                    </nav>
+                    <div class="collapse d-md-block" id="friendInvitationListCollapse" style="height: 100%;">
+                        <div class="bg-light p-3 border-end" style="height: 100%;">
+                            <!-- Tab Navigation for Private Chat and Group Chat -->
+                            <ul class="nav nav-tabs mb-3" id="chatTypeTabs" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="hide-dot nav-link active" id="private-chat-tab" data-bs-toggle="tab"
+                                            data-bs-target="#private-chat" type="button" role="tab"
+                                            aria-controls="private-chat" aria-selected="true">私聊
+                                    </button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="hide-dot nav-link" id="group-chat-tab" data-bs-toggle="tab"
+                                            data-bs-target="#group-chat" type="button" role="tab"
+                                            aria-controls="group-chat" aria-selected="false">群聊
+                                    </button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="friends-tab" data-bs-toggle="tab"
+                                            data-bs-target="#friend-list" type="button" role="tab"
+                                            aria-controls="group-chat" aria-selected="false">好友
+                                    </button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="friends-request-tab" data-bs-toggle="tab"
+                                            data-bs-target="#friend-request-list" type="button" role="tab"
+                                            aria-controls="group-chat" aria-selected="false">邀請
+                                    </button>
+                                </li>
+                            </ul>
+                            <!-- Tab Content -->
+                            <div class="tab-content" id="chatTypeContent">
+                                <!-- 私聊清單 -->
+                                <div class="tab-pane fade show active" id="private-chat" role="tabpanel"
+                                     aria-labelledby="private-chat-tab">
+                                    <div id="chatList" class="list-group">
+                                        <!-- 以下私聊項目 -->
+                                    </div>
+                                </div>
+                                <!-- 群聊清單 -->
+                                <div class="tab-pane fade" id="group-chat" role="tabpanel"
+                                     aria-labelledby="group-chat-tab">
+                                    <div id="groupChatList" class="list-group">
+                                        <!-- 以下群聊項目 -->
+                                    </div>
+                                </div>
+                                <!-- 好友清單 -->
+                                <div class="tab-pane fade" id="friend-list" role="tabpanel"
+                                     aria-labelledby="group-chat-tab">
+                                    <div class="search-wrapper">
+                                        <i class="bi bi-search"></i>
+                                        <input type="text" class="search-input" placeholder="Search...">
+                                    </div>
+                                    <div class="friendsList list-group"></div>
+                                    <!-- 以下好友項目 -->
+                                </div>
+                                <!-- 好友邀請清單 -->
+                                <div class="tab-pane fade" id="friend-request-list" role="tabpanel"
+                                     aria-labelledby="group-chat-tab">
+                                    <div class="search-wrapper">
+                                        <i class="bi bi-search"></i>
+                                        <input type="text" class="search-input" placeholder="Search...">
+                                    </div>
+                                    <h6>你送出的交友邀請</h6>
+                                    <div id="myInvitationList" class="list-group">
+                                        <!-- 以下你送出的交友邀請項目 -->
+                                    </div>
+                                    <h6 class="mt-3">邀請名單</h6>
+                                    <div id="friendInvite" class="list-group">
+                                        <!-- 以下邀請名單項目 -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Middle Column - Chat Window -->
+                <div class="col-12 col-md-9 p-0">
+                    <!--開始聊天吧-->
+                    <div id="chatPlaceholder">
+                        <i class="bi bi-chat"></i>
+                        <p>開始聊天吧！</p>
+                    </div>
+                    <!--  聊天視窗 -->
+                    <div id="chatWindow" class="flex-column h-100" style="display: none;">
+                        <!-- User Info Header -->
+                        <div class="d-flex mb-3 align-items-center">
+                            <div id="userInfo" class="user-avatar me-3" style="margin-left: 18px;">
+                                <img id="userInfoHeader-avatar" src="" alt="Avatar" class="rounded-circle" style="width: 40px; height: 40px;">
+                            </div>
+                            <div id="userInfoHeader-name" class="user-name"></div>
+                            <button id="viewMembersButton" type="button" class="btn btn-light btn-sm"
+                                    data-bs-toggle="modal" data-bs-target="#groupMembersModal"
+                                    style="display: none; margin-right: 10px;">查看成員
+                            </button>
+                        </div>
+
+                        <!-- Chat Content -->
+                        <div id="chatContent" class="flex-grow-1 p-3"
+                             style="box-shadow: inset 0px 8px 8px -8px rgba(0, 0, 0, 0.05);">
+                            <!--以下聊天內容項目-->
+                        </div>
+
+                        <!-- Message Input Area -->
+                        <div class="message-input-container">
+                            <div class="message-input-group">
+                                <input id="messageInput" type="text" class="message-input"
+                                       placeholder="Type your message here...">
+                                <div id="fileDisplay" class="d-flex align-items-center ml-2"></div>
+                                <button class="icon-btn" id="emojiBtn">
+                                    <i class="bi bi-emoji-smile"></i>
+                                </button>
+                                <div id="stickerPanel" class="sticker-panel" style="display: none;">
+                                    <!-- 貼圖選擇區 -->
+                                    <img th:src="@{images/chatroom/dog1.png}" class="sticker" alt="sticker1">
+                                    <img th:src="@{images/chatroom/dog2.png}" class="sticker" alt="sticker2">
+                                    <img th:src="@{images/chatroom/dog4.png}" class="sticker" alt="sticker3">
+                                    <img th:src="@{images/chatroom/dog5.png}" class="sticker" alt="sticker3">
+                                    <img th:src="@{images/chatroom/dog6.png}" class="sticker" alt="sticker3">
+                                    <img th:src="@{images/chatroom/dog7.png}" class="sticker" alt="sticker3">
+                                    <img th:src="@{images/chatroom/dog8.png}" class="sticker" alt="sticker3">
+                                    <!-- 更多貼圖 -->
+                                </div>
+                                <input type="file" id="fileInput" style="display: none;">
+                                <button id="sendMessageBtn" class="send-btn">
+                                    Send <i class="bi bi-send"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- Modal 結構 -->
+        <div class="searchModal modal fade" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="searchModalLabel">Search</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text"><i class="bi bi-search"></i></span>
+                            <input type="text" class="modalSearchInput form-control" placeholder="Search docs...">
+                        </div>
+
+                        <!-- 搜索結果區域 -->
+                        <div id="searchResults" class="search-results mt-3">
+                            <p class="no-search">No recent searches</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast 解除好友關係 -->
+        <div class="toast" id="unfriendToast" role="alert" aria-live="assertive" aria-atomic="true"
+             data-bs-autohide="false">
+            <div class="toast-body">
+                解除好友關係
+                <div class="mt-2 pt-2 border-top">
+                    <button id="unfriendAction" type="button" class="btn btn-primary btn-extra-sm">確定</button>
+                    <button type="button" class="btn btn-secondary btn-extra-sm" data-bs-dismiss="toast">取消</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast 拒絕 -->
+        <div class="toast" id="rejectToast" role="alert" aria-live="assertive" aria-atomic="true"
+             data-bs-autohide="false">
+            <div class="toast-body">
+                拒絕好友邀請
+                <div class="mt-2 pt-2 border-top">
+                    <button id="rejectAction" type="button" class="btn btn-primary btn-extra-sm">確定</button>
+                    <button type="button" class="btn btn-secondary btn-extra-sm" data-bs-dismiss="toast">取消</button>
+                </div>
+            </div>
+        </div>
+
+        <!--Alert-->
+        <div id="customAlert">
+        </div>
+
+        <!-- Modal 結構來顯示群組成員 -->
+        <div class="modal fade" id="groupMembersModal" tabindex="-1" aria-labelledby="groupMembersModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="groupMembersModalLabel">群組成員</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <ul id="members" class="list-group">
+                            <!-- 群組成員列表 -->
+                            <li class="list-group-item">成員 1</li>
+                            <li class="list-group-item">成員 2</li>
+                            <li class="list-group-item">成員 3</li>
+                            <!-- 可以使用 JS 動態填充成員 -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+<!--    </main>-->
+    <!-- 頁尾 -->
+    <footer th:replace="fragments/footer :: footer"></footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.1/dist/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script th:src="@{/js/chatroom/chatroomGlobals.js}"></script>
+<script type="module" th:src="@{/js/chatroom/websocket.js}"></script>
+<script type="module" th:src="@{/js/chatroom/friend.js}"></script>
+<script type="module" th:src="@{/js/chatroom/chat.js}"></script>
+<script  th:src="@{/js/common.js}"></script>
+</body>
+</html>

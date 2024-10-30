@@ -36,6 +36,13 @@ public class UserController {
     public String vendor_registration(){
         return "vendor_registration";
     }
+
+
+   @GetMapping("/chatroom")
+    public String chatroom(){
+        return "chatroom";
+    }
+
     @GetMapping("/user_profile")
     public String userProfile(
             @RequestParam(value = "section", required = false,defaultValue = "profile") String section,
@@ -66,5 +73,6 @@ public class UserController {
         // 返回視圖名稱
         return "user_profile";
     }
+
 }
 

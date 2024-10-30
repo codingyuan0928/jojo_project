@@ -1,0 +1,617 @@
+
+/* 將 Toast 定位在螢幕中間 */
+.toast {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999; /* 確保 Toast 顯示在所有內容的最上層 */
+}
+/* 讓內容垂直和水平置中 */
+.toast-body {
+    text-align: center;
+}
+
+.search-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto;
+    display: flex;
+    align-items: center;  /* 保持垂直對齊 */
+}
+
+.search-input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px;  /* 圓角搜索框 */
+    font-size: 16px;
+}
+
+.search-btn {
+    margin-left: 10px;
+    padding: 8px 15px;  /* 減小按鈕內邊距 */
+    background-color: #007bff;
+    border: none;
+    color: #fff;
+    border-radius: 5px;  /* 圓角按鈕 */
+    cursor: pointer;
+    font-size: 14px;  /* 調整按鈕字體大小 */
+    z-index: 2;  /* 確保按鈕位於 Toast 後面 */
+}
+
+.clear-btn {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 15px;
+    z-index: 1000;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.result-section {
+    margin-bottom: 10px;
+}
+
+.result-section h5 {
+    margin: 0 0 10px;
+    font-size: 16px;
+}
+
+.result-section ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.result-section ul li {
+    padding: 8px;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.result-section ul li:hover {
+    background-color: #f5f5f5;
+    cursor: pointer;
+}
+
+
+
+/* 將按鈕水平對齊 */
+.toast-body .btn {
+    margin: 0.2rem;  /* 增加按鈕之間的間距 */
+}
+
+.btn-extra-sm {
+    padding: 0.25rem 0.5rem; /* 調整內邊距來縮小按鈕 */
+    font-size: 0.75rem; /* 調整字體大小 */
+}
+
+
+.main-content {
+    margin-left: 30px;
+    margin-right: 30px;
+    border: 1px solid #e0e0e0; /* 輕微的灰色邊框 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 淺淺的陰影 */
+    border-radius: 10px; /* 圓角邊框 */
+    background-color: #fff; /* 背景顏色 */
+}
+.user-info-header {
+    height: 57px; /* 設置一個固定的高度，例如57px */
+    padding: 0 15px; /* 調整內邊距 */
+    background-color: #f8f9fa; /* 背景顏色 */
+    border-bottom: 1px solid #e0e0e0; /* 底部邊框 */
+}
+
+.message-input-container {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #f0f4ff;
+}
+.message-input-group {
+    display: flex;
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    padding: 10px;
+    border-radius: 20px;
+    background-color: white;
+}
+
+.message-input {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    padding: 10px;
+    border-radius: 20px;
+    background-color: #fff;
+}
+
+.message-input::placeholder {
+    color: #b3b3b3;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    margin-left: 10px;
+    font-size: 1.2rem;
+    color: #6c757d;
+    cursor: pointer;
+}
+
+.send-btn {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 8px 20px;
+    border-radius: 20px;
+    margin-left: 10px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.send-btn:hover {
+    background-color: #5a52d8;
+}
+
+
+#chatContent {
+    background-color: #f0f4ff; /* 淡藍色背景 */
+    padding: 20px;            /* 給內容區域添加內邊距 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 增加輕微陰影提升立體感 */
+    color: #333;               /* 使用深色字體保證對比度 */
+    height: 70vh; /* 高度 */
+    overflow-y: auto;  /* 讓內容超出時出現垂直滾動條 */
+}
+
+
+/* 外層容器樣式 */
+.chat-list-container {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+/* 個別聊天項目的樣式 */
+.groupChatItem, .chatItem {
+    background-color: #fff; /* 白色背景 */
+    border-radius: 10px; /* 圓角 */
+    margin-bottom: 15px; /* 每個項目之間的間距 */
+    padding: 15px; /* 內距 */
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* 背景顏色與陰影變化效果 */
+    border: none; /* 預設無邊框 */
+    box-shadow: none; /* 預設無陰影 */
+}
+
+/* 設置固定高度並讓內容超出時可以滾動 */
+#groupChatList, #chatList {
+    max-height: 400px; /* 高度 */
+    overflow-y: auto;  /* 讓內容超出時出現垂直滾動條 */
+}
+
+/* 項目懸停時改變背景色，不加陰影（可選） */
+.groupChatItem:hover, .chatItem:hover {
+    background-color: #f9f9f9; /* 懸停時顏色變化 */
+}
+
+/* 當項目被選中（點擊後）時的樣式 */
+.groupChatItem.active, .chatItem.active {
+    background-color: #f0f4ff; /* 淡藍色背景 */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 點擊後顯示陰影效果 */
+    border-left: 4px solid #007bff; /* 點擊後加左側的藍色邊框 */
+}
+
+/* 徽章圓圈樣式 */
+.unread-badge {
+    width: 20px; /* 固定寬度 */
+    height: 20px; /* 固定高度 */
+    border-radius: 50%; /* 圓形 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #dc3545; /* 背景紅色 */
+    color: white; /* 白色文字 */
+    font-size: 12px;
+    line-height: 1; /* 保持字形居中 */
+    padding: 0; /* 移除額外內距 */
+    min-width: 20px; /* 保證最小寬度，防止字多時變形 */
+}
+
+/* 文字樣式 */
+.fw-bold {
+    font-size: 16px;
+    color: #333;
+}
+
+small.text-muted {
+    color: #888;
+}
+
+.chat-bubble {
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05); /* 更淺的陰影 */
+    border-radius: 10px; /* 使邊角更圓滑 */
+}
+
+/* 自定義更細且淺色的滾動條 */
+::-webkit-scrollbar {
+    width: 5px; /* 設置滾動條的寬度為 5px，讓它更細 */
+}
+
+::-webkit-scrollbar-track {
+    background-color: #f9f9f9; /* 設置非常淺的背景色 */
+    border-radius: 10px;       /* 滾動條背景圓角 */
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #ccc;   /* 設置滑塊為淺灰色 */
+    border-radius: 10px;      /* 滑塊圓角 */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #aaa;   /* 滑鼠懸停時的滑塊顏色稍深，但仍較淺 */
+}
+
+/* avatar 和 status 樣式 */
+.avatar-container {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    margin-right: 15px; /* 調整頭像與名字之間的間距 */
+}
+
+.avatar {
+    background-color: #e0e0e0;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: #555;
+    font-size: 1.2rem;
+    width: 100%;
+    height: 100%;
+}
+
+.status {
+    width: 10px;
+    height: 10px;
+    background-color: #28a745;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    border: 2px solid white;
+}
+
+.btn-modern {
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.btn-add-friend {
+    background-color: #28a745;
+    color: white;
+    border: none;
+}
+
+.btn-add-friend:hover {
+    background-color: #218838;
+}
+
+.btn-chat {
+    background-color: #007bff;
+    color: white;
+    border: none;
+}
+
+.btn-chat:hover {
+    background-color: #0069d9;
+}
+
+.btn-group {
+    display: flex;
+    gap: 8px;
+}
+
+#friendsList{
+    max-height: 300px; /* 高度 */
+    overflow-y: auto;  /* 讓內容超出時出現垂直滾動條 */
+}
+
+.user-avatar {
+    position: relative;
+    display: inline-block;
+    width: 40px; /* 固定頭像寬度 */
+    height: 40px; /* 固定頭像高度 */
+    overflow: hidden; /* 確保圖片不超出容器 */
+    flex-shrink: 0; /* 確保 flexbox 不會壓縮這個容器 */
+}
+
+.user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 確保圖片保持比例，不會被拉伸變形 */
+    border-radius: 50%; /* 確保圖片是圓形 */
+
+}
+
+.user-name {
+    white-space: normal; /* 允許文字換行 */
+    word-break: break-all; /* 如果字太長無法斷字，強制換行 */
+    flex-grow: 1; /* 讓這個元素填滿剩餘的空間 */
+}
+
+.online-status {
+    position: absolute;
+    bottom: 0;  /* 調整到父元素的右下角 */
+    right: 0;
+    width: 12px;  /* 綠色點的大小 */
+    height: 12px;
+    background-color: #28C76F; /* 綠色表示上線 */
+    border-radius: 50%; /* 圓形 */
+    border: 2px solid white; /* 增加白色邊框 */
+}
+.offonline-status {
+    display: none;  /* 隱藏狀態 */
+}
+
+.message-input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.sticker-panel {
+    position: absolute;
+    bottom: 60px; /* 根據需要調整位置 */
+    left: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    width: 300px;
+    z-index: 1000; /* 確保貼圖面板在前方 */
+}
+
+.sticker-panel img {
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.sticker-panel img:hover {
+    transform: scale(1.2); /* 當滑鼠移上時，放大效果 */
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    margin-left: 5px;
+}
+
+.icon-btn:focus {
+    outline: none;
+}
+
+.file-chat-bubble {
+    color: #333; /* 文字顏色改為深灰色 */
+    border-radius: 5px; /* 圓角調整 */
+    padding: 10px; /* 內邊距調整 */
+    font-size: 14px; /* 字體大小 */
+    display: inline-block; /* 讓訊息氣泡大小自適應 */
+    max-width: 100%; /* 設定最大寬度 */
+    word-wrap: break-word; /* 讓長字串換行 */
+}
+
+.search-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 12px;
+    z-index: 1;  /* 增加 z-index 讓 search-wrapper 內元素顯示在 Toast 後面 */
+}
+
+.search-input {
+    width: 100%;
+    padding: 10px 15px 10px 40px; /* 給左側留出空間放置 icon */
+    border-radius: 25px;
+    border: 2px solid #ddd;
+    font-size: 16px;
+    z-index: 2;  /* 確保輸入框位於 Toast 後面 */
+}
+
+.search-input:focus {
+    outline: none; /* 移除點擊後的預設外框 */
+    border: 2px solid #007bff; /* 自定義的邊框顏色 */
+}
+
+.search-wrapper i {
+    position: absolute;
+    left: 15px; /* icon 距離左邊的距離 */
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px; /* icon 大小 */
+}
+
+
+
+.acceptBtn{
+    background-color: #04A9F5 !important;
+    border-color: #04A9F5 !important;
+    color: white !important;
+}
+
+
+.acceptBtn:hover {
+    background-color: #3788D8 !important;
+    border-color: #3788D8 !important;
+    color: white !important;
+}
+
+.acceptBtn:active, .acceptBtn:focus {
+    background-color: #3788D8 !important;
+    border-color: #3788D8 !important;
+    color: white !important;
+}
+
+
+/* 針對 rejectBtn 或 cancelBtn 或 deleteBtn 類別 */
+.rejectBtn, .cancelBtn, .deleteBtn {
+    background-color: white !important;
+    border-color: #4B576D !important;
+    color: #4B576D !important;
+}
+
+/* 自定義按鈕 hover 時的顏色 */
+.rejectBtn:hover, .cancelBtn:hover, .deleteBtn:hover {
+    background-color: #4B576D !important; /* 保持顏色 */
+    border-color: #4B576D !important;
+    color: white !important;
+}
+
+/* 自定義按鈕 active 時的顏色 */
+.rejectBtn:active, .cancelBtn:active, .deleteBtn:active
+.rejectBtn:focus, .cancelBtn:focus, deleteBtn:focus {
+    background-color: #4B576D !important; /* 點擊時的顏色 */
+    border-color: #4B576D !important;
+    color: white !important;
+}
+
+.no-invite-message, .no-friend-message {
+    font-size: 0.9rem;  /* 調整字體大小 */
+    color: #b9b9b9;  /* 使用灰色，讓文字不那麼突出 */
+    text-align: center;  /* 文字居中 */
+    margin-top: 10px;  /* 增加上方間距 */
+    margin-bottom: 10px; /* 增加下方間距 */
+}
+
+#customAlert {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000; /* 保證它顯示在其他元素上面 */
+    width: 300px; /* 設定 alert 寬度，可根據需求調整 */
+}
+
+#customAlert .alert {
+    background-color: #FFF0E1; /* 更改背景顏色 */
+    border-color: #FFAD5F; /* 更改邊框顏色 */
+    color: #FFAD5F; /* 更改文字顏色 */
+}
+
+#customAlert .alert .close {
+    color: #FFAD5F; /* 更改關閉按鈕顏色 */
+}
+
+.date-divider {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #999; /* 日期文字顏色 */
+    font-size: 12px; /* 字體大小 */
+    margin: 10px 0; /* 上下間距 */
+    position: relative;
+}
+
+
+
+.date-divider span {
+    background-color: rgba(241, 241, 241, 0.7); /* 半透明背景色 */
+    padding: 5px 10px;
+    border-radius: 15px; /* 圓角效果 */
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.1); /* 微弱陰影效果 */
+}
+
+/* 使 #chatPlaceholder 內的內容垂直和水平居中 */
+#chatPlaceholder {
+    display: flex;
+    flex-direction: column; /* 元素垂直排列 */
+    justify-content: center; /* 垂直居中 */
+    align-items: center; /* 水平居中 */
+    height: 70vh; /* 占滿父容器高度，確保居中對齊有效 */
+}
+
+/* 調整聊天圖標的樣式 */
+#chatPlaceholder i {
+    font-size: 3rem; /* 調整圖標大小 */
+    color: #333; /* 圖標顏色 */
+    margin-bottom: 20px; /* 圖標與文本之間的距離 */
+}
+
+/* 調整文本樣式 */
+#chatPlaceholder p {
+    color: #333; /* 文字顏色 */
+}
+/* 定義隱藏類 */
+.d-none {
+    display: none !important;
+}
+
+
+.hide-dot::after {
+    display: none !important;
+}
+
+#group-chat-tab,
+#private-chat-tab
+{
+    position: relative; /* 讓綠點相對於這些按鈕定位 */
+}
+
+#group-chat-tab::after,
+#private-chat-tab::after
+{
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    background-color: #00c000;
+    border-radius: 50%;
+    position: absolute;  /* 使用 absolute 讓綠點相對於父元素進行定位 */
+    top: 10px;  /* 根據需求調整綠點的垂直位置 */
+    right: 5px;  /* 根據需求調整綠點的水平位置 */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
