@@ -4,10 +4,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.io.IOException;
 import java.sql.Timestamp;
 
@@ -18,6 +15,7 @@ public class UserRegisterRequest {
     @Email(message = "Email格式不正確")
     private String email;
 
+    @Pattern(regexp = "^[a-zA-Z0-9!@#\\$%\\^&\\*]{6,20}$", message = "密碼必須是6到20碼的英文字母、數字或特殊符號")
     @NotBlank(message = "密碼不能空白")
     private String password;
 
