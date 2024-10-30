@@ -277,7 +277,7 @@
         </div>
       </div>
     </div>
-  </body>
+
 
   <script th:src="@{/js/common.js}"></script>
   <script
@@ -285,8 +285,9 @@
     integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
     crossorigin="anonymous"
   ></script>
-  <script >
 
+
+  <script th:inline="javascript">
 
     window.addEventListener("DOMContentLoaded", () => {
       // 提前宣告常用的 DOM 元素
@@ -315,7 +316,7 @@
           }
 
           try {
-            const response = await fetch('/users/login', {
+            const response = await fetch(/*[[@{/users/login}]]*/'', {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               credentials: "include",
@@ -345,4 +346,5 @@
     });
 
   </script>
+  </body>
 </html>

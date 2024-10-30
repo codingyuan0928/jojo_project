@@ -37,7 +37,7 @@ public class Vendor {
     @Column(name = "shop_name",nullable = false, unique = true)
     private String shopName;
     @Column(name="unified_business_number")
-    private String unifiedBusinessNumber;git 
+    private String unifiedBusinessNumber;
     @CreationTimestamp
     @Column(name="created_at",updatable = false)
     private Timestamp createdAt;
