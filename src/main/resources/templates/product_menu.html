@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品管理</title>
+    <!-- favicon -->
+    <link
+            rel="icon"
+            th:href="@{/images/common/favicon.png}"
+            type="image/png"
+    />
+    <!-- bootstrap css -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+            crossorigin="anonymous"
+    />
+    <!-- bootstrap icons -->
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400..900&display=swap"
+            rel="stylesheet"
+    />
+    <link rel="stylesheet" th:href="@{/css/common.css}"/>
+    <style>
+        .flex-row {
+            display: flex; /* 使用 Flexbox 來讓子元素左右排列 */
+        }
+        .custom-sidebar-bg {
+            background-color: #f8f8f8;
+            background-color: rgba(255, 254, 210, 0.75) !important;
+            width: 250px; /* 設置左側 sidebar 的寬度 */
+            height: 100vh; /* 占滿頁面的高度 */
+
+        }
+        .custom-sidebar-bg {
+            background-color: #f8f8f8;
+            background-color: rgba(255, 254, 210, 0.75) !important;
+            width: 250px; /* 設置左側 sidebar 的寬度 */
+            height: 100vh; /* 占滿頁面的高度 */
+            position: fixed; /* 固定位置，防止滾動時影響布局 */
+            left: 0;
+            top: 0;
+            padding: 20px; /* 增加一些內邊距讓內容顯示得更舒適 */
+            box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1); /* 添加陰影讓 sidebar 更加顯眼 */
+        }
+        .custom-sidebar-link {
+            color: #0D6EFD;
+            font-family: "Noto Sans TC", system-ui;
+            font-optical-sizing: auto;
+            font-style: normal;
+            display: flex;
+            align-items: center; /* 垂直居中圖標和文字 */
+            padding: 10px; /* 增加一些內邊距讓鏈接更顯眼 */
+        }
+
+        .custom-sidebar-link i {
+            width: 30px; /* 設置固定寬度，確保所有圖標占用的空間相同 */
+            text-align: center; /* 圖標水平居中 */
+            margin-right: 10px; /* 圖標和文字之間的間距 */
+        }
+
+        .custom-sidebar-link:hover {
+            background-color: #e9ecef; /* 增加懸停效果 */
+            text-decoration: none; /* 移除懸停時可能的下劃線 */
+        }
+        .custom-sidebar-bg {
+            position: fixed; /* 固定位置 */
+            left: 0; /* 固定在左側 */
+            top: 0; /* 從頂部開始 */
+            width: 200px; /* 設置 sidebar 的寬度 */
+            height: 100%; /* 使高度覆蓋整個屏幕 */
+            background-color: rgba(255, 254, 210, 0.75) !important; /* 使用半透明背景顏色 */
+            padding: 20px; /* 添加一些內邊距以增加內容的舒適度 */
+        }
+
+        .custom-sidebar-link {
+            color: #0D6EFD;
+            font-family: "Noto Sans TC", system-ui;
+            font-optical-sizing: auto;
+            font-style: normal;
+            display: flex;
+            align-items: center; /* 垂直居中圖標和文字 */
+            padding: 10px; /* 增加一些內邊距讓鏈接更顯眼 */
+        }
+
+        .custom-sidebar-link i {
+            width: 30px; /* 設置固定寬度，確保所有圖標占用的空間相同 */
+            text-align: center; /* 圖標水平居中 */
+            margin-right: 10px; /* 圖標和文字之間的間距 */
+        }
+
+        .custom-sidebar-link:hover {
+            background-color: #e9ecef; /* 增加懸停效果 */
+            text-decoration: none; /* 移除懸停時可能的下劃線 */
+        }
+
+    </style>
+    <!--  CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.7/css/dataTables.bootstrap5.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!--  JavaScript 檔案 -->
+    <script defer src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script defer src="https://cdn.datatables.net/2.1.7/js/dataTables.js"></script>
+    <script defer src="https://cdn.datatables.net/2.1.7/js/dataTables.bootstrap5.js"></script>
+    <script defer src="https://cdn.datatables.net/select/2.1.0/js/dataTables.select.js"></script>
+
+    <!--  main.js 檔案 -->
+    <script defer th:src="@{/js/order.js}"></script>
+</head>
+<body>
+
+<main class="col-md-10 offset-md-2 p-3" style="margin-left: 250px;">
+    <h2 class="mb-3">商品總覽</h2>
+
+    <div class="flex-row">
+        <div>
+            <aside class="col-md-2 p-3 custom-sidebar-bg">
+                <ul class="nav flex-column">
+
+                    <li class="nav-item">
+                        <a th:href="@{/product_menu}" class="nav-link custom-sidebar-link">
+                            <i class="fa-solid fa-bars"></i> 商品總覽
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:href="@{/add_product}" class="nav-link custom-sidebar-link">
+                            <i class="fas fa-upload"></i> 商品上架
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:href="@{/order_pending}" class="nav-link custom-sidebar-link">
+                            <i class="fa-solid fa-gears"></i> 廠商訂單管理
+                        </a>
+                    </li>
+                </ul>
+            </aside>
+        </div>
+        <div class="container ">
+            <div>
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" href="#tab-table1" data-bs-toggle="tab" data-bs-target="#tab-table1">已上架</button></li>
+                    <li><button class="nav-link" href="#tab-table2" data-bs-toggle="tab" data-bs-target="#tab-table2">已下架</button></li>
+                </ul>
+                <div class="tab-content pt-2">
+                    <div class="tab-pane show active" id="tab-table1">
+                        <button id="removeAll" class="btn btn-success mt-3" onclick="batchChangeStatus(this)">批次下架</button>
+                        <table id="myTable1" class="table table-striped table-bordered" cellspacing="0" width="100%">
+
+                        </table>
+                    </div>
+                    <div class="tab-pane" id="tab-table2">
+                        <button id="uploadAll" class="btn btn-success mt-3" onclick="batchChangeStatus(this)">批次上架</button>
+                        <table id="myTable2" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 刪除商品再次確認 popup -->
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">確認刪除</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    你確定要刪除商品嗎？
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn" onclick="deleteProduct()">確認刪除</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 批次下架再次確認 popup -->
+    <div class="modal fade" id="confirmRemoveModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">確認下架</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    你確定要下架商品嗎？
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button data-status="unshelve" type="button" class="btn btn-danger" id="confirmShelfModal" onclick="confirmBatchChangStatus(this)">確認下架</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 批次上架再次確認 popup -->
+    <div class="modal fade" id="confirmUploadModal" tabindex="-1" aria-labelledby="confirmUploadModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">確認上架</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    你確定要上架商品嗎？
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button data-status="shelve" type="button" class="btn btn-danger" id="confirmUnshelfModal" onclick="confirmBatchChangStatus(this)">確認上架</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+
+<script  th:src="@{/js/common.js}"></script>
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+        crossorigin="anonymous"
+></script>
+
+</html>
