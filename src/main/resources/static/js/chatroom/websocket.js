@@ -98,9 +98,16 @@ function disconnect() {
         stompClient.send("/app/viewingChatRoom", {}, JSON.stringify(message2));
 
         // 主動斷開 WebSocket 連線
-        stompClient.disconnect();
+        stompClient.disconnect(function(frame) {
+            console.log('斷開離線');
+            // 確保重新連線
+            setTimeout(reconnect, 100);
+        });
     }
-    console.log("Disconnected");
+}
+function reconnect() {
+    console.log("重新連線...");
+    initiateWebSocketConnection();
 }
 
 window.addEventListener('beforeunload', function (event) {

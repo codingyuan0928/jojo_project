@@ -34,9 +34,7 @@ public class WebSocketConnectListener {
 
     @EventListener
     public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
-        String userId = Objects.requireNonNull(event.getUser()).getName();
-        redisTemplate.opsForHash().delete("online_users", userId);
-        System.out.println("使用者 " + userId + " 下線");
+        log.info("websocket 斷線");
     }
 }
 
