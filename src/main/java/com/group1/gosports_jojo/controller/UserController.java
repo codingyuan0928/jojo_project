@@ -18,7 +18,6 @@ public class UserController {
     public String index() {
         return "index";
     }
-
     @GetMapping("/login")
     public String userLogin(){
         return "login";

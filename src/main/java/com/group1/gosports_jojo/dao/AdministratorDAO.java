@@ -10,4 +10,5 @@ public interface AdministratorDAO {
     void delete(Administrator administrator);
     Administrator getById(int id);
     List<Administrator> getAll();
+    Administrator getByEmail(String email);
 }

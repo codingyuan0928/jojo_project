@@ -5,12 +5,20 @@
     <meta charset="UTF-8">
     <title>test</title>
     <link rel="stylesheet" th:href="@{/css/style.css}" />
+
 </head>
 <body>
 <h2>123</h2>
 <script th:src="@{/js/common.js}"></script>
-<script >
-
+<script th:inline="javascript">
+fetch(/*[[@{/google.com}]]*/"",{
+    method:"get"
+})
+</script>
+<script th:inline="javascript">
+    fetch(/*[[@{/users/login}]]*/'',{
+        method:"get"
+    })
 </script>
 </body>
 </html>

@@ -31,6 +31,8 @@
     />
     <link rel="stylesheet" th:href="@{/css/common.css}"/>
     <link rel="stylesheet" th:href="@{/css/index.css}"/>
+    <!-- spinner -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
 </head>
 <body>
 <div class="page-container">
@@ -234,10 +236,6 @@
         integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
         crossorigin="anonymous"
 ></script>
-<script th:inline="javascript">
-    fetch(/*[[@{/users/login}]]*/'',{
-        method:"get"
-    })
-</script>
+
 </body>
 </html>

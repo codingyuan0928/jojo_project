@@ -12,8 +12,8 @@ import java.util.List;
 @Transactional
 @Repository
 public class AdministratorJPADAO implements AdministratorDAO {
-
-    private static final String GET_ALL_STMT = "SELECT * FROM ADMINISTRATOR ORDER BY ADMINISTRATOR_ID ASC";
+    private static final String GET_BY_EMAIL_PSTMT="SELECT * FROM ADMINISTRATORS WHERE email = ?";
+    private static final String GET_ALL_STMT = "SELECT * FROM ADMINISTRATORS ORDER BY ADMINISTRATOR_ID ASC";
 
     private EntityManager entityManager;
 
@@ -47,5 +47,12 @@ public class AdministratorJPADAO implements AdministratorDAO {
     @Override
     public List<Administrator> getAll() {
         return entityManager.createNativeQuery(GET_ALL_STMT, Administrator.class).getResultList();
+    }
+    @Override
+    public Administrator getByEmail(String email){
+        List<Administrator> result =entityManager.createNativeQuery(GET_BY_EMAIL_PSTMT, Administrator.class)
+                .setParameter(1, email)
+                .getResultList();
+        return result.isEmpty() ? null : result.get(0);
     }
 }

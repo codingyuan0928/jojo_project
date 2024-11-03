@@ -18,5 +18,4 @@ public interface UserDAO {
 
     UserVO findByEmail(String email);
 
-    Integer createUser(UserRegisterRequest userRegisterRequest);
 }

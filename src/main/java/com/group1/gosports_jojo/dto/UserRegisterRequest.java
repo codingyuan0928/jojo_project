@@ -5,12 +5,11 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.*;
-import java.io.IOException;
 import java.sql.Timestamp;
 
 public class UserRegisterRequest {
 
-
+    @Size(max = 50, message = "Email 長度不能超過 50 字")
     @NotBlank(message = "Email不能空白")
     @Email(message = "Email格式不正確")
     private String email;
@@ -24,7 +23,6 @@ public class UserRegisterRequest {
     private String username;
 
     private MultipartFile avatar; // 用於接收上傳的文件
-    private byte[] avatarBytes;    // 用於存儲文件數據
 
     @Size(max = 255, message = "Provider name cannot exceed 255 characters")
     private String providerName;
@@ -78,20 +76,6 @@ public class UserRegisterRequest {
 
     public void setAvatar(MultipartFile avatar) {
         this.avatar = avatar;
-    }
-
-    public byte[] getAvatarBytes() {
-        return avatarBytes;
-    }
-
-    public void setAvatarBytes(MultipartFile avatar) {
-        if (avatar != null && !avatar.isEmpty()) {
-            try {
-                this.avatarBytes = avatar.getBytes();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     public String getProviderName() {

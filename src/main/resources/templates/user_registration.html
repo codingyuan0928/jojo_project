@@ -224,7 +224,7 @@
                         <div id="upload-container" class="custom-file-upload">
                             上傳圖片
                         </div>
-                        <input type="file" id="file-upload"/>
+                        <input type="file" id="file-upload" accept="image/*"/>
                         <div class="d-flex align-items-center">
                             <img
                                     id="image-preview"
@@ -332,7 +332,8 @@
                     >
                 </div>
 
-                <button class="register-button" >立即註冊</button>
+                <button class="register-button" type="button" >立即註冊</button>
+                <input type="hidden" id="userType" name="userType" value="USER">
             </div>
         </div>
     </main>
@@ -340,7 +341,19 @@
     <footer th:replace="fragments/footer :: footer"></footer>
 </div>
 <script th:src="@{/js/common.js}"></script>
-<script type="module" th:src="@{/js/emailComponent.js}"></script>
+<script type="module">
+    import { EmailComponent } from './js/EmailComponent.js';
+
+    document.addEventListener("DOMContentLoaded", () => {
+        new EmailComponent({
+            emailButtonId: "email-send",
+            validateButtonId: "validate",
+            emailInputId: "email",
+            authCodeInputId: "authCode",
+            validateIconId: "email-validate-icon"
+        });
+    });
+</script>
 <script>
     //檔案上傳設定
     // 取得自定義容器和 input[type="file"]
@@ -454,6 +467,10 @@
             );
             formData.append("interestsTag", getInterestsTagValue(interestsTag));
 
+            const userType = document.getElementById("userType").value;
+            formData.append("userType", userType);
+
+
             // 將圖片文件加入到 FormData 中
             const avatarFile = document.getElementById("file-upload").files[0];
             if (avatarFile) {
@@ -463,7 +480,7 @@
             // 發送註冊請求
             try {
                 const response = await fetch(
-                    '/users/register',
+                    '/auth/register',
                     {
                         method: "POST",
                         body: formData, // 使用 FormData 發送

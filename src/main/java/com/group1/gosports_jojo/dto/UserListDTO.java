@@ -1,20 +1,14 @@
-package com.group1.gosports_jojo.model;
-
+package com.group1.gosports_jojo.dto;
 
 import java.sql.Timestamp;
 
-public class UserVO {
+public class UserListDTO {
     private Integer userId;
     private String username;
-    private String password;
-    private byte[] avatar;
+    private String avatarBase64;
     private String email;
     private Integer enabled;
     private String providerName;
-    private String accessToken;
-    private String refreshToken;
-    private Timestamp accessTokenExpiry;
-    private Timestamp refreshTokenExpiry;
     private Integer newsletterSubscriptionConsentField;
     private Timestamp createdAt;
     private Timestamp updatedAt;
@@ -37,20 +31,12 @@ public class UserVO {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
+    public String getAvatarBase64() {
+        return avatarBase64;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public byte[] getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(byte[] avatar) {
-        this.avatar = avatar;
+    public void setAvatarBase64(String avatarBase64) {
+        this.avatarBase64 = avatarBase64;
     }
 
     public String getEmail() {
@@ -75,38 +61,6 @@ public class UserVO {
 
     public void setProviderName(String providerName) {
         this.providerName = providerName;
-    }
-
-    public String getAccessToken() {
-        return accessToken;
-    }
-
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
-    }
-
-    public String getRefreshToken() {
-        return refreshToken;
-    }
-
-    public void setRefreshToken(String refreshToken) {
-        this.refreshToken = refreshToken;
-    }
-
-    public Timestamp getAccessTokenExpiry() {
-        return accessTokenExpiry;
-    }
-
-    public void setAccessTokenExpiry(Timestamp accessTokenExpiry) {
-        this.accessTokenExpiry = accessTokenExpiry;
-    }
-
-    public Timestamp getRefreshTokenExpiry() {
-        return refreshTokenExpiry;
-    }
-
-    public void setRefreshTokenExpiry(Timestamp refreshTokenExpiry) {
-        this.refreshTokenExpiry = refreshTokenExpiry;
     }
 
     public Integer getNewsletterSubscriptionConsentField() {

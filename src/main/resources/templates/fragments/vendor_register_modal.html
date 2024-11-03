@@ -1,0 +1,346 @@
+<!--        廠商註冊的modal-->
+<div th:fragment="vendor_register_modal">
+  <div
+          class="modal fade"
+          id="vendorRegisterStaticBackdrop"
+          tabindex="-1"
+          aria-labelledby="vendorRegisterStaticBackdrop"
+          aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">廠商註冊</h5>
+          <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="form-container mb-3">
+            <div class="form-group flex-wrap">
+              <label class="mb-1">頭像：</label>
+              <span id="avatar-error" class="error-message ps-2"></span>
+              <div id="vendor-upload-container" class="custom-file-upload d-none">
+                上傳圖片
+              </div>
+              <input type="file" id="vendor-file-upload" accept="image/*" class="form-control"/>
+              <div class="d-flex align-items-center ">
+                <img
+                        id="vendor-image-preview"
+                        src=""
+                        alt="圖片預覽"
+                        style="
+                            max-width: 150px;
+                            max-height: 150px;
+                            display: none;
+                            margin-top: 20px;
+                            margin-left: 10px;
+                          "
+                />
+                <div id="vendor-file-name" class="mt-2">尚未選擇文件</div>
+              </div>
+            </div>
+          </div>
+          <form>
+            <div class="mb-3">
+              <label for="vendor-name" class="col-form-label"
+              >您的名稱(負責人):</label
+              >
+              <span id="vendor-username-error" class="error-message ps-2"></span>
+              <input type="text" class="form-control" id="vendor-name" />
+            </div>
+            <div class="mb-3">
+              <label for="vendor-password" class="col-form-label">密碼:</label>
+              <span id="vendor-password-error" class="error-message ps-2"></span>
+              <input type="password" class="form-control" id="vendor-password" />
+            </div>
+            <div class="mb-3">
+              <label for="confirm-vendor-password" class="col-form-label"
+              >確認密碼:</label
+              >
+              <input
+                      type="password"
+                      class="form-control"
+                      id="confirm-vendor-password"
+              />
+            </div>
+            <div>
+              <label for="vendor-email" class="col-form-label">電子郵件:</label>
+              <span id="vendor-email-error" class="error-message ps-2"></span>
+              <div class="d-flex mb-3 align-items-center">
+                <input type="text" class="form-control me-2" id="vendor-email" />
+                <button type="button" class="btn btn-primary text-nowrap" id="vendor-sending-email-button">驗證信箱</button>
+                <span class="ms-2" id="vendor-email-validate-icon"></span>
+              </div>
+              <label for="vendor-authCode" class="col-form-label">驗證碼：</label>
+              <div class="input-group flex-nowrap">
+                <input type="text" id="vendor-authCode" placeholder="" class="form-control me-2"/>
+                <button type="button" class="send-email-button px-3 btn btn-primary" style="white-space: nowrap" id="vendor-email-validate-button">
+                  驗證
+                </button>
+              </div>
+
+            </div>
+            <div class="mb-3">
+              <label for="company-name" class="col-form-label"
+              >公司名稱:</label
+              >
+              <span id="vendor-companyName-error" class="error-message ps-2"></span>
+              <input type="text" class="form-control" id="company-name" />
+            </div>
+            <div class="mb-3">
+              <label for="company-address" class="col-form-label"
+              >公司地址:</label
+              >
+              <span id="vendor-companyAddress-error" class="error-message ps-2"></span>
+              <input
+                      type="text"
+                      class="form-control"
+                      id="company-address"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="company-phone" class="col-form-label"
+              >公司電話:</label
+              >
+              <br>
+              <div id="vendor-companyPhone-error" class="error-message"></div>
+              <input
+                      type="text"
+                      class="form-control"
+                      id="company-phone"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="company-email" class="col-form-label"
+              >公司電子郵件:</label
+              >
+              <span id="vendor-companyEmail-error" class="error-message ps-2"></span>
+              <input
+                      type="text"
+                      class="form-control"
+                      id="company-email"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="company-registration-doc" class="col-form-label"
+              >公司營業登記文件上傳(限pdf檔案)</label
+              >
+              <span id="vendor-registrationDocument-error" class="error-message ps-2"></span>
+              <input
+                      type="file"
+                      class="form-control"
+                      id="company-registration-doc"
+                      accept="application/pdf"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="shop-name" class="col-form-label"
+              >商城名稱:</label
+              >
+              <span id="vendor-shopName-error" class="error-message ps-2"></span>
+              <input type="text" class="form-control" id="shop-name" />
+            </div>
+            <div class="mb-3">
+              <label for="unified-business-number" class="col-form-label"
+              >統一編號:</label
+              >
+              <br>
+              <div id="vendor-unifiedBusinessNumber-error" class="error-message"></div>
+              <input
+                      type="text"
+                      class="form-control"
+                      id="unified-business-number"
+              />
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+          >
+            取消
+          </button>
+          <button type="button" class="btn btn-primary vendor-register">註冊</button>
+        </div>
+        <input type="hidden" id="vendor-userType" name="userType" value="VENDOR">
+      </div>
+    </div>
+  </div>
+  <script type="module" th:src="@{/js/emailComponent.js}"></script>
+  <script type="module">
+    import { EmailComponent } from './js/EmailComponent.js';
+
+    document.addEventListener("DOMContentLoaded", () => {
+      new EmailComponent({
+        emailButtonId: "vendor-sending-email-button",
+        validateButtonId: "vendor-email-validate-button",
+        emailInputId: "vendor-email",
+        authCodeInputId: "vendor-authCode",
+        validateIconId: "vendor-email-validate-icon"
+      });
+    });
+  </script>
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      const vendorFileUpload = document.getElementById('vendor-file-upload');
+      const vendorImagePreview = document.getElementById('vendor-image-preview');
+      const vendorFileNameDisplay = document.getElementById('vendor-file-name');
+
+      vendorFileUpload.addEventListener('change', () => {
+        const vendorFile = vendorFileUpload.files[0];
+        if (vendorFile) {
+          vendorFileNameDisplay.textContent = vendorFile.name;
+
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            vendorImagePreview.src = e.target.result;
+            vendorImagePreview.style.display = 'block';
+          };
+          reader.readAsDataURL(vendorFile);
+        } else {
+          vendorFileNameDisplay.textContent = '尚未選擇文件';
+          vendorImagePreview.style.display = 'none';
+        }
+      });
+    });
+
+    function clearErrorMessages() {
+      const errorFields = [
+        "vendor-username-error",
+        "vendor-email-error",
+        "vendor-password-error",
+        "vendor-avatar-error",
+        "vendor-companyName-error",
+        "vendor-companyAddress-error",
+        "vendor-companyPhone-error",
+        "vendor-companyEmail-error",
+        "vendor-registrationDocument-error",
+        "vendor-shopName-error",
+        "vendor-unifiedBusinessNumber-error"
+      ];
+      errorFields.forEach(id => {
+        const errorElement = document.getElementById(id);
+        if (errorElement) {
+          errorElement.innerText = "";
+          errorElement.style.color = "";
+        }
+      });
+    }
+
+
+    //fetch
+    document.querySelector(".vendor-register")
+            .addEventListener("click",async (e)=>{
+              e.preventDefault();
+              clearErrorMessages();
+            const vendorRegisterBtn=document.querySelector(".vendor-register");
+            vendorRegisterBtn.disabled=true;
+            vendorRegisterBtn.textContent = "註冊中...";
+              const validateIcon = document.getElementById("vendor-email-validate-icon");
+              const isVerified = validateIcon.querySelector("i") && validateIcon.querySelector("i").classList.contains("fa-check");
+              if (!isVerified) {
+                alert("請先完成驗證碼驗證！");
+                vendorRegisterBtn.disabled = false;
+                vendorRegisterBtn.textContent = "立即註冊";
+                return;
+              }
+              //取得表單資料
+              const vendorAvatarFile= document.getElementById("vendor-file-upload").files[0];
+              const vendorName= document.getElementById("vendor-name").value;
+              const vendorPassword = document.getElementById("vendor-password").value;
+              const confirmVendorPassword = document.getElementById("confirm-vendor-password").value;
+              const vendorEmail=document.getElementById("vendor-email").value;
+              const companyName= document.getElementById("company-name").value;
+              const companyAddress = document.getElementById("company-address").value;
+              const companyPhone = document.getElementById("company-phone").value;
+              const companyEmail=document.getElementById("company-email").value;
+              const companyRegisterDoc=document.getElementById("company-registration-doc").files[0];
+              const shopName = document.getElementById("shop-name").value;
+              const unifiedBusinessNumber =document.getElementById("unified-business-number").value;
+
+              if (vendorPassword !== confirmVendorPassword) {
+                alert("密碼與確認密碼不一致，請重新輸入！");
+                vendorRegisterBtn.disabled = false;
+                vendorRegisterBtn.textContent = "立即註冊";
+                return;
+              }
+
+              const vendorFormData = new FormData();
+              vendorFormData.append("username",vendorName);
+              vendorFormData.append("password",vendorPassword);
+              if(vendorAvatarFile){
+                vendorFormData.append("avatar",vendorAvatarFile);
+              }
+              vendorFormData.append("email",vendorEmail);
+              vendorFormData.append("companyName",companyName);
+              vendorFormData.append("companyAddress",companyAddress);
+              vendorFormData.append("companyPhone",companyPhone);
+              vendorFormData.append("companyEmail",companyEmail);
+              if(companyRegisterDoc){
+                vendorFormData.append("registrationDocument",companyRegisterDoc);
+              }
+              vendorFormData.append("shopName",shopName);
+              vendorFormData.append("unifiedBusinessNumber",unifiedBusinessNumber);
+
+              const vendorUserType = document.getElementById("vendor-userType").value;
+              vendorFormData.append("userType", vendorUserType);
+
+              try{
+                const res = await fetch('/auth/register',{
+                  method:'POST',
+                  body:vendorFormData
+                });
+                if(res.ok){
+                  const vendor = await res.json();
+                  alert("註冊成功！歡迎，" + vendor.vendorName);
+                  window.location.href = "/login";
+                }else if(res.status === 400){
+                  const errorData = await res.json();
+
+                  // 清空驗證碼欄位
+                  document.getElementById("vendor-authCode").value = "";
+                  document.getElementById("vendor-authCode").disabled=false;
+
+                  // 使電子郵件欄位可編輯
+                  const emailInput = document.getElementById("vendor-email");
+                  emailInput.readOnly = false;
+                  emailInput.disabled = false;
+
+                  document.getElementById("vendor-sending-email-button").disabled=false;
+                  document.getElementById("vendor-email-validate-button").disabled=false;
+                  // 隱藏驗證成功的圖標
+                  const validateIcon = document.getElementById("vendor-email-validate-icon");
+                  validateIcon.innerHTML = "";
+
+                  for (const [field, message] of Object.entries(errorData)) {
+                    const errorElement = document.getElementById(`vendor-${field}-error`);
+                    if (errorElement) {
+                      errorElement.innerText = message;
+                      errorElement.style.color = "red";
+                    }
+                  }
+                  vendorRegisterBtn.disabled = false;
+                  vendorRegisterBtn.textContent = "立即註冊";
+                }else{
+                  const errorData = await res.json();
+                  alert("註冊失敗! " + errorData.error || "未知錯誤");
+
+                  vendorRegisterBtn.disabled = false;
+                  vendorRegisterBtn.textContent = "立即註冊";
+                }
+              }catch(err){
+                console.error("註冊過程發生錯誤：", err);
+                vendorRegisterBtn.disabled = false;
+                vendorRegisterBtn.textContent = "立即註冊";
+                alert("註冊過程發生錯誤，請稍後再試。");
+              }
+
+            })
+  </script>
+</div>

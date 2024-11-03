@@ -1,5 +1,9 @@
 package com.group1.gosports_jojo.filter;
 
+import com.group1.gosports_jojo.entity.Vendor;
+import com.group1.gosports_jojo.model.UserVO;
+import org.apache.catalina.User;
+
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,7 +18,10 @@ public class LoginRedirectFilter implements Filter {
         HttpServletResponse res = (HttpServletResponse) response;
         HttpSession session = req.getSession();
 
-        if (session.getAttribute("loggedInUser") == null) {
+        UserVO userAccount = (UserVO) session.getAttribute("userAccount");
+        Vendor vendorAccount = (Vendor) session.getAttribute("vendorAccount");
+
+        if (userAccount == null && vendorAccount == null) {
             String redirectUrl = req.getRequestURI();
             session.setAttribute("redirectAfterLogin", redirectUrl);
             res.sendRedirect("/login");
