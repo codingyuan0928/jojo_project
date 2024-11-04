@@ -232,11 +232,11 @@
                 </li>
                 <li class="nav-item">
                     <a th:href="@{/vendors/order_pending}" class="nav-link custom-sidebar-link">
-                        <i class="fa-solid fa-user-pen"></i> 編輯資料
+                        <img th:src="${avatar}" style="width: 30px;height: 30px;border-radius: 180px;margin-right: 10px;border: #0D6EFD solid 0.5px" >編輯資料
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a th:href="@{/vendors/order_pending}" class="nav-link custom-sidebar-link">
+                    <a href="javascript:void(0)" class="nav-link custom-sidebar-link" onclick="vendorLogout()">
                         <i class="fa-solid fa-right-from-bracket"></i>    登出
                     </a>
                 </li>
@@ -417,5 +417,6 @@
         document.getElementById('orderPopup').style.display = 'none';
     }
 </script>
+<script  th:src="@{/js/common.js}"></script>
 </body>
 </html>

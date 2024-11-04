@@ -49,11 +49,11 @@ public String orderFinish(HttpServletRequest req, Model model, HttpServletRespon
 
     return "order_finish";
 }
-@GetMapping("order_finish_search")
+@GetMapping("/order_finish_search")
 public String orderFinishSearch() {
     return "order_finish_search";
 }
-@GetMapping("order_pending")
+@GetMapping("/order_pending")
 public String orderPending(HttpServletRequest req, Model model, HttpServletResponse res) {
 
     List<OrderVO> list = orderSvc.getAll(0); // 呼叫無參數版本的 getAll 方法
@@ -63,12 +63,12 @@ public String orderPending(HttpServletRequest req, Model model, HttpServletRespo
 
 
 }
-@GetMapping("order_pending_search")
+@GetMapping("/order_pending_search")
 public String orderPendingSearch() {
 
     return "order_pending_search";
 }
-@GetMapping("product_menu")
+@GetMapping("/product_menu")
 public String productMenu() {
 
     return "product_menu";

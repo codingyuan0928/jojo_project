@@ -62,7 +62,7 @@ public class UserRestController {
     public ResponseEntity<String> logout(HttpSession session) {
         session.invalidate();
         System.out.println("使用者已登出");
-        return ResponseEntity.status(HttpStatus.OK).body("已成功登出");
+        return ResponseEntity.status(HttpStatus.OK).body("使用者已成功登出");
     }
 
     @GetMapping("/profile")

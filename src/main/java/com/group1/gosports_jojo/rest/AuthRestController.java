@@ -63,7 +63,7 @@ public class AuthRestController {
 
             String redirectUrl = (String) session.getAttribute("redirectAfterVendorLogin");
             if (redirectUrl == null) {
-                redirectUrl = "/vendors";
+                redirectUrl = "/vendors/product_menu";
             } else {
                 session.removeAttribute("redirectAfterVendorLogin");
             }
