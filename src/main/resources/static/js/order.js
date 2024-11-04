@@ -2,7 +2,7 @@
 function initDataTable1() {
     new DataTable('#myTable1', {
         ajax: {
-          url: 'http://localhost:8080/products',
+          url: '/products',
             data: {
 
                 status: 1 // 0: 下架 1: 上架
@@ -41,7 +41,7 @@ function initDataTable1() {
 function initDataTable2() {
     new DataTable('#myTable2', {
         ajax: {
-            url: 'http://localhost:8080/products',
+            url: '/products',
             data: {
 
                 status: 0 // 0: 下架 1: 上架
@@ -318,7 +318,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 // 監聽 Bootstrap 的 Tab 切換事件
-document.querySelectorAll('button[data-bs-toggle="tab"tab]').forEach(tab => {
+document.querySelectorAll('button[data-bs-toggle="tab"]').forEach(tab => {
     tab.addEventListener('shown.bs.tab', function (event) {
         // 每次切換 Tab 清空 checkedList
         checkedList = [];

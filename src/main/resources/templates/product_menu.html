@@ -30,6 +30,9 @@
             rel="stylesheet"
     />
     <link rel="stylesheet" th:href="@{/css/common.css}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.7/css/dataTables.bootstrap5.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         .flex-row {
             display: flex; /* 使用 Flexbox 來讓子元素左右排列 */
@@ -53,7 +56,7 @@
             box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1); /* 添加陰影讓 sidebar 更加顯眼 */
         }
         .custom-sidebar-link {
-            color: #0D6EFD;
+            color: #0D6EFD!important;
             font-family: "Noto Sans TC", system-ui;
             font-optical-sizing: auto;
             font-style: normal;
@@ -105,10 +108,7 @@
 
     </style>
     <!--  CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.7/css/dataTables.bootstrap5.css">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <!--  JavaScript 檔案 -->
     <script defer src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
@@ -126,22 +126,38 @@
 
     <div class="flex-row">
         <div>
+            <!-- 左側選單 -->
             <aside class="col-md-2 p-3 custom-sidebar-bg">
                 <ul class="nav flex-column">
 
                     <li class="nav-item">
-                        <a th:href="@{/product_menu}" class="nav-link custom-sidebar-link">
+                        <a th:href="@{/vendors/product_menu}" class="nav-link custom-sidebar-link">
                             <i class="fa-solid fa-bars"></i> 商品總覽
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a th:href="@{/add_product}" class="nav-link custom-sidebar-link">
+                        <a th:href="@{/vendors/add_product}" class="nav-link custom-sidebar-link">
                             <i class="fas fa-upload"></i> 商品上架
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a th:href="@{/order_pending}" class="nav-link custom-sidebar-link">
-                            <i class="fa-solid fa-gears"></i> 廠商訂單管理
+                        <a th:href="@{/vendors/order_pending}" class="nav-link custom-sidebar-link">
+                            <i class="fa-solid fa-gears"></i> 訂單管理
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:href="@{/vendors/order_pending}" class="nav-link custom-sidebar-link">
+                            <i class="fa-solid fa-bell"></i> 訊息通知
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:href="@{/vendors/order_pending}" class="nav-link custom-sidebar-link">
+                            <i class="fa-solid fa-user-pen"></i> 編輯資料
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:href="@{/vendors/order_pending}" class="nav-link custom-sidebar-link">
+                            <i class="fa-solid fa-right-from-bracket"></i>    登出
                         </a>
                     </li>
                 </ul>

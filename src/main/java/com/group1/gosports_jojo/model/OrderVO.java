@@ -8,7 +8,7 @@ public class OrderVO  implements java.io.Serializable{
 	private Integer userId;
 	private Integer orderStatus;
 	private Integer totalAmount;
-	private Timestamp createdDatetime; 
+	private Timestamp createdDatetime;
 	@Override
 	public String toString() {
 		return "OrderVO [orderId=" + orderId + ", vendorId=" + vendorId + ", userId=" + userId + ", orderStatus="
@@ -16,7 +16,7 @@ public class OrderVO  implements java.io.Serializable{
 				+ ", updatedDatetime=" + updatedDatetime + ", pickupDate=" + pickupDate + "]";
 	}
 	private Timestamp updatedDatetime; 
-	private Timestamp pickupDate; 
+	private Timestamp pickupDate;
 	
 	
 	public Integer getOrderId() {

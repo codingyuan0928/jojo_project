@@ -1,6 +1,7 @@
-package com.group1.gosports_jojo.controller;
-import lulu.com.demo_productdatatable.request.ProductStatusUpdateRequest;
-import lulu.com.demo_productdatatable.service.ProductService;
+package com.group1.gosports_jojo.rest;
+
+import com.group1.gosports_jojo.dto.ProductStatusUpdateRequest;
+import com.group1.gosports_jojo.service.impl.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +12,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/products")
-public class ProductController {
+public class ProductRestController {
 
     @Autowired
     private ProductService productService;

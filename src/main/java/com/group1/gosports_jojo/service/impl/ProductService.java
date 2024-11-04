@@ -1,8 +1,9 @@
 package com.group1.gosports_jojo.service.impl;
 
-import lulu.com.demo_productdatatable.dto.ProductDTO;
-import lulu.com.demo_productdatatable.entity.Product;
-import lulu.com.demo_productdatatable.repository.ProductRepository;
+
+import com.group1.gosports_jojo.dto.ProductDTO;
+import com.group1.gosports_jojo.entity.Product;
+import com.group1.gosports_jojo.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -217,18 +217,33 @@
             <ul class="nav flex-column">
 
                 <li class="nav-item">
-                    <a th:href="@{/product_menu}" class="nav-link custom-sidebar-link">
+                    <a th:href="@{/vendors/product_menu}" class="nav-link custom-sidebar-link">
                         <i class="fa-solid fa-bars"></i> 商品總覽
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a th:href="@{/add_product}" class="nav-link custom-sidebar-link">
+                    <a th:href="@{/vendors/add_product}" class="nav-link custom-sidebar-link">
                         <i class="fas fa-upload"></i> 商品上架
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a th:href="@{/order_pending}" class="nav-link custom-sidebar-link">
-                        <i class="fa-solid fa-gears"></i> 廠商訂單管理
+                    <a th:href="@{/vendors/order_pending}" class="nav-link custom-sidebar-link">
+                        <i class="fa-solid fa-gears"></i> 訂單管理
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/vendors/order_pending}" class="nav-link custom-sidebar-link">
+                        <i class="fa-solid fa-bell"></i> 訊息通知
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/vendors/order_pending}" class="nav-link custom-sidebar-link">
+                        <i class="fa-solid fa-user-pen"></i> 編輯資料
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/vendors/order_pending}" class="nav-link custom-sidebar-link">
+                        <i class="fa-solid fa-right-from-bracket"></i>    登出
                     </a>
                 </li>
             </ul>
@@ -236,17 +251,17 @@
 
         <!-- 內容區域 -->
         <main class="col-md-10 offset-md-2 p-3" style="margin-left: 230px;">
-            <h2>已完成訂單</h2>
+            <h2 class="mb-3" >已完成訂單</h2>
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <!-- 訂單按鈕 -->
 
                 <div>
-                    <a th:href="@{/order_pending}" class="btn btn-secondary">處理中訂單</a>
-                    <a th:href="@{/order_finish}" class="btn btn-primary">已完成訂單</a>
+                    <a th:href="@{/vendors/order_pending}" class="btn btn-secondary">處理中訂單</a>
+                    <a th:href="@{/vendors/order_finish}" class="btn btn-primary">已完成訂單</a>
                 </div>
 
                 <!-- 日期篩選器 -->
-                <form method="post" th:action="@{/searchFinishOrderTime}">
+                <form method="post" th:action="@{/vendors/searchFinishOrderTime}">
 
                     <input type="hidden" name="action" value="search2">
                     <div class="d-flex align-items-center">

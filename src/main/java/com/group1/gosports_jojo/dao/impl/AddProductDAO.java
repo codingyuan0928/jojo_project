@@ -40,10 +40,11 @@ public class AddProductDAO implements AddProductDAO_interface {
     	if(con ==null) {
     		
     		errm = errm + "no connection";
+
     	}
     	
         String sql = "INSERT INTO products (product_content, product_name, price, product_spec, stock, created_datetime,  product_status, product_updated_datetime, vendor_id) "
-                   + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, 114)"; //vendor_id不能為null,先寫死
+                   + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1)"; //vendor_id不能為null,先寫死
         
         Timestamp now = new Timestamp(System.currentTimeMillis());
         statement = con.prepareStatement(sql);
