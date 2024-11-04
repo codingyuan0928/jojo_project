@@ -18,4 +18,5 @@ public interface VendorService {
     Vendor findByCompanyPhone(String phoneNumber);
     Vendor findByUnifiedBusinessNumber(String phoneNumber);
     Vendor findByCompanyEmail(String companyEmail);
+    void updateVendorProfile();
 }

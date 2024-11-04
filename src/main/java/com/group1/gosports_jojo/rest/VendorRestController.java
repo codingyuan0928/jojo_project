@@ -21,7 +21,7 @@ public class VendorRestController {
     @Autowired
     private VendorService vendorService;
 
-    // Create a new vendor
+
     @PostMapping("/create")
     public ResponseEntity<String> addVendor(@RequestBody Vendor vendor) {
         vendorService.addVendor(vendor);

@@ -82,6 +82,7 @@ public class VendorServiceImpl implements VendorService {
     @Override
     public Vendor findByCompanyEmail(String companyEmail){return dao.findByCompanyEmail(companyEmail);}
 
+    @Override
     public void updateVendorProfile(){}
 
     @Override

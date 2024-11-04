@@ -53,6 +53,8 @@ public class GlobalModelAttribute {
                 model.addAttribute("companyAddress", vendor.getCompanyAddress());
                 model.addAttribute("companyPhone", vendor.getCompanyPhone());
                 model.addAttribute("companyEmail", vendor.getCompanyEmail());
+                 String base64RD = Base64.getEncoder().encodeToString(vendor.getRegistrationDocument());
+                model.addAttribute("registrationDocument","data:image/png;base64," + base64RD);
                 model.addAttribute("shopName", vendor.getShopName());
                 model.addAttribute("unifiedBusinessNumber", vendor.getUnifiedBusinessNumber());
             } else {

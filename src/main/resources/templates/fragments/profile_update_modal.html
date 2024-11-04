@@ -90,7 +90,10 @@
                         <div class="mb-3 row w-100">
                             <label class="col-form-label col-2 text-wrap">營業登記文件</label>
                             <div class="col-9">
-                                <input type="file" class="form-control"/>
+                                <object th:data="'data:application/pdf;base64,' + ${registrationDocument}" type="application/pdf" width="600" height="400">
+                                    <p>你的瀏覽器無法顯示 PDF，請<a th:href="'data:application/pdf;base64,' + ${registrationDocument}" download="document.pdf">點此下載 PDF</a>。</p>
+                                </object>
+<!--                                <input type="file" class="form-control"/>-->
                             </div>
                         </div>
                         <div class="mb-3 row w-100">
