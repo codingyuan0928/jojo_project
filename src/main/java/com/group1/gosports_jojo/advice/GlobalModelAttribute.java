@@ -26,10 +26,10 @@ public class GlobalModelAttribute {
         if(admin != null) {
             model.addAttribute("isAuthenticated", true);
             model.addAttribute("role", "ADMIN");
-            model.addAttribute("username", admin.getUsername());
-            model.addAttribute("email", admin.getEmail());
             model.addAttribute("id", admin.getAdministratorId());
+            model.addAttribute("username", admin.getUsername());
             model.addAttribute("permissionName",admin.getPermission().getPermissionName());
+            model.addAttribute("email", admin.getEmail());
             model.addAttribute("enabled", admin.getEnabled());
             model.addAttribute("createdAt", admin.getCreatedAt());
             model.addAttribute("updatedAt", admin.getUpdatedAt());
@@ -44,11 +44,17 @@ public class GlobalModelAttribute {
             } else if (vendor != null) {
                 model.addAttribute("isAuthenticated", true);
                 model.addAttribute("role", "VENDOR");
-                model.addAttribute("username", vendor.getUsername());
+                model.addAttribute("vendorId", vendor.getVendorId());
                 String base64Avatar = Base64.getEncoder().encodeToString(vendor.getAvatar());
                 model.addAttribute("avatar", "data:image/png;base64," + base64Avatar);
-                model.addAttribute("vendorId", vendor.getVendorId());
-
+                model.addAttribute("username", vendor.getUsername());
+                model.addAttribute("email", vendor.getEmail());
+                model.addAttribute("companyName", vendor.getCompanyName());
+                model.addAttribute("companyAddress", vendor.getCompanyAddress());
+                model.addAttribute("companyPhone", vendor.getCompanyPhone());
+                model.addAttribute("companyEmail", vendor.getCompanyEmail());
+                model.addAttribute("shopName", vendor.getShopName());
+                model.addAttribute("unifiedBusinessNumber", vendor.getUnifiedBusinessNumber());
             } else {
                 model.addAttribute("isAuthenticated", false);
             model.addAttribute("role", "GUEST");

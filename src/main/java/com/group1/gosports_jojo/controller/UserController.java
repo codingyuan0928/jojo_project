@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class UserController {
-
+    @GetMapping("/test")
+    public String test(){
+        return "test";
+    }
     @GetMapping("/sendEmailTest")
     public String sendEmailTest(){
         return "sendEmailTest";
