@@ -26,7 +26,7 @@ function initDataTable1() {
                 data: null, title: '操作',
                 render: function (data, type, row) {
                     return '<button type="button" class="btn btn-success btn-sm me-3" onclick="changeProductStatus(this,' + row.productId + ')">下架</button>' +
-                        '<a class="btn btn-sm btn-primary me-3" href="edit.html?id=' + row.productId + '" role="button" data-bs-target="#popup">編輯</a>' +
+                        // '<a class="btn btn-sm btn-primary me-3" href="edit.html?id=' + row.productId + '" role="button" data-bs-target="#popup">編輯</a>' +
                         '<button type="button" class="btn btn-danger btn-sm me-3" onclick="deleteItem(' + row.productId + ')">刪除</button>';
                 }
             }
@@ -65,7 +65,7 @@ function initDataTable2() {
                 data: null, title: '操作',
                 render: function (data, type, row) {
                     return '<button type="button" class="btn btn-success btn-sm me-3" onclick="changeProductStatus(this,' + row.productId + ')">上架</button>' +
-                        '<a class="btn btn-sm btn-primary me-3" href="edit.html?id=' + row.productId + '" role="button" data-bs-target="#popup">編輯</a>' +
+                        // '<a class="btn btn-sm btn-primary me-3" href="@{/vendors/add_product(productId={product.productId})}' + row.productId + '" role="button" data-bs-target="#popup">編輯</a>' +
                         '<button type="button" class="btn btn-danger btn-sm me-3" onclick="deleteItem(' + row.productId + ')">刪除</button>';
                 }
             }

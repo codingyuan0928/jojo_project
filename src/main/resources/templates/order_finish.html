@@ -290,7 +290,7 @@
                     </thead>
 
                     <tbody>
-                            <div th:each = "order : ${list}" class="abc">
+                    <div th:each = "order : ${list}" class="abc">
                             <span th:if="${order.orderStatus == 1}">
                             <tr>
                                 <td>
@@ -304,7 +304,7 @@
                                 <td class="completed-text">已完成</td>
                             </tr>
                         </span>
-                            </div>
+                    </div>
                     </tbody>
                 </table>
             </div>

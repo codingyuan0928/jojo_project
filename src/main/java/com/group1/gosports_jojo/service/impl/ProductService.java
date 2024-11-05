@@ -101,6 +101,9 @@ public class ProductService {
         // 檢查是否存在這些產品 ID
         List<Product> products = productRepository.findAllById(productIds);
 
+        // 如果 orderItem 那張表有此產品，就不能刪除
+
+        // 如果沒有就可以刪
         // 刪除產品
         productRepository.deleteAll(products);
     }

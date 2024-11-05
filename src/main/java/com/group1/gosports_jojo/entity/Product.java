@@ -1,18 +1,17 @@
 package com.group1.gosports_jojo.entity;
 
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.time.Instant;
 
 
-@Getter
-@Setter
+
 @Entity
-@Table(name = "products", schema = "demo_shoppingcart")
+@Data
+@Table(name = "products", schema = "go_sports")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
