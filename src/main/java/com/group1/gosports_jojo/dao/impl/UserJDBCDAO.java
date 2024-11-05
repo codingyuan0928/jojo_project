@@ -33,11 +33,11 @@ public class UserJDBCDAO implements UserDAO {
 
 
         try (Connection con = dataSource.getConnection();
-             PreparedStatement pstmt = con.prepareStatement(INSERT_PSTMT)) {
+             PreparedStatement pstmt = con.prepareStatement(INSERT_PSTMT, Statement.RETURN_GENERATED_KEYS)) {
 
             pstmt.setString(1, userVO.getUsername());
             pstmt.setString(2, userVO.getPassword());
-            pstmt.setBytes(3, userVO.getAvatarBytes());
+            pstmt.setBytes(3, userVO.getAvatar());
             pstmt.setString(4, userVO.getEmail());
             pstmt.setInt(5, userVO.getEnabled());
             pstmt.setString(6, userVO.getProviderName());
@@ -49,8 +49,17 @@ public class UserJDBCDAO implements UserDAO {
             pstmt.setInt(12, userVO.getGroupPoints());
             pstmt.setInt(13, userVO.getInterestsTag());
 
-            pstmt.executeUpdate();
-
+            int affectedRows= pstmt.executeUpdate();
+            if(affectedRows==0){
+                throw new SQLException("新增失敗!");
+            }
+           try(ResultSet generatedKeys = pstmt.getGeneratedKeys()){
+               if(generatedKeys.next()){
+                   userVO.setUserId(generatedKeys.getInt(1));
+               }else{
+                    throw new SQLException("新增失敗，無法獲取userId");
+               }
+           }
 
         } catch (SQLException se) {
             throw new RuntimeException("A database error occured. " + se.getMessage());
@@ -67,7 +76,7 @@ public class UserJDBCDAO implements UserDAO {
 
             pstmt.setString(1, userVO.getUsername());
             pstmt.setString(2, userVO.getPassword());
-            pstmt.setBytes(3, userVO.getAvatarBytes());
+            pstmt.setBytes(3, userVO.getAvatar());
             pstmt.setString(4, userVO.getEmail());
             pstmt.setInt(5, userVO.getEnabled());
             pstmt.setString(6, userVO.getProviderName());
@@ -128,7 +137,7 @@ public class UserJDBCDAO implements UserDAO {
                     userVO.setUserId(rs.getInt("user_id"));
                     userVO.setUsername(rs.getString("username"));
                     userVO.setPassword(rs.getString("password"));
-                    userVO.setAvatarBytes(rs.getBytes("avatar"));
+                    userVO.setAvatar(rs.getBytes("avatar"));
                     userVO.setEmail(rs.getString("email"));
                     userVO.setEnabled(rs.getInt("enabled"));
                     userVO.setProviderName(rs.getString("provider_name"));
@@ -164,7 +173,7 @@ public class UserJDBCDAO implements UserDAO {
                     userVO.setUserId(rs.getInt("user_id"));
                     userVO.setUsername(rs.getString("username"));
                     userVO.setPassword(rs.getString("password"));
-                    userVO.setAvatarBytes(rs.getBytes("avatar"));
+                    userVO.setAvatar(rs.getBytes("avatar"));
                     userVO.setEmail(rs.getString("email"));
                     userVO.setEnabled(rs.getInt("enabled"));
                     userVO.setProviderName(rs.getString("provider_name"));
@@ -188,61 +197,6 @@ public class UserJDBCDAO implements UserDAO {
     }
 
     @Override
-    public Integer createUser(UserRegisterRequest userRegisterRequest) {
-        // 將 DTO (UserRegisterRequest) 的資料賦值給 VO (UserVO)
-        UserVO userVO = new UserVO();
-        userVO.setUsername(userRegisterRequest.getUsername());
-        userVO.setPassword(userRegisterRequest.getPassword());
-        userVO.setAvatarBytes(userRegisterRequest.getAvatarBytes());
-        userVO.setEmail(userRegisterRequest.getEmail());
-        userVO.setEnabled(1);
-        userVO.setProviderName(userRegisterRequest.getProviderName());
-        userVO.setAccessToken(userRegisterRequest.getAccessToken());
-        userVO.setRefreshToken(userRegisterRequest.getRefreshToken());
-        userVO.setAccessTokenExpiry(userRegisterRequest.getAccessTokenExpiry());
-        userVO.setNewsletterSubscriptionConsentField(userRegisterRequest.getNewsletterSubscriptionConsentField());
-        userVO.setGroupPoints(0);
-        userVO.setInterestsTag(userRegisterRequest.getInterestsTag());
-        // 設定自動生成的時間戳欄位
-        Timestamp now = new Timestamp(System.currentTimeMillis());
-        userVO.setCreatedAt(now);
-        userVO.setUpdatedAt(now);
-        try (Connection con = dataSource.getConnection();
-             PreparedStatement pstmt = con.prepareStatement(INSERT_PSTMT, Statement.RETURN_GENERATED_KEYS)) {
-
-            pstmt.setString(1, userVO.getUsername());
-            pstmt.setString(2, userVO.getPassword());
-            pstmt.setBytes(3, userVO.getAvatarBytes());
-            pstmt.setString(4, userVO.getEmail());
-            pstmt.setInt(5, userVO.getEnabled());
-            pstmt.setString(6, userVO.getProviderName());
-            pstmt.setString(7, userVO.getAccessToken());
-            pstmt.setString(8, userVO.getRefreshToken());
-            pstmt.setTimestamp(9, userVO.getAccessTokenExpiry());
-            pstmt.setTimestamp(10, userVO.getRefreshTokenExpiry());
-            pstmt.setInt(11, userVO.getNewsletterSubscriptionConsentField());
-            pstmt.setInt(12, userVO.getGroupPoints());
-            pstmt.setInt(13, userVO.getInterestsTag());
-
-            int affectedRows = pstmt.executeUpdate();
-
-            if (affectedRows == 0) {
-                throw new SQLException("Creating user failed, no rows affected.");
-            }
-            // 獲取自動生成的 userId
-            try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    return generatedKeys.getInt(1); // 回傳自動生成的 userId
-                } else {
-                    throw new SQLException("Creating user failed, no ID obtained.");
-                }
-            }
-        } catch (SQLException se) {
-            throw new RuntimeException("A database error occurred. " + se.getMessage());
-        }
-    }
-
-    @Override
     public UserVO findByEmail(String email) {
         UserVO userVO = null;
 
@@ -257,7 +211,7 @@ public class UserJDBCDAO implements UserDAO {
                     userVO.setUserId(rs.getInt("user_id"));
                     userVO.setUsername(rs.getString("username"));
                     userVO.setPassword(rs.getString("password"));
-                    userVO.setAvatarBytes(rs.getBytes("avatar"));
+                    userVO.setAvatar(rs.getBytes("avatar"));
                     userVO.setEmail(rs.getString("email"));
                     userVO.setEnabled(rs.getInt("enabled"));
                     userVO.setProviderName(rs.getString("provider_name"));

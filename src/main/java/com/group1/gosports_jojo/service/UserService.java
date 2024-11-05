@@ -1,6 +1,6 @@
 package com.group1.gosports_jojo.service;
 
-import com.group1.gosports_jojo.dto.UserLoginRequest;
+import com.group1.gosports_jojo.dto.UserListDTO;
 import com.group1.gosports_jojo.dto.UserProfileUpdateRequest;
 import com.group1.gosports_jojo.dto.UserRegisterRequest;
 import com.group1.gosports_jojo.model.UserVO;
@@ -22,11 +22,9 @@ public interface UserService {
 
     Integer register(UserRegisterRequest userRegisterRequest);
 
-    UserVO login(UserLoginRequest userLoginRequest);
-
-    void generateAndSendAuthCode(String email);
-
-    boolean validateAuthCode(String email, String authCode);
-
     void updateUserProfile(Integer userId, UserProfileUpdateRequest userProfileUpdateRequest);
+
+    UserVO findByEmail(String email);
+
+    List<UserListDTO> getAllUserDTOs();
 }

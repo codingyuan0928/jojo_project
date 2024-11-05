@@ -31,6 +31,8 @@
     />
     <link rel="stylesheet" th:href="@{/css/common.css}" />
     <link rel="stylesheet" th:href="@{/css/login.css}" />
+    <!-- spinner -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
     <style>
       body {
         font-optical-sizing: auto;
@@ -97,7 +99,7 @@
             <form>
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label"
-                  >Email address</label
+                  >電子信箱</label
                 >
                 <input
                   type="email"
@@ -109,7 +111,7 @@
               </div>
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label"
-                  >Password</label
+                  >密碼</label
                 >
                 <input
                   type="password"
@@ -267,7 +269,9 @@
 
                   class="btn btn-warning yellow-button smaller-text"
                   id="vendor-registration-btn"
-                  th:href="@{/vendor_registration}"
+                  data-bs-toggle="modal"
+                  data-bs-target="#vendorRegisterStaticBackdrop "
+                  href="javascript:void(0);"
                 >
                   點選
                 </a>
@@ -277,6 +281,7 @@
         </div>
       </div>
     </div>
+<div th:replace="fragments/vendor_register_modal :: vendor_register_modal"></div>
 
 
   <script th:src="@{/js/common.js}"></script>
@@ -302,6 +307,18 @@
         rememberCheckbox.checked = true;
       }
 
+      [emailInput, passwordInput].forEach((input) => {
+        input.addEventListener("keypress", (event) => {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            if (!loginButton.disabled) {
+              loginButton.click();
+            }
+          }
+        });
+      });
+
+
       if (loginButton) {
         loginButton.addEventListener("click", async (event) => {
           event.preventDefault();
@@ -316,7 +333,7 @@
           }
 
           try {
-            const response = await fetch(/*[[@{/users/login}]]*/'', {
+            const response = await fetch(/*[[@{/auth/login}]]*/'', {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               credentials: "include",
@@ -325,7 +342,11 @@
 
             if (response.ok) {
               const data = await response.json();
-              sessionStorage.setItem('userId', data.userId);
+              if(data && data.role==="user"){sessionStorage.setItem('userId', data.userId);}
+              else if(data && data.role==="vendor"){
+                sessionStorage.setItem('vendorId', data.vendorId);
+              }
+
               if (rememberEmail) {
                 localStorage.setItem("savedEmail", email);
               } else {
@@ -334,17 +355,21 @@
               window.location.href = data.redirectUrl;
             } else if (response.status === 401) {
               alert("登入失敗，請檢查您的帳號或密碼");
-            } else {
-              alert("發生錯誤，請稍後再試");
+            } else if(response.status===404){
+              alert("此帳號尚未註冊!!!");
             }
           } catch (err) {
             console.error("登入過程中發生錯誤:", err);
             alert("無法連接到伺服器，請稍後再試");
+          }finally {
+            loginButton.disabled = false;
+            loginButton.textContent = "Login";
           }
         });
       }
     });
 
   </script>
+
   </body>
 </html>

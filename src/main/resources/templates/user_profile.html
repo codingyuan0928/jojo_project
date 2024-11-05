@@ -32,6 +32,8 @@
     />
     <link rel="stylesheet" th:href="@{/css/common.css}"/>
     <link rel="stylesheet" th:href="@{/css/user_profile.css}"/>
+    <!-- spinner -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
 </head>
 <body>
 <div class="page-container">
@@ -108,7 +110,7 @@
             console.log("Profile sidebar is visible");
 
             // 恆顯示 profile 相關的區塊
-            document.querySelectorAll(".profile").forEach(function(item) {
+            document.querySelectorAll(".profile").forEach(function (item) {
                 item.style.display = "block";
             });
 
@@ -128,15 +130,17 @@
 
     // 監聽 nav-item 的點擊事件，進行區塊切換
     function setupNavItemClickHandlersWhenProfileSidebarShow(sectionFromServer) {
-        if(sectionFromServer=="profile"){
-            sectionFromServer="group-record";
+        if (sectionFromServer == "profile") {
+            sectionFromServer = "group-record";
         }
         //section navItem active
         document.querySelectorAll(`.nav-item[data-target='${sectionFromServer}']`).forEach((navItem) => {
             navItem.classList.add("active");
         });
         //section的部分顯示
-        document.querySelectorAll(`.${sectionFromServer}`).forEach((section)=>{section.style.display="block"});
+        document.querySelectorAll(`.${sectionFromServer}`).forEach((section) => {
+            section.style.display = "block"
+        });
         //監聽如果點到哪一個就顯示哪一個
         document.querySelectorAll(".nav-item").forEach(function (item) {
             item.addEventListener("click", function () {
@@ -168,10 +172,10 @@
         // set default activity tag
         document.querySelector(`.nav-item[data-target='${sectionFromServer}']`).classList.add("active");
         document.querySelectorAll(".show-context-container .content-section").forEach(function (section) {
-            section.style.display="none";
+            section.style.display = "none";
         });
-        document.querySelectorAll(`.${sectionFromServer}`).forEach(function(section){
-            section.style.display="block";
+        document.querySelectorAll(`.${sectionFromServer}`).forEach(function (section) {
+            section.style.display = "block";
         })
 
         document.querySelectorAll(".nav-item").forEach(function (item) {
@@ -180,7 +184,7 @@
 
                 // 隱藏所有 .content-section 區塊
                 document.querySelectorAll(".show-context-container .content-section").forEach(function (section) {
-                    section.style.display="none";
+                    section.style.display = "none";
                 });
 
                 // 顯示選中的區塊
@@ -199,11 +203,12 @@
             });
         });
     }
+
     // 頁面載入時進行初始化操作
     document.addEventListener("DOMContentLoaded", function () {
         let sectionFromServer = "[[${section}]]";
-        if(!sectionFromServer){
-            sectionFromServer="profile";
+        if (!sectionFromServer) {
+            sectionFromServer = "profile";
         }
         console.log(sectionFromServer)
         // 根據 profileSidebar 的顯示狀態進行渲染
@@ -252,15 +257,17 @@
 
                 // 獲取後端返回的興趣標籤 ID
                 const interestTagId = data.interestsTag;
-                const selectedItem = document.querySelector(`.dropdown-item[data-id='${interestTagId}']`);
+                const selectedItems = document.querySelectorAll(`.dropdown-item[data-id='${interestTagId}']`);
 
-                if (selectedItem) {
+                if (selectedItems.length > 0) {
                     // 更新下拉按鈕的顯示文字
-                    document.querySelectorAll(".dropdown-menu-button").forEach((e) => e.textContent = selectedItem.textContent);
+                    selectedItems.forEach(selectedItem => {
+                        document.querySelectorAll(".dropdown-menu-button").forEach((e) => e.textContent = selectedItem.textContent);
+                    });
 
                     // 高亮顯示選中的項目
                     document.querySelectorAll(".dropdown-item").forEach(item => item.classList.remove("active"));
-                    selectedItem.classList.add("active");
+                    selectedItems.forEach(selectedItem => selectedItem.classList.add("active"));
                 }
             } else if (response.status === 401) {
                 console.error("未授權，請先登入");
@@ -313,39 +320,42 @@
     });
 
     // 更新個人頁面資料(含頭像)
-    document.querySelector(".save-btn").addEventListener("click", function () {
-        const username = document.querySelector(".username-input").value;
-        const interestsTag = document.querySelector(".dropdown-item.active").getAttribute("data-id");
-        const avatarFile = document.querySelector(".upload-avatar").files[0];
+    document.querySelectorAll(".save-btn").forEach((saveBtn, index) => {
+        saveBtn.addEventListener("click", function () {
+            // 使用 index 選取對應的元素
+            const username = document.querySelectorAll(".username-input")[index].value;
+            const interestsTag = document.querySelectorAll(".dropdown-item.active")[index].getAttribute("data-id");
+            const avatarFile = document.querySelectorAll(".upload-avatar")[index].files[0];
 
-        // 使用 FormData 傳遞資料
-        const formData = new FormData();
-        formData.append("username", username);
-        formData.append("interestsTag", interestsTag);
+            // 使用 FormData 傳遞資料
+            const formData = new FormData();
+            formData.append("username", username);
+            formData.append("interestsTag", interestsTag);
 
-        if (avatarFile) {
-            formData.append("avatar", avatarFile);
-        }
+            if (avatarFile) {
+                formData.append("avatar", avatarFile);
+            }
 
-        fetch('/users/profile', {
-            method: "POST",
-            body: formData,
-            credentials: "include",
-        })
-            .then(response => {
-                if (response.ok) {
-                    return response.text();
-                }
-                throw new Error("更新失敗");
+            fetch('/users/profile', {
+                method: "POST",
+                body: formData,
+                credentials: "include",
             })
-            .then(() => {
-                alert("更新成功");
-                window.location.href = "/user_profile?section=profile"; // 成功後重整頁面
-            })
-            .catch(error => {
-                console.error("更新失敗：", error);
-                alert("更新失敗，請重試");
-            });
+                .then(response => {
+                    if (response.ok) {
+                        return response.text();
+                    }
+                    throw new Error("更新失敗");
+                })
+                .then(() => {
+                    alert("更新成功");
+                    window.location.href = "/user_profile?section=profile"; // 成功後重整頁面
+                })
+                .catch(error => {
+                    console.error("更新失敗：", error);
+                    alert("更新失敗，請重試");
+                });
+        });
     });
 </script>
 </body>

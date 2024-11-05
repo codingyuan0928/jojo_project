@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>訂單管理</title>
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- favicon -->
+    <link
+            rel="icon"
+            th:href="@{/images/common/favicon.png}"
+            type="image/png"
+    />
+    <!-- bootstrap css -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+            crossorigin="anonymous"
+    />
+    <!-- bootstrap icons -->
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400..900&display=swap"
+            rel="stylesheet"
+    />
+
+
+    <style>
+
+        /* 調整彈出視窗的大小 */
+        .popup {
+            display: none; /* 預設隱藏 */
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* 半透明背景 */
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .popup-content {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            max-width: 500px; /* 調整最大寬度 */
+            width: 90%; /* 設定寬度比例 */
+        }
+
+        .popup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .popup-header h2 {
+            margin: 0;
+        }
+
+        .close-btn {
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        .order-details table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .order-details th {
+            width: 100px;
+        }
+
+        .order-details th, .order-details td {
+            border: 1px solid #ddd;
+            padding: 6px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        .order-details th {
+            background-color: #f2f2f2;
+        }
+
+        /* 商品明細滾動條 */
+        .product-details {
+            max-height: 150px; /* 設置最大高度 */
+            overflow-y: auto; /* 當超過高度時顯示滾動條 */
+            margin-top: 10px;
+            border: 1px solid #ddd;
+        }
+
+        /* 避免商品明細表格的滾動條 */
+        .product-details table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .product-details th, .product-details td {
+            padding: 6px;
+            text-align: left;
+            border: 1px solid #ddd;
+            font-size: 14px;
+        }
+
+        .product-details th {
+            background-color: #f2f2f2;
+        }
+
+        /*彈出視窗到此*/
+        /* 自定義 sidebar 的背景顏色 */
+        .table-bordered th, .table-bordered td {
+            text-align: center; /* 水平置中 */
+            vertical-align: middle; /* 垂直置中 */
+        }
+
+        /* 自定義 sidebar 的背景顏色 */
+        .custom-sidebar-bg {
+            position: fixed; /* 固定位置 */
+            left: 0; /* 固定在左側 */
+            top: 0; /* 從頂部開始 */
+            width: 200px; /* 設置 sidebar 的寬度 */
+            height: 100%; /* 使高度覆蓋整個屏幕 */
+            background-color: rgba(255, 254, 210, 0.75) !important; /* 使用半透明背景顏色 */
+            padding: 20px; /* 添加一些內邊距以增加內容的舒適度 */
+        }
+
+        .custom-sidebar-link {
+            color: #0D6EFD;
+            font-family: "Noto Sans TC", system-ui;
+            font-optical-sizing: auto;
+            font-style: normal;
+            display: flex;
+            align-items: center; /* 垂直居中圖標和文字 */
+            padding: 10px; /* 增加一些內邊距讓鏈接更顯眼 */
+        }
+
+        .custom-sidebar-link i {
+            width: 30px; /* 設置固定寬度，確保所有圖標占用的空間相同 */
+            text-align: center; /* 圖標水平居中 */
+            margin-right: 10px; /* 圖標和文字之間的間距 */
+        }
+
+        .custom-sidebar-link:hover {
+            background-color: #e9ecef; /* 增加懸停效果 */
+            text-decoration: none; /* 移除懸停時可能的下劃線 */
+        }
+
+        .status-button {
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .completed {
+            background-color: #7B61FF;
+        }
+
+        .cancel {
+            background-color: #FF3B3B;
+        }
+
+        .me-2 {
+            width: 90pt;
+            padding-left: 20px;
+            text-align: right;
+        }
+
+        .form-control {
+            width: 100pt;
+        }
+
+        .table-bordered {
+            width: 100%;
+            table-layout: fixed;
+        }
+
+        .orderId {
+            background-color: transparent; /* 設定背景為透明 */
+            border: none; /* 可選，移除邊框 */
+            color: #333; /* 設定文字顏色 */
+            padding: 10px 20px; /* 設定按鈕內邊距 */
+            cursor: pointer; /* 設定滑鼠為指標樣式 */
+        }
+        /* 按鈕組容器設定 */
+        .button-group {
+            display: flex;
+            gap: 10px; /* 設置按鈕之間的間距 */
+            justify-content: center; /* 水平置中 */
+            align-items: center; /* 垂直置中 */
+        }
+        .table th, .table td {
+            text-align: center; /* 水平置中 */
+            vertical-align: middle; /* 垂直置中 */
+        }
+
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <!-- 左側選單 -->
+        <aside class="col-md-2 p-3 custom-sidebar-bg">
+            <ul class="nav flex-column">
+
+                <li class="nav-item">
+                    <a th:href="@{/vendors/product_menu}" class="nav-link custom-sidebar-link">
+                        <i class="fa-solid fa-bars"></i> 商品總覽
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/vendors/add_product}" class="nav-link custom-sidebar-link">
+                        <i class="fas fa-upload"></i> 商品上架
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/vendors/order_pending}" class="nav-link custom-sidebar-link">
+                        <i class="fa-solid fa-gears"></i> 訂單管理
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/vendors/order_pending}" class="nav-link custom-sidebar-link">
+                        <i class="fa-solid fa-bell"></i> 訊息通知
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/vendors/order_pending}" class="nav-link custom-sidebar-link">
+                        <img th:src="${avatar}" style="width: 30px;height: 30px;border-radius: 180px;margin-right: 10px;border: #0D6EFD solid 0.5px" >編輯資料
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="javascript:void(0)" class="nav-link custom-sidebar-link" onclick="vendorLogout()">
+                        <i class="fa-solid fa-right-from-bracket"></i>    登出
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- 內容區域 -->
+        <main class="col-md-10 offset-md-2 p-3" style="margin-left: 230px;">
+            <h2 class="mb-3" >已完成訂單</h2>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <!-- 訂單按鈕 -->
+
+                <div>
+                    <a th:href="@{/vendors/order_pending}" class="btn btn-secondary">處理中訂單</a>
+                    <a th:href="@{/vendors/order_finish}" class="btn btn-primary">已完成訂單</a>
+                </div>
+
+                <!-- 日期篩選器 -->
+                <form method="post" th:action="@{/vendors/searchFinishOrderTime}">
+
+                    <input type="hidden" name="action" value="search2">
+                    <div class="d-flex align-items-center">
+                        <label for="start-date" class="me-2">開始日期：</label> <input
+                            type="date" id="start-date" name="time1" class="form-control">
+                        <label for="end-date" class="me-2">結束日期：</label> <input
+                            type="date" id="end-date" name="time2" class="form-control">
+                        <button type="submit">查詢</button>
+
+                    </div>
+                </form>
+            </div>
+
+            <!-- 訂單表格 -->
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>訂單編號</th>
+                        <th>訂購日期</th>
+                        <th>訂購人</th>
+                        <th>取貨時間</th>
+                        <th>訂單金額</th>
+                        <th>訂單狀態</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                            <div th:each = "order : ${list}" class="abc">
+                            <span th:if="${order.orderStatus == 1}">
+                            <tr>
+                                <td>
+                                    <button class="orderId" onclick="showPopup()" th:text=" ${order.orderId}">
+                                       </button>
+                                </td>
+                                <td th:text="${#dates.format(order.createdDatetime, 'yyyy-MM-dd')}"></td>
+                                <td th:text="${order.userId}"></td>
+                                <td class="tds" th:text="${#dates.format(order.pickupDate, 'yyyy-MM-dd') }"></td>
+                                <td th:text="${order.totalAmount}"></td>
+                                <td class="completed-text">已完成</td>
+                            </tr>
+                        </span>
+                            </div>
+                    </tbody>
+                </table>
+            </div>
+            <!-- 訂單彈出視窗 -->
+            <div id="orderPopup" class="popup">
+                <div class="popup-content">
+                    <div class="popup-header">
+                        <h2>★商城AAA★</h2>
+                        <span class="close-btn" onclick="closePopup()">×</span>
+                    </div>
+                    <p>感謝您的支持和信任，這是您的訂單</p>
+
+                    <div class="order-details">
+                        <h3>訂單詳情</h3>
+                        <table>
+                            <tr>
+                                <th>訂購姓名</th>
+                                <td>m</td>
+                                <!-- 插入 SQL 資料 -->
+                            </tr>
+                            <tr>
+                                <th>E-mail</th>
+                                <td>email</td>
+                                <!-- 插入 SQL 資料 -->
+                            </tr>
+                            <tr>
+                                <th>訂單號碼</th>
+                                <td>123</td>
+                                <!-- 插入 SQL 資料 -->
+                            </tr>
+                            <tr>
+                                <th>訂購日期</th>
+                                <td>123</td>
+                                <!-- 插入 SQL 資料 -->
+                            </tr>
+                            <tr>
+                                <th>訂單金額</th>
+                                <td>123</td>
+                                <!-- 插入 SQL 資料 -->
+                            </tr>
+                            <tr>
+                                <th>預計取貨時間</th>
+                                <td>12345</td>
+                                <!-- 插入 SQL 資料 -->
+                            </tr>
+                            <tr>
+                                <th>付款方式</th>
+                                <td>現金</td>
+                                <!-- 插入 SQL 資料 -->
+                            </tr>
+                            <tr>
+                                <th>取貨地址</th>
+                                <td>1ewrew</td>
+                                <!-- 插入 SQL 資料 -->
+                            </tr>
+                        </table>
+
+                        <h3>訂購商品明細</h3>
+                        <div class="product-details">
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th>商品名稱</th>
+                                    <th>數量</th>
+                                    <th>小計</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>d</td>
+                                    <!-- 插入 SQL 資料 -->
+                                    <td>d</td>
+                                    <!-- 插入 SQL 資料 -->
+                                    <td>a</td>
+                                    <!-- 小計: 商品價格 * 數量 -->
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 分頁功能 -->
+            <nav>
+                <ul class="pagination justify-content-center">
+                    <li class="page-item"><a class="page-link" href="#">←
+                        Previous</a></li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
+                    <li class="page-item"><a class="page-link" href="#">67</a></li>
+                    <li class="page-item"><a class="page-link" href="#">68</a></li>
+                    <li class="page-item"><a class="page-link" href="#">Next
+                        →</a></li>
+                </ul>
+            </nav>
+        </main>
+    </div>
+</div>
+
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+        crossorigin="anonymous"
+></script>
+<script>
+    function showPopup() {
+        document.getElementById('orderPopup').style.display = 'flex';
+    }
+
+    function closePopup() {
+        document.getElementById('orderPopup').style.display = 'none';
+    }
+</script>
+<script  th:src="@{/js/common.js}"></script>
+</body>
+</html>

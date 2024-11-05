@@ -3,9 +3,11 @@ package com.group1.gosports_jojo.rest;
 import com.group1.gosports_jojo.entity.Vendor;
 import com.group1.gosports_jojo.service.VendorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashSet;
@@ -19,14 +21,13 @@ public class VendorRestController {
     @Autowired
     private VendorService vendorService;
 
-    // Create a new vendor
+
     @PostMapping("/create")
     public ResponseEntity<String> addVendor(@RequestBody Vendor vendor) {
         vendorService.addVendor(vendor);
         return ResponseEntity.ok("Vendor added successfully!");
     }
 
-    // Retrieve a vendor by ID
     @GetMapping("/getOne/{id}")
     public ResponseEntity<Vendor> getVendor(@PathVariable Integer id) {
         Vendor vendor = vendorService.findVendorById(id);
@@ -46,18 +47,13 @@ public class VendorRestController {
         return ResponseEntity.ok(vendors);
     }
 
-    // Delete a vendor by ID
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteVendor(@PathVariable Integer id) {
-        Vendor vendor = vendorService.findVendorById(id);
-         vendorService.deleteVendor(vendor);
-
+         vendorService.deleteVendor(id);
             return ResponseEntity.ok("Vendor deleted successfully!");
-
     }
 
 
-    // Update a vendor by ID
     @PutMapping("/update/{id}")
     public ResponseEntity<String> updateVendor(@PathVariable Integer id, @RequestBody Vendor updatedVendor) throws Exception {
         Vendor existingVendor = vendorService.findVendorById(id);
@@ -71,11 +67,6 @@ public class VendorRestController {
         excludeFields.add("vendorId");
         excludeFields.add("password");
         excludeFields.add("enabled");
-        excludeFields.add("providerName");
-        excludeFields.add("accessToken");
-        excludeFields.add("refreshToken");
-        excludeFields.add("accessTokenExpiry");
-        excludeFields.add("refreshTokenExpiry");
         excludeFields.add("createdAt");
         excludeFields.add("updatedAt");
         excludeFields.add("status");
@@ -120,6 +111,15 @@ public class VendorRestController {
         }
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
+
+
+    @GetMapping("/logout")
+    public ResponseEntity<String> logout(HttpSession session) {
+        session.invalidate();
+        System.out.println("廠商用戶已登出");
+        return ResponseEntity.status(HttpStatus.OK).body("廠商已成功登出");
+    }
+
 }
 
 

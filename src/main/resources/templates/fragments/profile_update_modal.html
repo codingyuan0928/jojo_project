@@ -1,0 +1,147 @@
+<div th:fragment="profile_update_modal">
+    <div class="modal fade"
+         id="profileUpdateStaticBackdrop"
+         tabindex="-1"
+         aria-labelledby="profileUpdateStaticBackdrop"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"
+                        th:text="${role == 'VENDOR' ? '廠商資料更新' : (role == 'ADMIN' ? '管理員資料更新' : '資料更新')}">
+                    </h5>
+                    <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                    ></button>
+                </div>
+                <div class="modal-body">
+                    <div th:if="${role == 'VENDOR'&& isAuthenticated == true}" class="avatar-group">
+                        <div
+                                class="my-3 border mx-auto w-100 d-flex justify-content-center "
+                        >
+                            <div
+                                    class="avatar-container"
+                                    style="width: fit-content"
+                            >
+                                <img
+                                        th:src="${avatar}"
+                                        class="rounded-circle mx-auto d-block w-100 user-avatar"
+                                        alt="大頭貼"
+                                        style="
+                        object-fit: cover;
+                        width: 150px !important;
+                        height: 150px;
+                        cursor: pointer;
+                      "
+                                />
+                                <input type="file" class="d-none upload-avatar"/>
+                            </div>
+                        </div>
+                    </div>
+                    <!--廠商欄位-->
+                    <div th:if="${role == 'VENDOR'&& isAuthenticated == true}" class="px-0 w-100 d-flex flex-column align-items-center">
+
+                        <div class="mb-3 row w-100">
+                            <label class="col-form-label col-2 text-wrap">姓名</label>
+                            <div class="col-9">
+                                <input type="text" class="form-control username-input" th:value="${username}"/>
+                            </div>
+                        </div>
+                        <div class="mb-3 row w-100">
+                            <label class="col-form-label col-2 text-wrap">角色</label>
+                            <div class="col-9">
+                                <input type="text" readonly class="form-control-plaintext ps-2 user-role-input"
+                                       value="廠商" style="cursor: default"/>
+                            </div>
+                        </div>
+                        <div class="mb-3 row w-100">
+                            <label class="col-form-label col-2 text-wrap">信箱</label>
+                            <div class="col-9">
+                                <input type="email" readonly class="form-control-plaintext" style="cursor: default" th:value="${email}"/>
+                            </div>
+                        </div>
+                        <div class="mb-3 row w-100">
+                            <label class="col-form-label col-2 text-wrap">公司名稱</label>
+                            <div class="col-9">
+                                <input type="text" class="form-control" th:value="${companyName}"/>
+                            </div>
+                        </div>
+                        <div class="mb-3 row w-100">
+                            <label class="col-form-label col-2 text-wrap">公司地址</label>
+                            <div class="col-9">
+                                <input type="text" class="form-control" th:value="${companyAddress}"/>
+                            </div>
+                        </div>
+                        <div class="mb-3 row w-100">
+                            <label class="col-form-label col-2 text-wrap">公司電話</label>
+                            <div class="col-9">
+                                <input type="tel" class="form-control" th:value="${companyPhone}"/>
+                            </div>
+                        </div>
+                        <div class="mb-3 row w-100">
+                            <label class="col-form-label col-2 text-wrap">公司信箱</label>
+                            <div class="col-9">
+                                <input type="email" class="form-control" th:value="${companyEmail}"/>
+                            </div>
+                        </div>
+                        <div class="mb-3 row w-100">
+                            <label class="col-form-label col-2 text-wrap">營業登記文件</label>
+                            <div class="col-9">
+                                <object th:data="'data:application/pdf;base64,' + ${registrationDocument}" type="application/pdf" width="600" height="400">
+                                    <p>你的瀏覽器無法顯示 PDF，請<a th:href="'data:application/pdf;base64,' + ${registrationDocument}" download="document.pdf">點此下載 PDF</a>。</p>
+                                </object>
+<!--                                <input type="file" class="form-control"/>-->
+                            </div>
+                        </div>
+                        <div class="mb-3 row w-100">
+                            <label class="col-form-label col-2 text-wrap">商城名稱</label>
+                            <div class="col-9">
+                                <input type="text" class="form-control"  th:value="${shopName}"/>
+                            </div>
+                        </div>
+                        <div class="mb-3 row w-100">
+                            <label class="col-form-label col-2 text-wrap">統一編號</label>
+                            <div class="col-9">
+                                <input type="email" class="form-control" th:value="${unifiedBusinessNumber}"/>
+                            </div>
+                        </div>
+                    </div>
+                <!--管理員欄位-->
+                    <div th:if="${role == 'ADMIN'&& isAuthenticated == true}" class="px-0 w-100 d-flex flex-column align-items-center">
+                        <div class="mb-3 row w-100">
+                            <label class="col-form-label col-2 text-wrap">ID</label>
+                            <div class="col-9">
+                                <input type="number" readonly class="form-control-plaintext ps-2" style="cursor: default" th:value="${id}"/>
+                            </div>
+                        </div>
+                        <div class="mb-3 row w-100">
+                            <label class="col-form-label col-2 text-wrap" >權限</label>
+                            <div class="col-9">
+                                <input type="text" readonly class="form-control-plaintext ps-2" style="cursor: default" th:value="${permissionName}"/>
+                            </div>
+                        </div>
+                        <div class="mb-3 row w-100">
+                            <label class="col-form-label col-2 text-nowrap">姓名</label>
+                            <div class="col-9">
+                                <input type="text" class="form-control username-input" th:value="${username}"/>
+                            </div>
+                        </div>
+                        <div class="mb-3 row w-100">
+                            <label class="col-form-label col-2 text-wrap">信箱</label>
+                            <div class="col-9">
+                                <input type="email" readonly class="form-control-plaintext ps-2" style="cursor: default" th:value="${email}"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

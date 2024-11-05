@@ -16,7 +16,7 @@ public class Administrator {
     private Integer administratorId;
 
     @ManyToOne
-    @JoinColumn(name="permission_id",referencedColumnName = "permission_Id")
+    @JoinColumn(name="permission_id",referencedColumnName = "permission_id")
     private Permission permission;
 
 
@@ -24,8 +24,6 @@ public class Administrator {
     private String username;
     @Column(name = "password")
     private String password;
-    @Column(name = "avatar",columnDefinition ="longblob")
-    private byte[] avatar;
     @Column(name = "email", nullable = false, unique = true)
     private String email;
     @Column(name = "enabled", columnDefinition = "TINYINT DEFAULT 1 COMMENT '0=刪除, 1=啟用'")
@@ -67,14 +65,6 @@ public class Administrator {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public byte[] getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(byte[] avatar) {
-        this.avatar = avatar;
     }
 
     public String getEmail() {

@@ -28,7 +28,7 @@
             </li>
         </ul>
 
-        <ul th:if="${isAuthenticated==true}" class="navbar-nav d-none d-md-flex flex-row" >
+        <ul th:if="${isAuthenticated == true && (role == 'VENDOR' or role == 'USER')}" class="navbar-nav d-none d-md-flex flex-row" >
             <li>
                 <a class="nav-link d-inline-block ps-3" id="logout" th:href="@{/}" onclick="logout()"
                 >登出</a
@@ -81,7 +81,7 @@
                         登入
                     </a>
                 </li>
-                <li th:if="${isAuthenticated==true}" class="nav-item d-md-none">
+                <li th:if="${isAuthenticated==true && isAdmin == false}" class="nav-item d-md-none">
                     <a class="nav-link nav-link-h" th:href="@{/}" id="logout-md" onclick="logout()" >
                         <img th:src="@{/images/common/navbar-logout.svg}" alt="登出"/>
 
@@ -98,7 +98,7 @@
                     >
                         <img th:src="@{/images/common/navbar-register.svg}"/>註冊</a
                     >
-                <li th:if="${isAuthenticated==true}" class="nav-item d-md-none">
+                <li th:if="${isAuthenticated == true && (role == 'VENDOR' or role == 'USER')}" class="nav-item d-md-none">
                     <a
                             class="nav-link nav-link-h pe-2 anchor-text"
                             href="/user_profile?section=profile"
@@ -110,7 +110,7 @@
                     >
 
                 </li>
-                <li th:if="${isAuthenticated==true}" class="nav-item d-md-none">
+                <li th:if="${isAuthenticated == true && (role == 'VENDOR' or role == 'USER')}" class="nav-item d-md-none">
                     <a
                             class="nav-link nav-link-h"
                             th:href="@{/user_profile(section='notifications')}"
@@ -139,8 +139,8 @@
                     >
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link nav-link-h" th:href="@{/shop_homepage}"
-                    ><i class="bi bi-shop"></i>商城首頁</a
+                    <a class="nav-link nav-link-h" href="#"
+                    ><i class="bi bi-shop"></i>購物商城</a
                     >
                 </li>
             </ul>
@@ -219,6 +219,8 @@
                             <a
                                     class="btn btn-warning yellow-button smaller-text ms-5"
                                     id="vendor-registration-btn"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#vendorRegisterStaticBackdrop "
                                     th:href="@{/vendor_registration}"
                             >
                                 點選
@@ -229,5 +231,7 @@
             </div>
         </div>
     </div>
+<!--    廠商註冊的程式碼-->
+<div th:replace="fragments/vendor_register_modal :: vendor_register_modal"></div>
 </nav>
 

@@ -1,12 +1,18 @@
 export class EmailComponent {
-    constructor(emailButtonId, validateButtonId, emailInputId, authCodeInputId, validateIconId) {
+    constructor({ emailButtonId, validateButtonId, emailInputId, authCodeInputId, validateIconId }) {
+        // 使用參數來綁定不同的元素
         this.emailButton = document.getElementById(emailButtonId);
         this.validateButton = document.getElementById(validateButtonId);
         this.emailInput = document.getElementById(emailInputId);
         this.authCodeInput = document.getElementById(authCodeInputId);
         this.validateIcon = document.getElementById(validateIconId);
 
-        this.initEventListeners();
+        // 檢查所有元素是否存在
+        if (this.emailButton && this.validateButton && this.emailInput && this.authCodeInput && this.validateIcon) {
+            this.initEventListeners();
+        } else {
+            console.warn("某些必要的元素未找到，請確認傳遞的 ID 是否正確。");
+        }
     }
 
     initEventListeners() {
@@ -19,7 +25,7 @@ export class EmailComponent {
         this.emailButton.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> 正在寄送...`;
         this.emailButton.disabled = true;
 
-        fetch("/users/sendAuthCode", {
+        fetch("/auth/sendAuthCode", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
@@ -29,7 +35,13 @@ export class EmailComponent {
             .then(res => res.text())
             .then(data => {
                 window.alert(data);
-                this.emailButton.innerHTML = "我是寄信按鈕";
+                this.emailButton.innerHTML = "寄送驗證信";
+                this.emailButton.disabled = false;
+            })
+            .catch(err => {
+                console.error("發送驗證碼時出現錯誤：", err);
+                window.alert("發送失敗，請稍後再試。");
+                this.emailButton.innerHTML = "寄送驗證信";
                 this.emailButton.disabled = false;
             });
     }
@@ -38,7 +50,7 @@ export class EmailComponent {
         const email = this.emailInput.value;
         const authCode = this.authCodeInput.value;
 
-        fetch("/users/checkAuthCode", {
+        fetch("/auth/checkAuthCode", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
@@ -63,14 +75,13 @@ export class EmailComponent {
     }
 }
 
+// 使用時傳遞不同的 ID 參數
 document.addEventListener("DOMContentLoaded", () => {
-    const emailButton = document.getElementById("email-send");
-    const validateButton = document.getElementById("validate");
-    const emailInput = document.getElementById("email");
-    const authCodeInput = document.getElementById("authCode");
-    const validateIcon = document.getElementById("email-validate-icon");
-
-    if (emailButton && validateButton && emailInput && authCodeInput && validateIcon) {
-        new EmailComponent("email-send", "validate", "email", "authCode", "email-validate-icon");
-    }
+    new EmailComponent({
+        emailButtonId: "custom-email-send",
+        validateButtonId: "custom-validate",
+        emailInputId: "custom-email",
+        authCodeInputId: "custom-authCode",
+        validateIconId: "custom-email-validate-icon"
+    });
 });

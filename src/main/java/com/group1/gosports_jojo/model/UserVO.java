@@ -7,7 +7,7 @@ public class UserVO {
     private Integer userId;
     private String username;
     private String password;
-    private byte[] avatarBytes;
+    private byte[] avatar;
     private String email;
     private Integer enabled;
     private String providerName;
@@ -45,12 +45,12 @@ public class UserVO {
         this.password = password;
     }
 
-    public byte[] getAvatarBytes() {
-        return avatarBytes;
+    public byte[] getAvatar() {
+        return avatar;
     }
 
-    public void setAvatarBytes(byte[] avatar) {
-        this.avatarBytes = avatar;
+    public void setAvatar(byte[] avatar) {
+        this.avatar = avatar;
     }
 
     public String getEmail() {
