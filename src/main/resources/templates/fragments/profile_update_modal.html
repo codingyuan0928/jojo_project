@@ -37,7 +37,7 @@
                         cursor: pointer;
                       "
                                 />
-                                <input type="file" class="d-none upload-avatar"/>
+                                <input type="file" class="d-none upload-profile-avatar" accept="image/*">
                             </div>
                         </div>
                     </div>
@@ -46,66 +46,73 @@
 
                         <div class="mb-3 row w-100">
                             <label class="col-form-label col-2 text-wrap">姓名</label>
-                            <div class="col-9">
+                            <span id="vendor-username-error" class="error-message ps-2"></span>
+                            <div class="col-12">
                                 <input type="text" class="form-control username-input" th:value="${username}"/>
                             </div>
                         </div>
                         <div class="mb-3 row w-100">
                             <label class="col-form-label col-2 text-wrap">角色</label>
-                            <div class="col-9">
-                                <input type="text" readonly class="form-control-plaintext ps-2 user-role-input"
+                            <div class="col-12">
+                                <input type="text" readonly class="border form-control ps-2 user-role-input bg-white"
                                        value="廠商" style="cursor: default"/>
                             </div>
                         </div>
                         <div class="mb-3 row w-100">
                             <label class="col-form-label col-2 text-wrap">信箱</label>
-                            <div class="col-9">
-                                <input type="email" readonly class="form-control-plaintext" style="cursor: default" th:value="${email}"/>
+                            <div class="col-12">
+                                <input type="email" readonly class="form-control border bg-white" style="cursor: default" th:value="${email}"/>
                             </div>
                         </div>
                         <div class="mb-3 row w-100">
                             <label class="col-form-label col-2 text-wrap">公司名稱</label>
-                            <div class="col-9">
-                                <input type="text" class="form-control" th:value="${companyName}"/>
+                            <span id="vendor-companyName-error" class="error-message ps-2"></span>
+                            <div class="col-12">
+                                <input type="text" class="form-control company-name" th:value="${companyName}"/>
                             </div>
                         </div>
                         <div class="mb-3 row w-100">
                             <label class="col-form-label col-2 text-wrap">公司地址</label>
-                            <div class="col-9">
-                                <input type="text" class="form-control" th:value="${companyAddress}"/>
+                            <span id="vendor-companyAddress-error" class="error-message ps-2"></span>
+                            <div class="col-12">
+                                <input type="text" class="form-control company-address" th:value="${companyAddress}"/>
                             </div>
                         </div>
                         <div class="mb-3 row w-100">
                             <label class="col-form-label col-2 text-wrap">公司電話</label>
-                            <div class="col-9">
-                                <input type="tel" class="form-control" th:value="${companyPhone}"/>
+                            <div id="vendor-companyPhone-error" class="error-message"></div>
+                            <div class="col-12">
+                                <input type="tel" class="form-control company-phone" th:value="${companyPhone}"/>
                             </div>
                         </div>
                         <div class="mb-3 row w-100">
                             <label class="col-form-label col-2 text-wrap">公司信箱</label>
-                            <div class="col-9">
-                                <input type="email" class="form-control" th:value="${companyEmail}"/>
-                            </div>
-                        </div>
-                        <div class="mb-3 row w-100">
-                            <label class="col-form-label col-2 text-wrap">營業登記文件</label>
-                            <div class="col-9">
-                                <object th:data="'data:application/pdf;base64,' + ${registrationDocument}" type="application/pdf" width="600" height="400">
-                                    <p>你的瀏覽器無法顯示 PDF，請<a th:href="'data:application/pdf;base64,' + ${registrationDocument}" download="document.pdf">點此下載 PDF</a>。</p>
-                                </object>
-<!--                                <input type="file" class="form-control"/>-->
+                            <span id="vendor-companyEmail-error" class="error-message ps-2"></span>
+                            <div class="col-12">
+                                <input type="email" class="form-control company-email" th:value="${companyEmail}"/>
                             </div>
                         </div>
                         <div class="mb-3 row w-100">
                             <label class="col-form-label col-2 text-wrap">商城名稱</label>
-                            <div class="col-9">
-                                <input type="text" class="form-control"  th:value="${shopName}"/>
+                            <span id="vendor-shopName-error" class="error-message ps-2"></span>
+                            <div class="col-12">
+                                <input type="text" class="form-control shop-name"  th:value="${shopName}"/>
                             </div>
                         </div>
                         <div class="mb-3 row w-100">
                             <label class="col-form-label col-2 text-wrap">統一編號</label>
-                            <div class="col-9">
-                                <input type="email" class="form-control" th:value="${unifiedBusinessNumber}"/>
+                            <div id="vendor-unifiedBusinessNumber-error" class="error-message"></div>
+                            <div class="col-12">
+                                <input type="email" class="form-control UBN" th:value="${unifiedBusinessNumber}"/>
+                            </div>
+                        </div>
+                        <div class="mb-3 row w-100">
+                            <label class="col-form-label col-2 text-wrap">營業登記文件</label>
+                            <input type="file" id="pdfInput" accept="application/pdf" class="mb-2"/>
+                            <div class="col-12">
+                                <object th:data="${registrationDocument}" type="application/pdf" width="600" height="400" id="pdfPreview">
+                                    <p>你的瀏覽器無法顯示 PDF，請<a th:href="${registrationDocument}" download="document.pdf" id="pdfDownloadLink">點此下載 PDF</a>。</p>
+                                </object>
                             </div>
                         </div>
                     </div>
@@ -135,13 +142,174 @@
                                 <input type="email" readonly class="form-control-plaintext ps-2" style="cursor: default" th:value="${email}"/>
                             </div>
                         </div>
+
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary">保存</button>
+                    <div th:if="${role == 'VENDOR'&& isAuthenticated == true}">
+                        <button type="button" class="btn btn-primary save-button">保存</button>
+                    </div>
+                    <div th:if="${role == 'ADMIN'&& isAuthenticated == true}">
+                        <button type="button" class="btn btn-primary admin-save-button">保存</button>
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
+<!--    廠商更改資料-->
+    <script>
+        window.addEventListener("DOMContentLoaded", function() {
+            document.querySelector(".user-avatar").addEventListener('click', function() {
+                document.querySelector(".upload-profile-avatar").click();
+            });
+
+            document.querySelector(".upload-profile-avatar").addEventListener('change', function() {
+                const profileAvatarFile = this.files[0];
+                if (profileAvatarFile && profileAvatarFile.type.startsWith('image/')) {
+                    const fileProfileUrl = URL.createObjectURL(profileAvatarFile);
+                    const avatarPreview = document.querySelector(".user-avatar");
+                    avatarPreview.setAttribute('src', fileProfileUrl);
+                } else {
+                    alert('請上傳 jpg, png, svg 等圖片檔');
+                }
+            });
+
+            document.getElementById('pdfInput').addEventListener('change', function() {
+                const file = this.files[0];
+                if (file && file.type === 'application/pdf') {
+                    const fileURL = URL.createObjectURL(file);
+                    const pdfPreview = document.getElementById('pdfPreview');
+                    pdfPreview.setAttribute('data', fileURL);
+                    const pdfDownloadLink = document.getElementById('pdfDownloadLink');
+                    pdfDownloadLink.setAttribute('href', fileURL);
+                } else {
+                    alert('請上傳 PDF 文件');
+                }
+            });
+
+            function clearErrorMessages() {
+                const errorFields = [
+                    "vendor-username-error",
+                    "vendor-email-error",
+                    "vendor-password-error",
+                    "vendor-avatar-error",
+                    "vendor-companyName-error",
+                    "vendor-companyAddress-error",
+                    "vendor-companyPhone-error",
+                    "vendor-companyEmail-error",
+                    "vendor-registrationDocument-error",
+                    "vendor-shopName-error",
+                    "vendor-unifiedBusinessNumber-error"
+                ];
+                errorFields.forEach(id => {
+                    const errorElement = document.getElementById(id);
+                    if (errorElement) {
+                        errorElement.innerText = "";
+                        errorElement.style.color = "";
+                    }
+                });
+            }
+
+                const saveBtn = document.querySelector(".save-button");
+            if(saveBtn){
+                saveBtn.addEventListener("click",async function() {
+                    saveBtn.disabled=true;
+                    clearErrorMessages();
+                    const formData = new FormData();
+                    formData.append("username", document.querySelector(".username-input").value);
+                    formData.append("companyName", document.querySelector(".company-name").value);
+                    formData.append("companyAddress", document.querySelector(".company-address").value);
+                    formData.append("companyPhone", document.querySelector(".company-phone").value);
+                    formData.append("companyEmail", document.querySelector(".company-email").value);
+                    formData.append("shopName", document.querySelector(".shop-name").value);
+                    formData.append("unifiedBusinessNumber", document.querySelector(".UBN").value);
+
+                    const fileInput = document.getElementById("pdfInput").files[0];
+                    if (fileInput) {
+                        formData.append("registrationDocument", fileInput);
+                    }
+
+                    const avatarFileInput = document.querySelector(".upload-profile-avatar").files[0];
+                    if (avatarFileInput) {
+                        formData.append("avatar", avatarFileInput);
+                    }
+
+                    try{
+                        const res = await fetch('/api/vendors/update',{
+                            method:'POST',
+                            body:formData,
+                            credentials: "include",
+                        });
+                        if(res.ok){
+                            const success_msg = await res.text();
+                            saveBtn.disabled = false;
+                            window.alert(success_msg);
+                            window.location.reload();
+
+                        }else if(res.status === 400){
+                            const errorData = await res.json();
+                            for (const [field, message] of Object.entries(errorData)) {
+                                const errorElement = document.getElementById(`vendor-${field}-error`);
+                                if (errorElement) {
+                                    errorElement.innerText = message;
+                                    errorElement.style.color = "red";
+                                }
+                            }
+                            saveBtn.disabled = false;
+                        }else{
+                            const errorData = await res.json();
+                            alert("註冊失敗! " + errorData.error || "未知錯誤");
+                            saveBtn.disabled = false;
+
+                        }
+                    }catch(err){
+                        console.error("註冊過程發生錯誤：", err);
+                        saveBtn.disabled = false;
+                        alert("註冊過程發生錯誤，請稍後再試。");
+                    }
+                });
+            }
+        });
+    </script>
+<!--    管理員更改資料-->
+    <script>
+        window.addEventListener("DOMContentLoaded", function() {
+            const adminSaveBtn = document.querySelector(".admin-save-button");
+            if(adminSaveBtn){
+                adminSaveBtn.addEventListener("click",async function() {
+                    adminSaveBtn.disabled = true;
+                    const data = {
+                        username: document.querySelector(".username-input").value
+                    };
+                    try{
+                        const res = await fetch('/api/admin/update', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(data),
+                            credentials: 'include',
+                        });
+                        if(res.ok){
+                            const successMessage = await res.text();
+                            adminSaveBtn.disabled = false;
+                            alert(successMessage);
+                            window.location.reload();
+                        }else{
+                            const errorMessage = await res.text();
+                            alert("更新失敗: " + errorMessage);
+                            adminSaveBtn.disabled = false;
+                        }
+                    }catch(err){
+                        console.error("更新過程中發生錯誤：", err);
+                        alert("更新過程發生錯誤，請稍後再試。");
+                        adminSaveBtn.disabled = false;
+                    }
+
+                })
+            }
+        })
+    </script>
 </div>

@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface VendorDAO {
     void insert(Vendor vendor);
-    void update(Vendor vendor);
+    Vendor update(Vendor vendor);
     void delete(Integer vendorId);
     Vendor findById(int id);
     List<Vendor> getAll();

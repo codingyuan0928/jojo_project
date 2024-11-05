@@ -54,12 +54,12 @@ public class GlobalModelAttribute {
                 model.addAttribute("companyPhone", vendor.getCompanyPhone());
                 model.addAttribute("companyEmail", vendor.getCompanyEmail());
                  String base64RD = Base64.getEncoder().encodeToString(vendor.getRegistrationDocument());
-                model.addAttribute("registrationDocument","data:image/png;base64," + base64RD);
+                model.addAttribute("registrationDocument","data:application/pdf;base64," + base64RD);
                 model.addAttribute("shopName", vendor.getShopName());
                 model.addAttribute("unifiedBusinessNumber", vendor.getUnifiedBusinessNumber());
             } else {
                 model.addAttribute("isAuthenticated", false);
-            model.addAttribute("role", "GUEST");
+                model.addAttribute("role", "GUEST");
         }
 
     }

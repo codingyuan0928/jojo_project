@@ -1,7 +1,7 @@
 package com.group1.gosports_jojo.service.impl;
 
-import com.group1.gosports_jojo.dao.UserDAO;
 import com.group1.gosports_jojo.dao.VendorDAO;
+import com.group1.gosports_jojo.dto.VendorProfileUpdateRequest;
 import com.group1.gosports_jojo.dto.VendorRegisterRequest;
 import com.group1.gosports_jojo.entity.Vendor;
 import com.group1.gosports_jojo.security.PasswordUtil;
@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -51,8 +52,8 @@ public class VendorServiceImpl implements VendorService {
     }
 
     @Override
-    public Vendor findVendorById(int id) {
-        return dao.findById(id);
+    public Vendor findVendorById(Integer vendorId) {
+        return dao.findById(vendorId);
     }
 
     @Override
@@ -83,7 +84,36 @@ public class VendorServiceImpl implements VendorService {
     public Vendor findByCompanyEmail(String companyEmail){return dao.findByCompanyEmail(companyEmail);}
 
     @Override
-    public void updateVendorProfile(){}
+    public void updateVendorProfile(VendorProfileUpdateRequest vendorProfileUpdateRequest, Vendor vendor, HttpSession session){
+        vendor.setUsername(vendorProfileUpdateRequest.getUsername());
+        vendor.setCompanyName(vendorProfileUpdateRequest.getCompanyName());
+        vendor.setCompanyAddress(vendorProfileUpdateRequest.getCompanyAddress());
+        vendor.setCompanyPhone(vendorProfileUpdateRequest.getCompanyPhone());
+        vendor.setCompanyEmail(vendorProfileUpdateRequest.getCompanyEmail());
+        vendor.setShopName(vendorProfileUpdateRequest.getShopName());
+        vendor.setUnifiedBusinessNumber(vendorProfileUpdateRequest.getUnifiedBusinessNumber());
+        // 處理 avatar 文件轉換
+        MultipartFile avatarFile = vendorProfileUpdateRequest.getAvatar();
+        if (avatarFile != null && !avatarFile.isEmpty()) {
+            try {
+                vendor.setAvatar(avatarFile.getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        // 處理 registrationDocument 文件轉換
+        MultipartFile registrationDocument = vendorProfileUpdateRequest.getRegistrationDocument();
+        if (registrationDocument != null && !registrationDocument.isEmpty()) {
+            try {
+                vendor.setRegistrationDocument(registrationDocument.getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        Vendor updatedVendor=dao.update(vendor);
+        session.setAttribute("vendorAccount", updatedVendor);
+
+    }
 
     @Override
     public Integer register(VendorRegisterRequest vendorRegisterRequest) {
@@ -107,7 +137,6 @@ public class VendorServiceImpl implements VendorService {
                 vendor.setAvatar(avatarFile.getBytes());
             } catch (IOException e) {
                 e.printStackTrace();
-                throw new RuntimeException("Error processing avatar file", e);
             }
         }
 
@@ -118,7 +147,6 @@ public class VendorServiceImpl implements VendorService {
                 vendor.setRegistrationDocument(registrationDocument.getBytes());
             } catch (IOException e) {
                 e.printStackTrace();
-                throw new RuntimeException("Error processing registration document", e);
             }
         }
 
@@ -128,6 +156,7 @@ public class VendorServiceImpl implements VendorService {
         // 返回新插入的 Vendor ID
         return vendor.getVendorId();
     }
+
 
 
 

@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface AdministratorDAO {
     void insert(Administrator administrator);
-    void update(Administrator administrator);
+    boolean update(Administrator administrator);
     void delete(Administrator administrator);
     Administrator getById(int id);
     List<Administrator> getAll();

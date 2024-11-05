@@ -37,8 +37,8 @@ public class VendorJPADAO implements VendorDAO {
 
 
     @Override
-    public void update(Vendor vendor) {
-        entityManager.merge(vendor);
+    public Vendor update(Vendor vendor) {
+        return entityManager.merge(vendor);
     }
 
     //軟刪除方法

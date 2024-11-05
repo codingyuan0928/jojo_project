@@ -1,36 +1,38 @@
 package com.group1.gosports_jojo.rest;
 
+import com.group1.gosports_jojo.dto.VendorProfileUpdateRequest;
 import com.group1.gosports_jojo.entity.Vendor;
 import com.group1.gosports_jojo.service.VendorService;
+import com.group1.gosports_jojo.service.impl.UserServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import javax.validation.Valid;
+import java.util.*;
 
 @RestController
-@RequestMapping("/vendors")
+@RequestMapping("/api/vendors")
 public class VendorRestController {
-
+    public static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
     @Autowired
-    private VendorService vendorService;
+    private VendorService vendorServiceImpl;
 
 
     @PostMapping("/create")
     public ResponseEntity<String> addVendor(@RequestBody Vendor vendor) {
-        vendorService.addVendor(vendor);
+        vendorServiceImpl.addVendor(vendor);
         return ResponseEntity.ok("Vendor added successfully!");
     }
 
     @GetMapping("/getOne/{id}")
     public ResponseEntity<Vendor> getVendor(@PathVariable Integer id) {
-        Vendor vendor = vendorService.findVendorById(id);
+        Vendor vendor = vendorServiceImpl.findVendorById(id);
         if (vendor == null) {
             return ResponseEntity.notFound().build();
         }
@@ -40,7 +42,7 @@ public class VendorRestController {
     // Retrieve all vendors
     @GetMapping("/getAll")
     public ResponseEntity<List<Vendor>> getAllVendors() {
-        List<Vendor> vendors = vendorService.getAllVendors();
+        List<Vendor> vendors = vendorServiceImpl.getAllVendors();
         if (vendors.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
@@ -49,67 +51,64 @@ public class VendorRestController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteVendor(@PathVariable Integer id) {
-         vendorService.deleteVendor(id);
+        vendorServiceImpl.deleteVendor(id);
             return ResponseEntity.ok("Vendor deleted successfully!");
     }
 
-
-    @PutMapping("/update/{id}")
-    public ResponseEntity<String> updateVendor(@PathVariable Integer id, @RequestBody Vendor updatedVendor) throws Exception {
-        Vendor existingVendor = vendorService.findVendorById(id);
-
-        if (existingVendor == null) {
-            return ResponseEntity.notFound().build();
+    @PostMapping("/update")
+    public ResponseEntity<?> updateVendor(@Valid @ModelAttribute VendorProfileUpdateRequest vendorProfileUpdateRequest,
+                                          BindingResult vendorResult, HttpSession session) {
+        Map<String, String> errors = new HashMap<>();
+        if (vendorResult.hasErrors()) {
+            vendorResult.getFieldErrors().forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
         }
 
-        // 需要排除的欄位集合
-        Set<String> excludeFields = new HashSet<>();
-        excludeFields.add("vendorId");
-        excludeFields.add("password");
-        excludeFields.add("enabled");
-        excludeFields.add("createdAt");
-        excludeFields.add("updatedAt");
-        excludeFields.add("status");
+        Vendor currentVendor = (Vendor) session.getAttribute("vendorAccount");
+        Integer currentVendorId = currentVendor.getVendorId();
 
-        // 獲取所有欄位
-        Field[] fields = Vendor.class.getDeclaredFields();
-
-        for (Field field : fields) {
-            String fieldName = field.getName();
-
-            // 跳過需要排除的欄位
-            if (excludeFields.contains(fieldName)) {
-                continue;
-            }
-
-            // 獲取 getter 和 setter 方法名稱
-            String getterName = "get" + capitalize(fieldName);
-            String setterName = "set" + capitalize(fieldName);
-
-            // 呼叫 getter 和 setter
-            Method getter = Vendor.class.getMethod(getterName);
-            Method setter = Vendor.class.getMethod(setterName, field.getType());
-
-            // 從 updatedVendor 取得值
-            Object updatedValue = getter.invoke(updatedVendor);
-
-            // 如果值不為 null，則設定到 existingVendor
-            if (updatedValue != null) {
-                setter.invoke(existingVendor, updatedValue);
-            }
+        // 檢查公司名稱重複，但排除當前記錄
+        Vendor existingVendor = vendorServiceImpl.findByCompanyName(vendorProfileUpdateRequest.getCompanyName());
+        if (existingVendor != null && !existingVendor.getVendorId().equals(currentVendorId)) {
+            log.warn("該公司名稱: {} 已經註冊", vendorProfileUpdateRequest.getCompanyName());
+            errors.put("companyName", "公司名稱已經被註冊");
         }
 
-        // 保存更新後的 Vendor
-        vendorService.updateVendor(existingVendor);
-
-        return ResponseEntity.ok("Vendor updated successfully!");
-    }
-
-    private String capitalize(String str) {
-        if (str == null || str.length() == 0) {
-            return str;
+        // 檢查商店名稱重複，但排除當前記錄
+        existingVendor = vendorServiceImpl.findByShopName(vendorProfileUpdateRequest.getShopName());
+        if (existingVendor != null && !existingVendor.getVendorId().equals(currentVendorId)) {
+            log.warn("該商店名稱: {} 已經註冊", vendorProfileUpdateRequest.getShopName());
+            errors.put("shopName", "商店名稱已經被註冊");
         }
-        return str.substring(0, 1).toUpperCase() + str.substring(1);
+
+        // 檢查公司電話重複，但排除當前記錄
+        existingVendor = vendorServiceImpl.findByCompanyPhone(vendorProfileUpdateRequest.getCompanyPhone());
+        if (existingVendor != null && !existingVendor.getVendorId().equals(currentVendorId)) {
+            log.warn("該公司電話: {} 已經被使用", vendorProfileUpdateRequest.getCompanyPhone());
+            errors.put("companyPhone", "公司電話已經被使用");
+        }
+
+        // 檢查統一編號重複，但排除當前記錄
+        existingVendor = vendorServiceImpl.findByUnifiedBusinessNumber(vendorProfileUpdateRequest.getUnifiedBusinessNumber());
+        if (existingVendor != null && !existingVendor.getVendorId().equals(currentVendorId)) {
+            log.warn("該統一編號: {} 已經註冊", vendorProfileUpdateRequest.getUnifiedBusinessNumber());
+            errors.put("unifiedBusinessNumber", "統一編號已經被註冊");
+        }
+
+        // 檢查公司 EMAIL 重複，但排除當前記錄
+        existingVendor = vendorServiceImpl.findByCompanyEmail(vendorProfileUpdateRequest.getCompanyEmail());
+        if (existingVendor != null && !existingVendor.getVendorId().equals(currentVendorId)) {
+            log.warn("該公司 EMAIL: {} 已經註冊", vendorProfileUpdateRequest.getCompanyEmail());
+            errors.put("companyEmail", "公司 EMAIL 已經被註冊");
+        }
+
+        if (!errors.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+        }
+
+        vendorServiceImpl.updateVendorProfile(vendorProfileUpdateRequest, currentVendor,session);
+        log.info("廠商資料更新成功!");
+
+        return ResponseEntity.ok("廠商資料更新成功!");
     }
 
 
