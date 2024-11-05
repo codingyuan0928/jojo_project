@@ -1,0 +1,175 @@
+table {
+    margin-top: 20px;
+    display: inline-table;
+}
+
+th,
+td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+th {
+    background-color: #f8f9fa;
+}
+
+.highlight-row {
+    background-color: #f0f0f0;
+    font-weight: bold;
+}
+
+.btn-sort {
+    float: right;
+}
+
+.note-col {
+    width: 200px;
+}
+
+.sidebar {
+    background-color: #f8f9fa;
+    padding-top: 20px;
+    height: 100vh;
+    width: 140px;
+    position: fixed;
+}
+
+.sidebar a {
+    display: block;
+    color: #000;
+    padding: 10px;
+    text-decoration: none;
+    text-align: left;
+    font-size: 14px;
+}
+
+.sidebar a:hover {
+    background-color: #e9ecef;
+}
+
+.main-content {
+    margin-left: 140px;
+    max-width: 1000px;
+    padding: 20px;
+    text-align: center;
+}
+
+@media (max-width: 992px) {
+    .sidebar {
+        display: none;
+    }
+
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+    }
+    /* 當視窗寬度介於 768px 到 576px 時調整表格大小 */
+    @media (max-width: 768px) and (min-width: 576px) {
+        table {
+            width: 90%;
+            font-size: 14px;
+        }
+
+        th, td {
+            padding: 8px;
+        }
+
+        .main-content {
+            padding: 10px;
+        }
+    }
+}
+
+/* 訂單編號的連結樣式 */
+a.order-link {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+a.order-link:hover {
+    text-decoration: underline;
+}
+
+
+/*pop up*/
+/* 調整彈出視窗的大小 */
+.popup {
+    display: none; /* 預設隱藏 */
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 半透明背景 */
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-content {
+    background-color: white;
+    padding: 15px;
+    border-radius: 8px;
+    max-width: 500px; /* 調整最大寬度 */
+    width: 90%; /* 設定寬度比例 */
+}
+
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.popup-header h2 {
+    margin: 0;
+}
+
+.close-btn {
+    cursor: pointer;
+    font-size: 24px;
+}
+
+.order-details table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+.order-details th {
+    width: 100px;
+}
+
+.order-details th, .order-details td {
+    border: 1px solid #ddd;
+    padding: 6px;
+    text-align: left;
+    font-size: 14px;
+}
+
+.order-details th {
+    background-color: #f2f2f2;
+}
+
+/* 商品明細滾動條 */
+.product-details {
+    max-height: 150px; /* 設置最大高度 */
+    overflow-y: auto; /* 當超過高度時顯示滾動條 */
+    margin-top: 10px;
+    border: 1px solid #ddd;
+}
+
+/* 避免商品明細表格的滾動條 */
+.product-details table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.product-details th, .product-details td {
+    padding: 6px;
+    text-align: left;
+    border: 1px solid #ddd;
+    font-size: 14px;
+}
+
+.product-details th {
+    background-color: #f2f2f2;
+}
