@@ -324,8 +324,8 @@
         saveBtn.addEventListener("click", function () {
             // 使用 index 選取對應的元素
             const username = document.querySelectorAll(".username-input")[index].value;
-            const interestsTag = document.querySelectorAll(".dropdown-item.active")[index].getAttribute("data-id");
-            const avatarFile = document.querySelectorAll(".upload-avatar")[index].files[0];
+            const interestsTag = document.querySelector(".dropdown-item.active").getAttribute("data-id");
+            const avatarFile = document.querySelector(".upload-avatar").files[0];
 
             // 使用 FormData 傳遞資料
             const formData = new FormData();

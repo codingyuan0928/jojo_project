@@ -302,18 +302,18 @@
                                     class="dropdown-menu"
                                     aria-labelledby="dropdownMenuButton1"
                             >
-                                <li class="dropdown-item">桌球</li>
-                                <li class="dropdown-item">籃球</li>
-                                <li class="dropdown-item">排球</li>
-                                <li class="dropdown-item">棒球</li>
-                                <li class="dropdown-item">壘球</li>
-                                <li class="dropdown-item">羽球</li>
-                                <li class="dropdown-item">網球</li>
-                                <li class="dropdown-item">排球</li>
-                                <li class="dropdown-item">足球</li>
-                                <li class="dropdown-item">保齡球</li>
-                                <li class="dropdown-item">壁球</li>
-                                <li class="dropdown-item">撞球</li>
+                                <li class="dropdown-item data-tag">桌球</li>
+                                <li class="dropdown-item data-tag">籃球</li>
+                                <li class="dropdown-item data-tag">排球</li>
+                                <li class="dropdown-item data-tag">棒球</li>
+                                <li class="dropdown-item data-tag">壘球</li>
+                                <li class="dropdown-item data-tag">羽球</li>
+                                <li class="dropdown-item data-tag">網球</li>
+                                <li class="dropdown-item data-tag">排球</li>
+                                <li class="dropdown-item data-tag">足球</li>
+                                <li class="dropdown-item data-tag">保齡球</li>
+                                <li class="dropdown-item data-tag">壁球</li>
+                                <li class="dropdown-item data-tag">撞球</li>
                             </ul>
                         </div>
                         <span id="interestsTag-error" class="error-message ps-2"></span>
@@ -332,7 +332,7 @@
                     >
                 </div>
 
-                <button class="register-button" type="button" >立即註冊</button>
+                <button class="register-button" type="button">立即註冊</button>
                 <input type="hidden" id="userType" name="userType" value="USER">
             </div>
         </div>
@@ -342,7 +342,7 @@
 </div>
 <script th:src="@{/js/common.js}"></script>
 <script type="module">
-    import { EmailComponent } from './js/EmailComponent.js';
+    import {EmailComponent} from './js/EmailComponent.js';
 
     document.addEventListener("DOMContentLoaded", () => {
         new EmailComponent({
@@ -393,6 +393,7 @@
                 selectedText;
         });
     });
+
     function clearErrorMessages() {
         const errorFields = ["username-error", "email-error", "password-error", "avatar-error"];
         errorFields.forEach(id => {
@@ -416,6 +417,13 @@
             const registerButton = document.querySelector(".register-button");
             registerButton.disabled = true;
             registerButton.textContent = "註冊中...";
+            //開啟email驗證欄位可編輯狀態
+            document.getElementById("email").disabled = false;
+            document.getElementById("email").readOnly = false;
+            document.getElementById("email-send").disabled = false;
+            document.getElementById("validate").disabled = false;
+            document.getElementById("authCode").disabled = false;
+            document.getElementById("authCode").value = "";
             // 手動驗證必填的 `terms` checkbox
             const termsChecked = document.getElementById("terms").checked;
             if (!termsChecked) {
@@ -491,7 +499,8 @@
                     const user = await response.json();
                     alert("註冊成功！歡迎，" + user.username);
                     window.location.href = "/login";
-                } else if(response.status === 400){
+                } else if (response.status === 400) {
+                    document.getElementById("email-validate-icon").innerHTML = '';
                     const errorData = await response.json();
                     for (const [field, message] of Object.entries(errorData)) {
                         const errorElement = document.getElementById(`${field}-error`);
@@ -502,8 +511,7 @@
                     }
                     registerButton.disabled = false;
                     registerButton.textContent = "立即註冊";
-                }
-                else {
+                } else {
                     const errorData = await response.json();
                     alert("註冊失敗! " + errorData.error || "未知錯誤");
 
@@ -514,6 +522,7 @@
                 console.error("註冊過程發生錯誤：", err);
                 registerButton.disabled = false;
                 registerButton.textContent = "立即註冊";
+                document.getElementById("email-validate-icon").innerHTML = '';
                 alert("註冊過程發生錯誤，請稍後再試。");
             }
         });
