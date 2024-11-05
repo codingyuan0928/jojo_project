@@ -1,4 +1,4 @@
-package com.group1.gosports_jojo.dto;
+package com.group1.gosports_jojo.dto.shopping;
 //顯示在前端所要的資料
 import lombok.AllArgsConstructor;
 import lombok.Data;

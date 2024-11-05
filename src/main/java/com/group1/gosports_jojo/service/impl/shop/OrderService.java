@@ -1,7 +1,6 @@
-package com.group1.gosports_jojo.service.impl;
+package com.group1.gosports_jojo.service.impl.shop;
 
 import com.group1.gosports_jojo.dao.OrderDAO_interface;
-import com.group1.gosports_jojo.dao.impl.OrderDAO;
 import com.group1.gosports_jojo.model.OrderVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

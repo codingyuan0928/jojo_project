@@ -1,7 +1,7 @@
-package com.group1.gosports_jojo.service.impl;
+package com.group1.gosports_jojo.service.impl.shop;
 
 
-import com.group1.gosports_jojo.dto.ProductDTO;
+import com.group1.gosports_jojo.dto.shopping.ProductDTO;
 import com.group1.gosports_jojo.entity.Product;
 import com.group1.gosports_jojo.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;

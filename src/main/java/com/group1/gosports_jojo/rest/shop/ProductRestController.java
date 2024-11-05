@@ -1,7 +1,7 @@
-package com.group1.gosports_jojo.rest;
+package com.group1.gosports_jojo.rest.shop;
 
 import com.group1.gosports_jojo.model.ProVO;
-import com.group1.gosports_jojo.service.impl.ProService;
+import com.group1.gosports_jojo.service.impl.shop.ProService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

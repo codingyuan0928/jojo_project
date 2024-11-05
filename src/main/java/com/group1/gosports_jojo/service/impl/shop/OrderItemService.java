@@ -1,4 +1,4 @@
-package com.group1.gosports_jojo.service.impl;
+package com.group1.gosports_jojo.service.impl.shop;
 
 import com.group1.gosports_jojo.dto.shopping.CheckoutItem;
 import com.group1.gosports_jojo.dto.shopping.CheckoutRequest;
