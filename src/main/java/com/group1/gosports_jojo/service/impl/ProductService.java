@@ -36,8 +36,8 @@ public class ProductService {
                 switch (orderColumn) {
                     case 1: // 排序依據產品編號
                         return "asc".equalsIgnoreCase(orderDirection) ?
-                                p1.getId().compareTo(p2.getId()) :
-                                p2.getId().compareTo(p1.getId());
+                                p1.getProductId().compareTo(p2.getProductId()) :
+                                p2.getProductId().compareTo(p1.getProductId());
                     case 3: // 排序依據價格
                         return "asc".equalsIgnoreCase(orderDirection) ?
                                 p1.getPrice().compareTo(p2.getPrice()) :
@@ -74,7 +74,7 @@ public class ProductService {
      */
     private ProductDTO convertToDTO(Product product) {
        ProductDTO productDTO= new ProductDTO(
-                product.getId(),
+                product.getProductId(),
                 product.getProductName(),
                 product.getPrice(),
                 product.getStock(),
