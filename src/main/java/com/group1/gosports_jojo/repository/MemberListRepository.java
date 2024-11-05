@@ -7,7 +7,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface MemberListRepository extends JpaRepository<MemberList, Integer> {
+public interface
+MemberListRepository extends JpaRepository<MemberList, Integer> {
     @Query(
         value = "SELECT g.group_id, g.group_name FROM member_lists m JOIN group_lists g ON m.group_id = g.group_id WHERE m.user_id = :userId",
         nativeQuery = true

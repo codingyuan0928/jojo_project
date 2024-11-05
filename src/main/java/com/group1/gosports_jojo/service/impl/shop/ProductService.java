@@ -1,7 +1,7 @@
-package com.group1.gosports_jojo.service.impl;
+package com.group1.gosports_jojo.service.impl.shop;
 
 
-import com.group1.gosports_jojo.dto.ProductDTO;
+import com.group1.gosports_jojo.dto.shopping.ProductDTO;
 import com.group1.gosports_jojo.entity.Product;
 import com.group1.gosports_jojo.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +36,8 @@ public class ProductService {
                 switch (orderColumn) {
                     case 1: // 排序依據產品編號
                         return "asc".equalsIgnoreCase(orderDirection) ?
-                                p1.getId().compareTo(p2.getId()) :
-                                p2.getId().compareTo(p1.getId());
+                                p1.getProductId().compareTo(p2.getProductId()) :
+                                p2.getProductId().compareTo(p1.getProductId());
                     case 3: // 排序依據價格
                         return "asc".equalsIgnoreCase(orderDirection) ?
                                 p1.getPrice().compareTo(p2.getPrice()) :
@@ -74,7 +74,7 @@ public class ProductService {
      */
     private ProductDTO convertToDTO(Product product) {
        ProductDTO productDTO= new ProductDTO(
-                product.getId(),
+                product.getProductId(),
                 product.getProductName(),
                 product.getPrice(),
                 product.getStock(),
@@ -101,6 +101,9 @@ public class ProductService {
         // 檢查是否存在這些產品 ID
         List<Product> products = productRepository.findAllById(productIds);
 
+        // 如果 orderItem 那張表有此產品，就不能刪除
+
+        // 如果沒有就可以刪
         // 刪除產品
         productRepository.deleteAll(products);
     }

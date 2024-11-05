@@ -1,0 +1,88 @@
+/*body {*/
+/*    font-family: Arial, sans-serif;*/
+/*}*/
+
+/*.sidebar {*/
+/*    height: 100vh;*/
+/*    background-color: #f8f9fa;*/
+/*    padding-top: 20px;*/
+/*}*/
+
+/*.sidebar a {*/
+/*    color: #000;*/
+/*    text-decoration: none;*/
+/*    display: block;*/
+/*    padding: 10px 20px;*/
+/*    margin: 5px 0;*/
+/*}*/
+
+/*.sidebar a.active {*/
+/*    background-color: #e9ecef;*/
+/*    border-radius: 5px;*/
+/*}*/
+
+/*.cart-header {*/
+/*    display: flex;*/
+/*    justify-content: start; !* 改為左對齊 *!*/
+/*    align-items: center;*/
+/*    margin-top: 20px;*/
+/*}*/
+/*.cart-header h2 {*/
+/*    font-size: 24px;*/
+/*   */
+/*}*/
+/*.pickup-time {*/
+/*    margin-top: 10px;*/
+/*    font-size: 16px;*/
+/*    color: #777;*/
+/*}*/
+/*.product-item {*/
+/*    display: flex;*/
+/*    justify-content: space-between;*/
+/*    align-items: center;*/
+/*    padding: 15px;*/
+/*    border: 1px solid #eaeaea;*/
+/*    border-radius: 10px;*/
+/*    margin-bottom: 15px;*/
+/*    background-color: #f8f9fa;*/
+/*}*/
+/*.product-item img {*/
+/*    width: 100px;*/
+/*}*/
+/*.product-details {*/
+/*    flex: 1;*/
+/*    margin-left: 20px;*/
+/*}*/
+/*.product-title {*/
+/*    font-weight: bold;*/
+/*    font-size: 18px;*/
+/*}*/
+/*.product-price {*/
+/*    font-size: 18px;*/
+/*    color: #333;*/
+/*    margin-top: 5px;*/
+/*}*/
+/*.product-quantity {*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*}*/
+/*.quantity-box {*/
+/*    width: 50px;*/
+/*    text-align: center;*/
+/*    margin-right: 10px;*/
+/*}*/
+/*.total-price {*/
+/*    font-size: 24px;*/
+/*    font-weight: bold;*/
+/*}*/
+/*.submit-btn {*/
+/*    background-color: #6c757d;*/
+/*    border: none;*/
+/*    color: white;*/
+/*    padding: 10px 20px;*/
+/*    cursor: pointer;*/
+/*    text-align: center;*/
+/*}*/
+/*.submit-btn:hover {*/
+/*    background-color: #5a6268;*/
+/*}*/

@@ -45,6 +45,16 @@ public class UserController {
         return "chatroom";
     }
 
+    @GetMapping("/orderhistory")
+    public String orderhistory(){
+        return "orderhistory";
+    }
+
+    @GetMapping("/shoppingcart")
+    public String shoppingcart(){
+        return "shoppingcart";
+    }
+
     @GetMapping("/user_profile")
     public String userProfile(
             @RequestParam(value = "section", required = false,defaultValue = "profile") String section,

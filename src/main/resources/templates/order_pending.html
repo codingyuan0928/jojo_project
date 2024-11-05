@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="zh-Hant">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
     <title>訂單管理</title>
@@ -34,6 +34,8 @@
     <style>
 
         /* 調整彈出視窗的大小 */
+        /*pop up*/
+        /* 調整彈出視窗的大小 */
         .popup {
             display: none; /* 預設隱藏 */
             position: fixed;
@@ -44,7 +46,6 @@
             background-color: rgba(0, 0, 0, 0.5); /* 半透明背景 */
             justify-content: center;
             align-items: center;
-            z-index: 1000;
         }
 
         .popup-content {
@@ -69,53 +70,6 @@
             cursor: pointer;
             font-size: 24px;
         }
-
-        .order-details table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-
-        .order-details th {
-            width: 100px;
-        }
-
-        .order-details th, .order-details td {
-            border: 1px solid #ddd;
-            padding: 6px;
-            text-align: left;
-            font-size: 14px;
-        }
-
-        .order-details th {
-            background-color: #f2f2f2;
-        }
-
-        /* 商品明細滾動條 */
-        .product-details {
-            max-height: 150px; /* 設置最大高度 */
-            overflow-y: auto; /* 當超過高度時顯示滾動條 */
-            margin-top: 10px;
-            border: 1px solid #ddd;
-        }
-
-        /* 避免商品明細表格的滾動條 */
-        .product-details table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .product-details th, .product-details td {
-            padding: 6px;
-            text-align: left;
-            border: 1px solid #ddd;
-            font-size: 14px;
-        }
-
-        .product-details th {
-            background-color: #f2f2f2;
-        }
-
         /*彈出視窗到此*/
         /* 自定義 sidebar 的背景顏色 */
         .table-bordered th, .table-bordered td {
@@ -277,62 +231,52 @@
                 </form>
             </div>
             <!-- 訂單彈出視窗 -->
-            <div id="orderPopup" class="popup">
-                <div class="popup-content">
-                    <div class="popup-header">
-                        <h2>★商城AAA★</h2>
-                        <span class="close-btn" onclick="closePopup()">×</span>
-                    </div>
-                    <p>感謝您的支持和信任，這是您的訂單</p>
-
-                    <div class="order-details">
-                        <h3>訂單詳情</h3>
-                        <table>
-                            <tr>
-                                <th>訂購姓名</th>
-                                <td>m</td>
-                                <!-- 插入 SQL 資料 -->
-                            </tr>
-                            <tr>
-                                <th>E-mail</th>
-                                <td>email</td>
-                                <!-- 插入 SQL 資料 -->
-                            </tr>
-                            <tr>
-                                <th>訂單號碼</th>
-                                <td>123</td>
-                                <!-- 插入 SQL 資料 -->
-                            </tr>
-                            <tr>
-                                <th>訂購日期</th>
-                                <td>123</td>
-                                <!-- 插入 SQL 資料 -->
-                            </tr>
-                            <tr>
-                                <th>訂單金額</th>
-                                <td>123</td>
-                                <!-- 插入 SQL 資料 -->
-                            </tr>
-                            <tr>
-                                <th>預計取貨時間</th>
-                                <td>12345</td>
-                                <!-- 插入 SQL 資料 -->
-                            </tr>
-                            <tr>
-                                <th>付款方式</th>
-                                <td>現金</td>
-                                <!-- 插入 SQL 資料 -->
-                            </tr>
-                            <tr>
-                                <th>取貨地址</th>
-                                <td>1ewrew</td>
-                                <!-- 插入 SQL 資料 -->
-                            </tr>
-                        </table>
-
-                        <h3>訂購商品明細</h3>
-                        <div class="product-details">
-                            <table>
+            <!-- Modal -->
+            <div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <h5>感謝您的支持和信任，這是您的訂單</h5>
+                            <h5>訂單詳情</h5>
+                            <table class="table">
+                                <tr>
+                                    <td>訂購姓名</td>
+                                    <td id="orderCustomerName"></td>
+                                </tr>
+                                <tr>
+                                    <td>E-mail</td>
+                                    <td id="orderEmail"></td>
+                                </tr>
+                                <tr>
+                                    <td>訂單編碼</td>
+                                    <td id="orderNumber"></td>
+                                </tr>
+                                <tr>
+                                    <td>訂購日期</td>
+                                    <td id="orderDate"></td>
+                                </tr>
+                                <tr>
+                                    <td>訂單金額</td>
+                                    <td id="orderAmount"></td>
+                                </tr>
+                                <tr>
+                                    <td>預計取貨時間</td>
+                                    <td id="pickupDate"></td>
+                                </tr>
+                                <tr>
+                                    <td>付款方式</td>
+                                    <td id="paymentMethod"></td>
+                                </tr>
+                                <tr>
+                                    <td>取貨地址</td>
+                                    <td id="pickupAddress"></td>
+                                </tr>
+                            </table>
+                            <h5>訂購商品明細</h5>
+                            <table class="table">
                                 <thead>
                                 <tr>
                                     <th>商品名稱</th>
@@ -340,17 +284,13 @@
                                     <th>小計</th>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                <tr>
-                                    <td>d</td>
-                                    <!-- 插入 SQL 資料 -->
-                                    <td>d</td>
-                                    <!-- 插入 SQL 資料 -->
-                                    <td>a</td>
-                                    <!-- 小計: 商品價格 * 數量 -->
-                                </tr>
+                                <tbody id="orderItemsTableBody">
+                                <!-- 商品項目會在這裡被追加 -->
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
                         </div>
                     </div>
                 </div>
@@ -444,15 +384,76 @@
         integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
         crossorigin="anonymous"
 ></script>
-<script>
-    function showPopup() {
-        document.getElementById('orderPopup').style.display = 'flex';
-    }
+<!--<script>-->
+<!--    function showPopup() {-->
+<!--        document.getElementById('orderPopup').style.display = 'flex';-->
+<!--    }-->
 
-    function closePopup() {
-        document.getElementById('orderPopup').style.display = 'none';
-    }
+<!--    function closePopup() {-->
+<!--        document.getElementById('orderPopup').style.display = 'none';-->
+<!--    }-->
+<!--</script>-->
+<script>
+    // 獲取訂單項目 API
+function fetchOrderItems(orderId){
+    const url = `${port}/order/findOrderDetailsByOrderId/${orderId}`;
+    return fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        })
+}
+// 獲取訂單項目
+async function getOrderItems(orderId) {
+    // 假設 fetchOrderItems 回傳訂單和訂單項目的詳細資料
+    const res = await fetchOrderItems(orderId);
+    const id = res[0].orderId; // 訂單編號
+    const username = res[0].username;
+    const email = res[0].email;
+    const orderDate = res[0].createdDatetime;
+    const pickupDate = res[0].pickupDate;
+    const amount = res[0].totalAmount;
+
+
+    const address = res[0].pickAddress;
+
+    // 填充訂單詳情
+    document.getElementById('orderNumber').textContent = id;
+    document.getElementById('orderCustomerName').textContent = username;
+    document.getElementById('orderEmail').textContent = email;
+    document.getElementById('orderDate').textContent = formatDate(orderDate);
+    document.getElementById('orderAmount').textContent = `NT$ ${amount}`;
+    document.getElementById('pickupDate').textContent = formatDate(pickupDate);
+    console.log(pickupDate);
+    document.getElementById('paymentMethod').textContent = '現金';
+    document.getElementById('pickupAddress').textContent = address;
+
+    // 清空舊的商品明細
+    const orderItemsTableBody = document.getElementById('orderItemsTableBody');
+    orderItemsTableBody.innerHTML = '';
+
+    // 顯示每一個商品的明細
+    res.forEach(item => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${item.productName}</td>
+            <td>${item.quantity}</td>
+            <td>NT$ ${item.price * item.quantity}</td>
+        `;
+        orderItemsTableBody.appendChild(tr); // 將每一項商品追加到表格中
+    });
+
+    // 顯示 Modal
+    const orderModal = new bootstrap.Modal(document.getElementById('orderModal'));
+    orderModal.show();
+}
 </script>
+
 <script  th:src="@{/js/common.js}"></script>
 </body>
 </html>

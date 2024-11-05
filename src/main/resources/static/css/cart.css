@@ -1,0 +1,175 @@
+.cart-item {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    gap: 0px; /* 調整圖片和名稱之間的間距 */
+}
+
+.cart-item img {
+    width: 100px;
+    height: 100px;
+}
+
+.cart-total {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: right;
+}
+
+.schedule {
+    font-weight: bold;
+    color: black;
+    text-decoration: underline;
+}
+
+.quantity-control {
+    display: flex;
+    justify-content: flex-start; /* 讓數量控制按鈕靠左 */
+    align-items: center;
+    flex-direction: row; /* 確保按鈕和 "移除" 同行 */
+}
+
+.quantity-control button {
+    width: 30px; /* 調整按鈕寬度 */
+    height: 30px; /* 調整按鈕高度 */
+    font-size: 1rem; /* 調整按鈕文字大小 */
+    display: flex; /* 使用 Flexbox 來對齊內容 */
+    justify-content: center; /* 水平置中 */
+    align-items: center; /* 垂直置中 */
+}
+
+.quantity-control .quantity {
+    font-size: 1rem; /* 調整數量文字大小 */
+    margin: 0 10px; /* 確保按鈕和數量之間有足夠的間距 */
+}
+
+.remove-btn {
+    margin-left: 20px;
+    font-size: 10px; /* 調整字體稍小 */
+    color: black; /* 使用黑色文字 */
+    text-decoration: none; /* 底線 */
+    background: none; /* 移除按鈕背景 */
+    border: none; /* 移除按鈕邊框 */
+    cursor: pointer; /* 鼠標變成指標 */
+    padding: 0; /* 移除額外的 padding */
+    writing-mode: vertical-lr;
+    line-height: 1.5;
+}
+
+.sidebar {
+    background-color: #f8f9fa;
+    /* padding: 15px; */
+    position: sticky;
+    top: 0; /* 讓側邊欄固定在頂部 */
+    height: 100vh; /* 側邊欄佔滿整個視窗高度 */
+}
+
+.sidebar a {
+    display: block;
+    padding: 10px 10px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #333;
+    text-decoration: none;
+}
+
+.sidebar a:hover {
+    background-color: #e9ecef;
+    border-radius: 5px;
+}
+
+.select-all-btn {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.row {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.content-area {
+    flex-grow: 1;
+}
+
+.checkout-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 15px; /* 在金額和按鈕之間加入一些間距 */
+}
+
+/* 小於992px時隱藏側邊欄 */
+@media (max-width: 992px) {
+    .sidebar {
+        display: none;
+    }
+
+    .content-area {
+        margin-left: 0;
+        flex-grow: 1;
+    }
+}
+
+/* 介於768px到576px之間時的調整 */
+@media (min-width: 576px) and (max-width: 768px) {
+    .content-area {
+        width: 100%;
+    }
+
+    .cart-item img {
+        width: 80px;
+        height: 80px;
+    }
+
+    .quantity-control button {
+        width: 25px;
+        height: 25px;
+        font-size: 0.8rem;
+        padding: 0;
+        line-height: 25px;
+    }
+
+    .quantity-control .quantity {
+        font-size: 0.9rem;
+        margin: 0 5px;
+    }
+
+    .remove-btn {
+        font-size: 8px;
+        margin-left: 10px;
+    }
+}
+
+/* 小於576px時進一步調整顯示 */
+@media (max-width: 576px) {
+    .sidebar {
+        display: none;
+    }
+
+    .content-area {
+        margin-left: 0;
+    }
+
+    .quantity-control button {
+        width: 20px;
+        height: 20px;
+        font-size: 0.7rem;
+        padding: 0;
+        line-height: 20px;
+    }
+
+    .quantity-control .quantity {
+        font-size: 0.8rem;
+        margin: 0 5px;
+    }
+
+    .remove-btn {
+        font-size: 7px;
+        margin-left: 5px;
+    }
+}
