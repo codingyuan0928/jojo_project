@@ -1,10 +1,9 @@
 package com.group1.gosports_jojo.controller;
 
 import com.group1.gosports_jojo.dao.impl.AddProductDAO;
-import com.group1.gosports_jojo.dao.impl.OrderDAO;
 import com.group1.gosports_jojo.model.AddProductVO;
 import com.group1.gosports_jojo.model.OrderVO;
-import com.group1.gosports_jojo.service.impl.OrderService;
+import com.group1.gosports_jojo.service.impl.shop.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,7 +34,6 @@ public class SellerController {
     AddProductDAO adao;
 
 
-    @GetMapping("/add_product")
 public String addProduct() {
     return "add_product";
 }

@@ -1,9 +1,9 @@
-package com.group1.gosports_jojo.rest;
+package com.group1.gosports_jojo.rest.shop;
 
 import com.group1.gosports_jojo.dto.shopping.CheckoutRequest;
 import com.group1.gosports_jojo.dto.shopping.MyOrderItemResponse;
 import com.group1.gosports_jojo.entity.Order;
-import com.group1.gosports_jojo.service.impl.OrderItemService;
+import com.group1.gosports_jojo.service.impl.shop.OrderItemService;
 import io.swagger.v3.oas.annotations.Operation;
 
 import org.springframework.beans.factory.annotation.Autowired;

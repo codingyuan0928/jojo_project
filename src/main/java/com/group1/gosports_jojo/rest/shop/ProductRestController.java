@@ -1,4 +1,4 @@
-package com.group1.gosports_jojo.rest;
+package com.group1.gosports_jojo.rest.shop;
 
 import com.group1.gosports_jojo.model.ProVO;
 import com.group1.gosports_jojo.service.impl.ProService;
