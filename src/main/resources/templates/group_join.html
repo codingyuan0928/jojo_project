@@ -1,0 +1,419 @@
+
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-Hant">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+<!--   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" -->
+<!--     integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous"> -->
+    <title>Group_join</title>
+    
+     
+
+
+<!-- favicon -->
+    <link
+            rel="icon"
+            th:href="@{/images/common/favicon.png}"
+            type="image/png"
+    />
+    <!-- bootstrap css -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+            crossorigin="anonymous"
+    />
+    <!-- bootstrap icons -->
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400..900&display=swap"
+            rel="stylesheet"
+    />
+    <link rel="stylesheet" th:href="@{/css/common.css}"/>
+ 
+    
+ <style>
+    
+    .item{
+    font-size:20px
+    }
+
+        .group_list_big_scope{
+            /* vertical-align: top; */
+            /* border: 2px solid rgb(76, 206, 126); */
+            margin: 2%;
+        }
+        .group_list_left{
+            border: 2px solid rgb(187, 186, 186);
+            width: 47%;
+            display: inline-block;
+            word-break: break-all;
+            height:290px;
+        }
+
+.image_put_upload_status{
+      /* border: 2px solid red; */
+      width: 40%;
+      /* height: 300px; */
+      overflow: visible;
+      display: inline-block;
+      vertical-align: top;
+      margin-left:5%;
+    }
+
+    .image_put_upload_status img{
+
+      width: 100%;
+      /* height: 100%; */
+      overflow: visible;
+      max-height: 290px;
+      /* margin-left: 20%; */
+    }
+
+    .member_pic{
+        width:30px;
+        height:30px;
+        overflow: hidden;
+        display: inline-block;
+/*         border: 1px solid blue; */
+           border-radius: 50%;
+           vertical-align: middle;
+
+    }
+
+    .member_pic img{
+        width: 100%;
+        overflow: visible;
+     
+    }
+
+    .group_list_right{
+        border: 10px solid rgb(34, 0, 255);
+        vertical-align: top;
+        position:fixed;
+        right: 0px;
+        background-color: blue;
+        bottom: 0px;
+        color: white;
+        
+    }
+
+    /* 使用 RWD */
+    @media (max-width: 900.98px){
+        .group_list_left{
+            border: 2px solid rgb(40, 81, 56);
+            width: 90%;
+            display: block;
+            font-size: 12px;
+        }
+        .image_put_upload_status{
+      /* border: 2px solid red; */
+      width: 60%;
+      overflow: visible;
+      display: inline-block;
+      margin-left: 20%;
+      margin-right:20% ;
+    }
+
+
+    }
+
+    .group_join_member_right{
+        /* border: 1px solid purple; */
+        display: inline-block; 
+        /* margin-left: 40%; */
+  
+    }
+
+    .group_join_member_list_left{
+        /* border: 1px solid red; */
+        width: 50%;
+        display: inline-block;
+      
+    }
+
+    .group_line{
+        width: 100%;
+        display: inline-block;
+        /* border: 1px solid blue; */
+        padding: 0;
+        border-bottom: 1px solid gainsboro;
+        margin-bottom: 10px;
+    }
+
+    .group_join_member_list{
+        border: 1px solid rgb(225, 222, 222);
+        height:270px;
+        overflow: scroll;
+         margin: 2%;
+         border-radius: 3%;
+    }
+    .item11, .item12{
+      /* border: 1px solid rgb(195, 76, 29); */
+      display: inline-block;
+      width: 40%;
+      overflow:hidden;
+    }
+    .join_button{
+        display: flex;
+        justify-content: center;
+    }
+
+
+
+
+    .group_yes_no_button{
+      display: flex;
+      max-width: 100%;
+      justify-content: center;
+      margin:1rem;
+    
+     
+      /* position: relative; */
+      
+      /* transform: translateX(25%); */
+      /* bottom: 10px; */
+    }
+    
+    .group_join_out{
+      display: flex;
+      max-width: 100%;
+      justify-content: center;
+      margin:1rem;
+     
+      /* position: relative; */
+      
+      /* transform: translateX(25%); */
+      /* bottom: 10px; */
+    }
+    
+    
+    .btn-cancel{
+/*       border: 3px solid red; */
+        margin-right:1rem;
+    }
+
+
+
+
+
+
+    </style>
+
+</head>
+
+<body>
+
+
+<div class="page-container">
+    <!-- 頁首導航欄 -->
+    <header th:replace="fragments/navbar :: navbar"></header>
+
+    <!-- 主頁內容 -->
+    <main class="container my-4 main">
+
+
+
+
+<!--   <script src="./jquery/jquery-3.7.1.min.js"></script> -->
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+  <!--Bootstrap js-->
+
+
+    
+    <div class="group_list_big_scope">
+
+        <div class="group_list_left">
+           <div class="item" th:text="'類別-團名：' + ${groupVO.groupType} + ' - ' +${groupVO.groupName}  " ></div>
+          <div class="item" th:text="'開打時間：'+ ${#dates.format(groupVO.groupPlayingDatetime , 'yyyy-MM-dd hh:mm')}"> </div> 
+          <div class="item" th:text="'地點：' + ${groupVO.groupAddress}"></div>
+          <div class="item" th:text="'揪團人數：' + ${groupVO.groupPrimaryMember} + '人'" > </div>
+<!--            <div class="item" >備取人數：${groupVO.secondaryMember} 人</div>  -->
+          <div class="item" th:text="'截止日期：'+ ${#dates.format(groupVO.groupJoinDeadline , 'yyyy-MM-dd hh:mm')}" ></div>
+          <div class="item" th:text="'狀態：'+ ${groupVO.groupStatusDesc}"></div>
+          <div class="item" th:text="'備註：'+ ${groupVO.groupNote} "> </div>
+          
+        </div>
+
+
+
+        <div class="image_put_upload_status">
+<!--         <img src="<%=request.getContextPath()%>/group/DBGifReader?groupId=${groupVO.groupId}" > -->
+       <img th:src="@{/get_group_photo} + '?groupId=' + ${groupVO.groupId}" >
+        </div>
+
+
+
+
+
+    </div>
+<!--     <div class="group_list_right"> -->
+<!--         <div class="audit" >Peter羽球團聊天室</div> -->
+
+<!--       </div> -->
+
+
+
+      <!-- 參團人員及正備取狀況，及新增好友按鈕 -->
+      <div class="group_join_member_list" >
+
+<!-- 控制兩 div 可以平行 -->
+   
+ 
+   
+    <div class="group_line" th:each="memberVO , gStat: ${MemberList}">
+    
+<!--         大頭貼 -->
+        <div class="member_pic">
+<!--             <img src="<%=request.getContextPath()%>/group/UserDBGifReader?userId=${memberVO.userId}" > -->
+        <img th:src="@{/get_groupuser_avator} + '?userId=' + ${memberVO.userId}" >
+        
+        </div>
+
+        <div class="group_join_member_list_left">
+          <div class="item11" th:text="${memberVO.username} + '(ID:' + ${memberVO.userId} + ')'"></div>
+<!--           <div class="item11" th:text="${memberVO.userVO.username} + '(ID:' + ${memberVO.userId} + ')'"></div> -->
+
+
+         
+         
+        
+          <div class="item12" th:if="${'團長' == memberVO.memberRole}" th:text="'團長'"></div>
+          
+          <div class="item12" th:if="${'報名' == memberVO.memberRole && memberVO.rankNo <= groupVO.groupPrimaryMember}" th:text="正取"></div>
+          
+          <div class="item12" th:if="${'報名' == memberVO.memberRole && memberVO.rankNo > groupVO.groupPrimaryMember}" th:text="備取"></div>
+          
+        </div>
+
+        <div class="group_join_member_right">
+            <button type="button" class="btn btn-primary">加好友</button>
+<!--             <label><input type="radio" name="show1" value="1">出席</label> -->
+<!--             <label><input type="radio" name="show1">缺席</label> -->
+        </div>
+      
+    </div>
+   
+    
+  
+
+
+</div>
+
+
+
+
+
+	<div class="group_join_out">
+    
+
+    
+
+    
+       <div class="join_button" th:each="memberVO: ${MemberList}" th:if="${session.userId == memberVO.userId &&  '報名' == memberVO.memberRole}">
+        <FORM  METHOD="post"  th:action="@{/want_leave_group}"  >
+        <button type="submit" class="btn btn-dark">退團</button>
+        <input type="hidden" name="groupId"  th:value="${groupVO.groupId}">
+        <input type="hidden" name="action" value="want_leave_group">
+</FORM>
+    </div>
+    
+
+    
+    
+    
+    
+<!--     ///////////////////////////////由Servlet判斷是否該顯示參團按鈕////////////////////////////////////////////// -->
+
+
+    <div class="join_button" th:if="${checkIfJoin.isEmpty() && presentNoCount<5}">
+        <FORM  method="post"  th:action="@{/want_join_group}"  >
+        <button type="submit" class="btn btn-success">參團</button>
+          <input type="hidden" name="groupId"  th:value="${groupVO.groupId}">
+          <input type="hidden" name="action" value="want_join_group">
+ </FORM>
+    </div>
+
+    
+    
+</div>
+
+
+
+
+<!-- <%--       ///////////////////////////////使用c:if 判斷現在是不是團長 , 是團長才會顯示下方兩個按鈕///////////////////////////////////////////        --%> -->
+
+          
+    <div class="group_yes_no_button" th:if="${groupVO.groupLeaderId == session.userId}">
+    
+<!--       ///////////////////////////////取消揪團的 form 表單///////////////////////////////////////////        -->
+    
+        <FORM  METHOD="post"  th:action="@{/hide_group}"  name="form1" class="delete_team_form">
+        
+        <button type="submit" id="delete_team" class="btn btn-secondary btn-cancel">取消揪團</button>
+       
+        <input type="hidden" name="groupId"  th:value="${groupVO.groupId}">
+		<input type="hidden" name="action" value="hide_group">
+       </FORM>
+  
+	<!--   //////////////////////////////編輯揪團的 form 表單////////////////////////////////////////////        -->
+         
+        <FORM  METHOD="post"  th:action="@{/want_update_group}"  name="form1">
+       
+        <button type="submit" class="btn btn-primary">編輯揪團</button>
+        <input type="hidden" name="groupId"  th:value="${groupVO.groupId}">
+		<input type="hidden" name="action" value="want_update_group">
+       </FORM>
+       
+        </div>
+
+
+	<script >
+	
+	
+	document.querySelector(".delete_team_form").addEventListener("submit",function(e){
+		e.preventDefault();
+		var confirmed= window.confirm('確定要取消揪團嗎?');
+	    if (confirmed) {
+	        this.submit();
+	    } else {
+	        console.log("沒有刪除");
+	    }
+	})
+	
+	
+	</script>
+
+ </main>
+
+    <!-- 頁尾 -->
+    <footer th:replace="fragments/footer :: footer"></footer>
+</div>
+
+<script  th:src="@{/js/common.js}"></script>
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+        crossorigin="anonymous"
+></script>
+
+
+
+
+</body>
+
+
+
+</html>
