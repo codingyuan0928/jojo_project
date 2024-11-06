@@ -4,6 +4,8 @@ import com.group1.gosports_jojo.dto.AuthLoginRequest;
 import com.group1.gosports_jojo.dto.UserRegisterRequest;
 import com.group1.gosports_jojo.dto.VendorRegisterRequest;
 
+import javax.servlet.http.HttpSession;
+
 public interface AuthService {
     Object login(AuthLoginRequest authLoginRequest);
      boolean accountExists(String email);
@@ -11,5 +13,5 @@ public interface AuthService {
     Integer registerVendor(VendorRegisterRequest vendorRegisterRequest);
     void generateAndSendAuthCode(String email);
     boolean validateAuthCode(String email, String authCode);
-
+   Integer updatePasswordBasedOnRole(String newPassword, String email);
 }

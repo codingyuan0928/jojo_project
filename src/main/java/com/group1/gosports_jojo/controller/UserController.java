@@ -9,14 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class UserController {
-    @GetMapping("/test")
-    public String test(){
-        return "test";
-    }
-    @GetMapping("/sendEmailTest")
-    public String sendEmailTest(){
-        return "sendEmailTest";
-    }
     @GetMapping("/")
     public String index() {
         return "index";
@@ -25,11 +17,6 @@ public class UserController {
     public String userLogin(){
         return "login";
     }
-    @GetMapping("/user_forget_password")
-    public String user_forget_password(){
-        return "user_forget_password";
-    }
-
     @GetMapping("/user_registration")
     public String user_registration(){
         return "user_registration";

@@ -8,7 +8,7 @@ import java.util.List;
 public interface UserDAO {
     void insert(UserVO userVO);
 
-    void update(UserVO userVO);
+    boolean update(UserVO userVO);
 
     void delete(Integer userId);
 

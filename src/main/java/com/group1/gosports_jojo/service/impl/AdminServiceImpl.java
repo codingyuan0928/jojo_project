@@ -19,6 +19,7 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     private AdministratorDAO administratorDAO;
 
+    @Override
     public Administrator login(AuthLoginRequest authLoginRequest) {
         String email = authLoginRequest.getEmail();
         Administrator administrator = administratorDAO.getByEmail(email);
@@ -34,8 +35,14 @@ public class AdminServiceImpl implements AdminService {
         }
     }
 
-    public boolean updateAdminName(String newUsername,Administrator administrator){
+    @Override
+    public boolean updateAdminName(String newUsername, Administrator administrator) {
         administrator.setUsername(newUsername);
         return administratorDAO.update(administrator);
+    }
+
+    @Override
+    public Administrator findByEmail(String email) {
+        return administratorDAO.getByEmail(email);
     }
 }

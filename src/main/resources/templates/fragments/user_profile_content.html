@@ -1,4 +1,4 @@
-<div  th:fragment="user_profile_content" class="content-section profile" >
+<div th:fragment="user_profile_content" class="content-section profile">
     <div class="user-avatar-group">
         <div
                 class="my-3 border mx-auto w-100 d-flex justify-content-center "
@@ -71,6 +71,16 @@
                 </div>
             </div>
         </div>
+        <div class="mb-5 row w-100">
+            <div style="cursor: pointer; color: black; text-decoration: none; transition: color 0.3s ease, background-color 0.3s ease;"
+                 onmouseover="this.style.color='#333'; this.style.textDecoration='underline';"
+                 onmouseout="this.style.color='black'; this.style.textDecoration='none';"
+                 onmousedown="this.style.color='#666'; this.style.backgroundColor='#f0f0f0';"
+                 onmouseup="this.style.color='#333'; this.style.backgroundColor='transparent';"
+                 data-bs-toggle="modal" data-bs-target="#rest_password">
+                修改密碼連結
+            </div>
+        </div>
         <div class="button-group mb-5">
             <button class="btn btn-outline-success text-success bg-white me-3 save-btn">
                 保存
@@ -80,4 +90,5 @@
             </button>
         </div>
     </div>
+    <div th:replace ="fragments/reset_password :: reset_password"></div>
 </div>

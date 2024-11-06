@@ -3,11 +3,13 @@ package com.group1.gosports_jojo.rest;
 import com.group1.gosports_jojo.dto.AuthLoginRequest;
 import com.group1.gosports_jojo.dto.UserRegisterRequest;
 import com.group1.gosports_jojo.dto.VendorRegisterRequest;
+import com.group1.gosports_jojo.entity.Administrator;
 import com.group1.gosports_jojo.entity.Vendor;
 import com.group1.gosports_jojo.exception.EmailSendFailedException;
 import com.group1.gosports_jojo.model.UserVO;
 import com.group1.gosports_jojo.service.AuthService;
 import com.group1.gosports_jojo.service.UserService;
+import com.group1.gosports_jojo.service.impl.AuthServiceImpl;
 import com.group1.gosports_jojo.service.impl.UserServiceImpl;
 import com.group1.gosports_jojo.service.impl.VendorServiceImpl;
 import org.slf4j.Logger;
@@ -34,13 +36,19 @@ public class AuthRestController {
     private UserServiceImpl userServiceImpl;
     @Autowired
     private VendorServiceImpl vendorServiceImpl;
-    @Autowired
-    private UserService userService;
+
     //登入
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody @Validated AuthLoginRequest authLoginRequest, HttpSession session) {
+    public ResponseEntity<?> login(@RequestBody @Validated AuthLoginRequest authLoginRequest,BindingResult loginResult, HttpSession session) {
         Object account = authService.login(authLoginRequest);
         Map<String, Object> response = new HashMap<>();
+        Map<String, String> errors = new HashMap<>();
+        if (loginResult.hasErrors()) {
+            loginResult.getFieldErrors().forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
+        }
+        if (!errors.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+        }
         if (account instanceof UserVO) {
             log.info("一般用戶登入成功");
             UserVO user = (UserVO) account;
@@ -55,7 +63,7 @@ public class AuthRestController {
             }
             response.put("redirectUrl", redirectUrl);
             response.put("userId", user.getUserId());
-            response.put("role","user");
+            response.put("role", "user");
             return ResponseEntity.status(HttpStatus.OK).body(response);
         } else if (account instanceof Vendor) {
             log.info("廠商用戶登入成功");
@@ -70,7 +78,7 @@ public class AuthRestController {
             }
             response.put("redirectUrl", redirectUrl);
             response.put("vendorId", vendor.getVendorId());
-            response.put("role","vendor");
+            response.put("role", "vendor");
             return ResponseEntity.status(HttpStatus.OK).body(response);
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("無效的帳戶或密碼");
@@ -108,7 +116,7 @@ public class AuthRestController {
             Integer userId = authService.registerUser(userRegisterRequest);
             UserVO user = userServiceImpl.getOneUser(userId);
             String username = user.getUsername();
-            return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("message", "用戶註冊成功","username",username));
+            return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("message", "用戶註冊成功", "username", username));
         } else if ("VENDOR".equalsIgnoreCase(userType)) {
 
             if (vendorResult.hasErrors()) {
@@ -152,7 +160,7 @@ public class AuthRestController {
             if (vendorRegisterRequest.getAvatar() == null || vendorRegisterRequest.getAvatar().isEmpty()) {
                 errors.put("avatar", "頭像選項為必填");
             }
-            if(vendorRegisterRequest.getRegistrationDocument() == null || vendorRegisterRequest.getRegistrationDocument().isEmpty()) {
+            if (vendorRegisterRequest.getRegistrationDocument() == null || vendorRegisterRequest.getRegistrationDocument().isEmpty()) {
                 errors.put("registrationDocument", "營業登記.pdf為必填");
             }
             if (!errors.isEmpty()) {
@@ -162,7 +170,7 @@ public class AuthRestController {
             Integer vendorId = authService.registerVendor(vendorRegisterRequest);
             Vendor vendor = vendorServiceImpl.findVendorById(vendorId);
             String vendorName = vendor.getUsername();
-            return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("message", "廠商註冊成功","vendorName",vendorName));
+            return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("message", "廠商註冊成功", "vendorName", vendorName));
 
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("無效的註冊請求");
@@ -196,4 +204,21 @@ public class AuthRestController {
         }
     }
 
+    @PostMapping("/resetPassword")
+    public ResponseEntity<String> resetPassword(@RequestBody Map<String, String> request) {
+        String newPassword = request.get("newPassword");
+        String email = request.get("email");
+
+        Integer result = authService.updatePasswordBasedOnRole(newPassword, email);
+        switch (result) {
+            case 1:
+                return ResponseEntity.status(HttpStatus.OK).body("密碼已更新成功，請重新登入!");
+            case -1:
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("此信箱尚未註冊");
+            case 0:
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("密碼更新失敗，請稍後再試!");
+            default:
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("發生未知錯誤，請稍後再試!");
+        }
+    }
 }
