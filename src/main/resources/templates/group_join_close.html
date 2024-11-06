@@ -293,7 +293,9 @@
         </div>
 		
         <div th:class="'group_join_member_right group_join_member_right'+ ${gStat.count}">
-            <button type="button" class="btn btn-primary">加好友</button>
+
+            <a  class="btn btn-primary" th:href="@{/chatroom}" >加好友</a>
+<!--            <button type="button" class="btn btn-primary">加好友</button>-->
           
              <input type="hidden" name="primaryMember"  th:value="${groupVO.groupPrimaryMember} " >
              <input type="hidden" th:name="'userId'+${gStat.count}"  th:value="${memberVO.userId}" >
@@ -306,7 +308,7 @@
             <input type="radio" th:name="'presentLog' + ${gStat.count}" value="YES" th:checked="${memberVO.presentLog == 'YES'}" th:text="'出席' + ${memberVO.presentLog}">
             
 <!--             <input type="radio" name="presentLog${s.count}"  value="YES" ${("YES"==memberVO.presentLog)? 'checked':'' } > -->
-<!-- <!--             出席${memberVO.presentLog} -->
+ <!--             出席${memberVO.presentLog}
 			</label>
             
             
