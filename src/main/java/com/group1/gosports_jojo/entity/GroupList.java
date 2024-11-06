@@ -21,5 +21,4 @@ public class GroupList {
     @Column(name = "group_name", length = 50)
     private String groupName;
 
-    //TODO [JPA Buddy] generate columns from DB
 }

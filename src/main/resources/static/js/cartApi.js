@@ -80,14 +80,24 @@ export function updateProductQuantity(userId, productId, quantity) {
     })
         .then(response => {
             if (!response.ok) {
-                throw new Error('Network response was not ok ' + response.statusText);
+                return response.text().then(message => { // 獲取後端錯誤訊息
+                    throw new Error(message); // 將訊息丟出至 catch 區塊
+                });
             }
             return response.text();
         })
-        .catch(error => {
-            console.error('Error updating product quantity:', error);
-            throw error;
-        });
+        .catch((error) => {
+            // 顯示後端返回的錯誤訊息
+            if (error.message === "商品已下架，無法添加到購物車") {
+                alert("商品已下架，無法添加到購物車");
+            } else if (error.message === "庫存不足，無法添加到購物車") {
+                //  TODO:重新取得購物清單
+                alert("庫存不足，無法添加到購物車");
+
+            } else {
+                alert("發生錯誤，請稍後再試");
+            }
+        })
 }
 
 // 結帳

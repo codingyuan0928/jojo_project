@@ -40,8 +40,6 @@ public class ShoppingCartService {
             // 檢查購物車是否已經有此商品
             Integer currentQuantity = (Integer) redisTemplate.opsForHash().get(cartKey, productId.toString());
 
-            //TODO: 如果購物車已經存此商品，則需要 +1，而不是覆蓋 key value
-            // 如果有
             if (currentQuantity != null) {
                 // 如果購物車已有此商品，則累加數量
                 quantity += currentQuantity;
@@ -63,7 +61,6 @@ public class ShoppingCartService {
 
         // TODO: 檢查是否還有庫存
 
-
     }
 
     // 從購物車中移除多個商品
@@ -75,7 +72,6 @@ public class ShoppingCartService {
 
         // TODO: 檢查是否還有庫存
 
-
     }
 
     // 更新購物車中的商品數量
@@ -84,11 +80,21 @@ public class ShoppingCartService {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new RuntimeException("找不到商品"));
 
-        if (product.getStock() >= quantity) {
-            redisTemplate.opsForHash().put(cartKey, productId.toString(), quantity);
-        } else {
-            throw new RuntimeException("庫存不夠");
+        // 檢查商品是否上架
+        if (product.getProductStatus() != 1) {
+            // 商品已下架，從購物車中刪除該商品
+            redisTemplate.opsForHash().delete(cartKey, productId.toString());
+            throw new RuntimeException("商品已下架，無法添加到購物車");
         }
+
+        // 檢查庫存是否足夠
+        if (product.getStock() < quantity) {
+            throw new RuntimeException("庫存不足，無法添加到購物車");
+        }
+
+        // 如果商品已上架且庫存足夠，則更新購物車中的商品數量
+        redisTemplate.opsForHash().put(cartKey, productId.toString(), quantity);
+
     }
 
     public List<ProductVO> testviewCart(Integer userId) {

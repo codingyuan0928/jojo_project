@@ -2,242 +2,232 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <title>運動啾啾_購物車</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>購物車</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- favicon -->
+    <link
+            rel="icon"
+            th:href="@{/images/common/favicon.png}"
+            type="image/png"
+    />
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-        <!-- favicon -->
-        <link
-                rel="icon"
-                th:href="@{/images/common/favicon.png}"
-                type="image/png"
-        />
-        <!-- bootstrap css -->
-        <link
-                href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
-                rel="stylesheet"
-                integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
-                crossorigin="anonymous"
-        />
-        <!-- bootstrap icons -->
-        <link
-                rel="stylesheet"
-                href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
-        />
-        <!-- google fonts -->
-        <link rel="preconnect" href="https://fonts.googleapis.com"/>
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-        <link
-                href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400..900&display=swap"
-                rel="stylesheet"
-        />
-        <link rel="stylesheet" th:href="@{/css/common.css}"/>
-        <style>
-            .cart-item {
-                border: 1px solid #ddd;
-                padding: 15px;
-                margin-bottom: 15px;
-                border-radius: 5px;
-                gap: 0px; /* 調整圖片和名稱之間的間距 */
-            }
+    <!-- bootstrap icons -->
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400..900&display=swap"
+            rel="stylesheet"
+    />
+    <link rel="stylesheet" th:href="@{/css/common.css}"/>
 
-            .cart-item img {
-                width: 100px;
-                height: 100px;
-            }
+    <style>
+        .cart-item {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            gap: 0px; /* 調整圖片和名稱之間的間距 */
+        }
 
-            .cart-total {
-                font-size: 1.5rem;
-                font-weight: bold;
-                text-align: right;
-            }
+        .cart-item img {
+            width: 100px;
+            height: 100px;
+        }
 
-            .schedule {
-                font-weight: bold;
-                color: black;
-                text-decoration: underline;
-            }
+        .cart-total {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: right;
+        }
 
-            .quantity-control {
-                display: flex;
-                justify-content: flex-start; /* 讓數量控制按鈕靠左 */
-                align-items: center;
-                flex-direction: row; /* 確保按鈕和 "移除" 同行 */
-            }
+        .schedule {
+            font-weight: bold;
+            color: black;
+            text-decoration: underline;
+        }
 
-            .quantity-control button {
-                width: 30px; /* 調整按鈕寬度 */
-                height: 30px; /* 調整按鈕高度 */
-                font-size: 1rem; /* 調整按鈕文字大小 */
-                display: flex; /* 使用 Flexbox 來對齊內容 */
-                justify-content: center; /* 水平置中 */
-                align-items: center; /* 垂直置中 */
-            }
+        .quantity-control {
+            display: flex;
+            justify-content: flex-start; /* 讓數量控制按鈕靠左 */
+            align-items: center;
+            flex-direction: row; /* 確保按鈕和 "移除" 同行 */
+        }
 
-            .quantity-control .quantity {
-                font-size: 1rem; /* 調整數量文字大小 */
-                margin: 0 10px; /* 確保按鈕和數量之間有足夠的間距 */
-            }
+        .quantity-control button {
+            width: 30px; /* 調整按鈕寬度 */
+            height: 30px; /* 調整按鈕高度 */
+            font-size: 1rem; /* 調整按鈕文字大小 */
+            display: flex; /* 使用 Flexbox 來對齊內容 */
+            justify-content: center; /* 水平置中 */
+            align-items: center; /* 垂直置中 */
+        }
 
-            .remove-btn {
-                margin-left: 20px;
-                font-size: 10px; /* 調整字體稍小 */
-                color: black; /* 使用黑色文字 */
-                text-decoration: none; /* 底線 */
-                background: none; /* 移除按鈕背景 */
-                border: none; /* 移除按鈕邊框 */
-                cursor: pointer; /* 鼠標變成指標 */
-                padding: 0; /* 移除額外的 padding */
-                writing-mode: vertical-lr;
-                line-height: 1.5;
-            }
+        .quantity-control .quantity {
+            font-size: 1rem; /* 調整數量文字大小 */
+            margin: 0 10px; /* 確保按鈕和數量之間有足夠的間距 */
+        }
 
+        .remove-btn {
+            margin-left: 20px;
+            font-size: 10px; /* 調整字體稍小 */
+            color: black; /* 使用黑色文字 */
+            text-decoration: none; /* 底線 */
+            background: none; /* 移除按鈕背景 */
+            border: none; /* 移除按鈕邊框 */
+            cursor: pointer; /* 鼠標變成指標 */
+            padding: 0; /* 移除額外的 padding */
+            writing-mode: vertical-lr;
+            line-height: 1.5;
+        }
+
+        .sidebar {
+            background-color: #f8f9fa;
+            /* padding: 15px; */
+            position: sticky;
+            top: 0; /* 讓側邊欄固定在頂部 */
+            height: 100vh; /* 側邊欄佔滿整個視窗高度 */
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 10px 10px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .sidebar a:hover {
+            background-color: #e9ecef;
+            border-radius: 5px;
+        }
+
+        .select-all-btn {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: nowrap;
+        }
+
+        .content-area {
+            flex-grow: 1;
+        }
+
+        .checkout-container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 15px; /* 在金額和按鈕之間加入一些間距 */
+        }
+
+        /* 小於992px時隱藏側邊欄 */
+        @media (max-width: 992px) {
             .sidebar {
-                background-color: #f8f9fa;
-                /* padding: 15px; */
-                position: sticky;
-                top: 0; /* 讓側邊欄固定在頂部 */
-                height: 100vh; /* 側邊欄佔滿整個視窗高度 */
-            }
-
-            .sidebar a {
-                display: block;
-                padding: 10px 10px;
-                margin-top: 20px;
-                margin-bottom: 10px;
-                font-size: 14px;
-                color: #333;
-                text-decoration: none;
-            }
-
-            .sidebar a:hover {
-                background-color: #e9ecef;
-                border-radius: 5px;
-            }
-
-            .select-all-btn {
-                margin-bottom: 20px;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
-
-            .row {
-                display: flex;
-                flex-wrap: nowrap;
+                display: none;
             }
 
             .content-area {
+                margin-left: 0;
                 flex-grow: 1;
             }
+        }
 
-            .checkout-container {
-                display: flex;
-                justify-content: flex-end;
-                align-items: center;
-                gap: 15px; /* 在金額和按鈕之間加入一些間距 */
+        /* 介於768px到576px之間時的調整 */
+        @media (min-width: 576px) and (max-width: 768px) {
+            .content-area {
+                width: 100%;
             }
 
-            /* 小於992px時隱藏側邊欄 */
-            @media (max-width: 992px) {
-                .sidebar {
-                    display: none;
-                }
-
-                .content-area {
-                    margin-left: 0;
-                    flex-grow: 1;
-                }
+            .cart-item img {
+                width: 80px;
+                height: 80px;
             }
 
-            /* 介於768px到576px之間時的調整 */
-            @media (min-width: 576px) and (max-width: 768px) {
-                .content-area {
-                    width: 100%;
-                }
-
-                .cart-item img {
-                    width: 80px;
-                    height: 80px;
-                }
-
-                .quantity-control button {
-                    width: 25px;
-                    height: 25px;
-                    font-size: 0.8rem;
-                    padding: 0;
-                    line-height: 25px;
-                }
-
-                .quantity-control .quantity {
-                    font-size: 0.9rem;
-                    margin: 0 5px;
-                }
-
-                .remove-btn {
-                    font-size: 8px;
-                    margin-left: 10px;
-                }
+            .quantity-control button {
+                width: 25px;
+                height: 25px;
+                font-size: 0.8rem;
+                padding: 0;
+                line-height: 25px;
             }
 
-            /* 小於576px時進一步調整顯示 */
-            @media (max-width: 576px) {
-                .sidebar {
-                    display: none;
-                }
-
-                .content-area {
-                    margin-left: 0;
-                }
-
-                .quantity-control button {
-                    width: 20px;
-                    height: 20px;
-                    font-size: 0.7rem;
-                    padding: 0;
-                    line-height: 20px;
-                }
-
-                .quantity-control .quantity {
-                    font-size: 0.8rem;
-                    margin: 0 5px;
-                }
-
-                .remove-btn {
-                    font-size: 7px;
-                    margin-left: 5px;
-                }
+            .quantity-control .quantity {
+                font-size: 0.9rem;
+                margin: 0 5px;
             }
-        </style>
-    </head>
 
+            .remove-btn {
+                font-size: 8px;
+                margin-left: 10px;
+            }
+        }
 
+        /* 小於576px時進一步調整顯示 */
+        @media (max-width: 576px) {
+            .sidebar {
+                display: none;
+            }
 
+            .content-area {
+                margin-left: 0;
+            }
+
+            .quantity-control button {
+                width: 20px;
+                height: 20px;
+                font-size: 0.7rem;
+                padding: 0;
+                line-height: 20px;
+            }
+
+            .quantity-control .quantity {
+                font-size: 0.8rem;
+                margin: 0 5px;
+            }
+
+            .remove-btn {
+                font-size: 7px;
+                margin-left: 5px;
+            }
+        }
+    </style>
+</head>
 <body>
-
-
-
-
-
 <div class="page-container">
     <!-- 頁首導航欄 -->
     <header th:replace="fragments/navbar :: navbar"></header>
 
-    <!--    &lt;!&ndash; 主頁內容 &ndash;&gt;-->
-        <main class="container my-4 main">
-            <div class="container-fluid border border-primary">
-                <div class="row">
-                    <div class="col-md-1 sidebar">
-                        <a th:href="@{/shop_homepage}">購物商城</a>
-                        <a th:href="@{/order_history}">訂單紀錄</a>
-                        <a th:href="@{/shopping_cart}">購物車</a>
+    <main class="container my-4 main">
 
-                    </div>
+            <div class="row">
+                <div class="col-md-1 sidebar">
+                    <a th:href="@{/shop_homepage}">購物商城</a>
+                    <a th:href="@{/order_history}">訂單紀錄</a>
+                    <a th:href="@{/shoppingcart}">購物車</a>
 
-                    <div class="container mt-5">
-                        <form METHOD="post" th:action="@{/go_to_pay}" >
+                </div>
+
+                <div class="container mt-5">
+<!--                    <form METHOD="post" th:action="@{/go_to_pay}" >-->
                         <!-- 步驟 1 -->
-                        <div id="step1" class="step">
-                            <h3>步驟 1: 選購商品</h3>
+
+
 
                             <div class="col-md-10 my-5">
                                 <h2 class="mb-4">購物車</h2>
@@ -252,45 +242,79 @@
                                     </div>
                                 </div>
 
-                                <!-- 總計金額與前往結帳 -->
-                                <div class="checkout-container">
-                                    <div class="cart-total">總計金額：$<span id="total-amount">0</span></div>
-                                    <button onclick="getCheckoutItems()" class="btn btn-primary">前往結帳</button>
+                            </div>
+
+
+                            <!-- 新增付款方式與宅配地址 -->
+                            <div class="row my-3">
+                                <div class="col-md-3">
+                                    <label for="payment-method" class="form-label">付款方式：</label>
+                                    <select id="payment-method" class="form-select">
+                                        <option value="cash">現金</option>
+                                    </select>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- 新增付款方式與宅配地址 -->
-                        <div class="row my-3">
-                            <div class="col-md-3">
-                                <label for="payment-method" class="form-label">付款方式：</label>
-                                <select id="payment-method" class="form-select">
-                                    <option value="cash">現金</option>
-                                </select>
+                            <div class="row my-3">
+                                <form id="orderForm" novalidate>
+                                    <div class="mb-3">
+                                        <label for="delivery-address" class="form-label">送貨地址</label>
+                                        <input type="text" id="delivery-address" class="form-control" placeholder="請輸入地址" required>
+                                        <div class="invalid-feedback">
+                                            請輸入有效的地址。
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
-                        </div>
+<!--                    </form>-->
 
-                        <div class="row my-3">
-                            <div class="col-md-3">
-                                <label for="delivery-address" class="form-label">宅配地址：</label>
-                                <input type="text" id="delivery-address" class="form-control" placeholder="請輸入地址">
+                            <!-- 總計金額與前往結帳 -->
+                            <div class="checkout-container">
+                                <div class="cart-total">總計金額：$<span id="total-amount">0</span></div>
+                                <button onclick="getCheckoutItems(event)" class="btn btn-primary">前往結帳</button>
                             </div>
-                        </div>
-                        </form>
-                    </div>
+
                 </div>
             </div>
-        </main>
+
+    </main>
 
     <!-- 頁尾 -->
     <footer th:replace="fragments/footer :: footer"></footer>
 </div>
 
+<!-- 成功購物的 Modal -->
+<div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered"> <!-- 中央顯示 Modal -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="checkoutModalLabel">購物成功</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>購物成功，請前往訂單紀錄查看。</p>
+            </div>
+            <div class="modal-footer">
+                <a href="/order_history.html" class="btn btn-primary">查看訂單紀錄</a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+</script>
 <script  th:src="@{/js/common.js}"></script>
-<script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
-        crossorigin="anonymous"
-></script>
+<!--<script-->
+<!--        src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"-->
+<!--        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"-->
+<!--        crossorigin="anonymous"-->
+<!--&gt;</script>-->
+<script  th:src="@{/js/global.js}"></script>
+<script type="module" th:src="@{/js/cartApi.js}"></script>
+<script type="module" th:src="@{/js/cart.js}"></script>
+
 </body>
 </html>

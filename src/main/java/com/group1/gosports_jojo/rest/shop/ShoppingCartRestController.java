@@ -4,12 +4,15 @@ import com.group1.gosports_jojo.dto.shopping.ProductVO;
 import com.group1.gosports_jojo.service.impl.shop.ShoppingCartService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Service
 @RestController
 @RequestMapping("/api/cart")
 public class ShoppingCartRestController {
@@ -46,8 +49,13 @@ public class ShoppingCartRestController {
     @PutMapping("/update")
     @Operation(summary = "更新商品在購物車中的數量",description = "userId: 使用者編號, productId: 商品編號, quantity: 更改購物車中指定商品的數量")
     public ResponseEntity<String> updateProductQuantity(@RequestParam Integer userId, @RequestParam Integer productId, @RequestParam Integer quantity) {
-        shoppingCartService.updateProductQuantity(userId, productId, quantity);
-        return ResponseEntity.ok("商品在購物車中的數量成功更新");
+        try {
+            shoppingCartService.updateProductQuantity(userId, productId, quantity);
+            return ResponseEntity.ok("商品在購物車中的數量成功更新");
+        } catch (RuntimeException e) {
+            // 捕捉例外並回傳錯誤訊息
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     // 查看購物車
