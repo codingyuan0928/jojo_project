@@ -55,6 +55,7 @@ public class AuthRestController {
             }
             response.put("redirectUrl", redirectUrl);
             response.put("userId", user.getUserId());
+            response.put("role","user");
             return ResponseEntity.status(HttpStatus.OK).body(response);
         } else if (account instanceof Vendor) {
             log.info("廠商用戶登入成功");
@@ -69,6 +70,7 @@ public class AuthRestController {
             }
             response.put("redirectUrl", redirectUrl);
             response.put("vendorId", vendor.getVendorId());
+            response.put("role","vendor");
             return ResponseEntity.status(HttpStatus.OK).body(response);
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("無效的帳戶或密碼");

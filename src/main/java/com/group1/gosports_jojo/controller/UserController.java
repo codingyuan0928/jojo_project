@@ -1,14 +1,26 @@
 package com.group1.gosports_jojo.controller;
 
 
+import com.group1.gosports_jojo.member.model.MemberService;
+import com.group1.gosports_jojo.member.model.MemberVO;
+import com.group1.gosports_jojo.model.UserVO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.List;
+
 
 @Controller
 public class UserController {
+    @Autowired
+    MemberService memberSv;
+
     @GetMapping("/test")
     public String test(){
         return "test";
@@ -58,7 +70,7 @@ public class UserController {
     @GetMapping("/user_profile")
     public String userProfile(
             @RequestParam(value = "section", required = false,defaultValue = "profile") String section,
-            Model model
+            Model model, HttpServletRequest req, HttpServletResponse res
     ) {
         // 將 section 值放入模型中，讓 Thymeleaf 可以使用
         model.addAttribute("section", section);
@@ -81,6 +93,34 @@ public class UserController {
                 // 預設邏輯（如 section 參數為空，同profile）
                 break;
         }
+
+
+        //裝揪團紀錄頁面資訊
+
+        HttpSession session = req.getSession();
+
+        UserVO userVO = (UserVO)session.getAttribute("userAccount");
+        Integer userId = userVO.getUserId();
+
+        session.setAttribute("userId", userId);
+
+        List<MemberVO> listCurrent = memberSv.queryCurrentTeam(userId);
+        List<MemberVO> listHistory = memberSv.queryHistoryTeam(userId);
+        MemberVO yesCount = memberSv.queryPresentYes(userId);
+        MemberVO noCount = memberSv.queryPresentNo(userId);
+        MemberVO countLeaderTimes = memberSv.countLeaderTimes(userId);
+        MemberVO countLeaderNo = memberSv.countLeaderNo(userId);
+
+        req.setAttribute("listCurrent",listCurrent);
+        req.setAttribute("listHistory",listHistory);
+        req.setAttribute("yesCount",yesCount);
+        req.setAttribute("noCount",noCount);
+        req.setAttribute("countLeaderTimes",countLeaderTimes);
+        req.setAttribute("countLeaderNo",countLeaderNo);
+
+
+
+
 
         // 返回視圖名稱
         return "user_profile";

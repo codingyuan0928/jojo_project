@@ -94,11 +94,11 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a th:href="@{/vendors/order_pending}" class="nav-link custom-sidebar-link">
+                            <a th:href="@{/vendors/order_pending}" class="nav-link custom-sidebar-link" data-bs-target="#profileUpdateStaticBackdrop"  data-bs-toggle="modal">
                                 <img th:src="${avatar}" style="width: 30px;height: 30px;border-radius: 180px;margin-right: 10px;border: #0D6EFD solid 0.5px" >編輯資料
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" >
                             <a href="javascript:void(0)" class="nav-link custom-sidebar-link" onclick="vendorLogout()">
                                 <i class="fa-solid fa-right-from-bracket"></i>    登出
                             </a>
@@ -183,7 +183,8 @@
         </main>
     </div>
 </div>
-
+<div th:replace="fragments/profile_update_modal :: profile_update_modal"></div>
+<script th:src="@{/js/common.js}"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 <script>
     function previewImages(imaPre, imaUp){
@@ -232,6 +233,6 @@
         }, false);
     })();
 </script>
-<script th:src="@{/js/common.js}"></script>
+
 </body>
 </html>

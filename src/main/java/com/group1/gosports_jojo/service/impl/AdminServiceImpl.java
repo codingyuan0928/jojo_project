@@ -34,4 +34,8 @@ public class AdminServiceImpl implements AdminService {
         }
     }
 
+    public boolean updateAdminName(String newUsername,Administrator administrator){
+        administrator.setUsername(newUsername);
+        return administratorDAO.update(administrator);
+    }
 }

@@ -28,8 +28,14 @@ public class AdministratorJPADAO implements AdministratorDAO {
     }
 
     @Override
-    public void update(Administrator administrator) {
-        entityManager.merge(administrator);
+    public boolean update(Administrator administrator) {
+        try {
+            entityManager.merge(administrator);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override

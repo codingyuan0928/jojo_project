@@ -11,30 +11,52 @@ function logout() {
             }
         })
         .then(message => {
-            window.alert(message); // 使用後端返回的文字作為提示訊息
-            window.location.href = '/login'; // 可選，登出後導向登入頁面
+            window.alert(message);
+            window.location.href = '/login';
         })
         .catch(err => {
             console.error('登出失敗:', err);
-            window.alert(err.message); // 顯示錯誤訊息
+            window.alert(err.message);
         });
 }
 
 function vendorLogout() {
-    fetch('/vendors/logout', {
+    fetch('/api/vendors/logout', {
         method: 'GET',
         credentials: 'include'
     })
         .then(response => {
             if (response.ok) {
-                return response.text(); // 取得後端回傳的文字
+                return response.text();
             } else {
                 throw new Error('登出失敗，請稍後再試');
             }
         })
         .then(message => {
-            window.alert(message); // 顯示後端回傳的訊息
-            window.location.href = '/login'; // 可選，登出後導向登入頁面
+            window.alert(message);
+            window.location.href = '/login';
+        })
+        .catch(err => {
+            console.error('登出失敗:', err);
+            window.alert(err.message);
+        });
+}
+
+function adminLogout() {
+    fetch('/api/admin/logout', {
+        method: 'GET',
+        credentials: 'include'
+    })
+        .then(response => {
+            if (response.ok) {
+                return response.text();
+            } else {
+                throw new Error('登出失敗，請稍後再試');
+            }
+        })
+        .then(message => {
+            window.alert(message);
+            window.location.href = '/admin/administrator_login';
         })
         .catch(err => {
             console.error('登出失敗:', err);

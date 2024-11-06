@@ -342,7 +342,8 @@
 
             if (response.ok) {
               const data = await response.json();
-              if(data && data.role==="user"){sessionStorage.setItem('userId', data.userId);}
+              if(data && data.role==="user"){
+                sessionStorage.setItem('userId', data.userId);}
               else if(data && data.role==="vendor"){
                 sessionStorage.setItem('vendorId', data.vendorId);
               }
