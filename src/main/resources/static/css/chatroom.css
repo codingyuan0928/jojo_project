@@ -573,9 +573,9 @@ small.text-muted {
     color: #333; /* 文字顏色 */
 }
 /* 定義隱藏類 */
-.d-none {
-    display: none !important;
-}
+/*.d-none {*/
+/*    display: none ;*/
+/*}*/
 
 
 .hide-dot::after {
