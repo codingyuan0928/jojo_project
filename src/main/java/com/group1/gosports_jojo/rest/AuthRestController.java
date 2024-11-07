@@ -52,7 +52,6 @@ public class AuthRestController {
         if (account instanceof UserVO) {
             log.info("一般用戶登入成功");
             UserVO user = (UserVO) account;
-            session.setAttribute("role", "user");
             session.setAttribute("userAccount", user);
 
             String redirectUrl = (String) session.getAttribute("redirectAfterUserLogin");
@@ -212,7 +211,7 @@ public class AuthRestController {
         Integer result = authService.updatePasswordBasedOnRole(newPassword, email);
         switch (result) {
             case 1:
-                return ResponseEntity.status(HttpStatus.OK).body("密碼已更新成功，請重新登入!");
+                return ResponseEntity.status(HttpStatus.OK).body("密碼已更新成功");
             case -1:
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("此信箱尚未註冊");
             case 0:

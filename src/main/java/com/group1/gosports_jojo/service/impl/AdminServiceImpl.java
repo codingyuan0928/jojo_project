@@ -1,5 +1,5 @@
 package com.group1.gosports_jojo.service.impl;
-
+import com.group1.gosports_jojo.security.PasswordUtil;
 import com.group1.gosports_jojo.dao.AdministratorDAO;
 import com.group1.gosports_jojo.dto.AuthLoginRequest;
 import com.group1.gosports_jojo.entity.Administrator;
@@ -17,17 +17,21 @@ public class AdminServiceImpl implements AdminService {
     public static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Autowired
+    private PasswordUtil passwordUtil;
+
+    @Autowired
     private AdministratorDAO administratorDAO;
 
     @Override
     public Administrator login(AuthLoginRequest authLoginRequest) {
         String email = authLoginRequest.getEmail();
+        String password = authLoginRequest.getPassword();
         Administrator administrator = administratorDAO.getByEmail(email);
         if (administrator == null) {
             log.warn("該 email: {} 尚未註冊", email);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "該 email 尚未註冊");
         }
-        if (administrator.getPassword().equals(authLoginRequest.getPassword())) {
+        if (passwordUtil.matches(password, administrator.getPassword())) {
             return administrator;
         } else {
             log.warn("email: {} 的密碼不正確", email);
