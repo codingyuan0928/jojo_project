@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>文章資料修改</title>
+    <!-- favicon -->
+    <link
+            rel="icon"
+            th:href="@{/images/common/favicon.png}"
+            type="image/png"
+    />
+    <!-- bootstrap css -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+            crossorigin="anonymous"
+    />
+    <!-- bootstrap icons -->
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400..900&display=swap"
+            rel="stylesheet"
+    />
+    <link rel="stylesheet" th:href="@{/css/common.css}"/>
+    <style>
+        /* General settings for responsive design */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            text-align: center; /* 保證整體頁面中心對齊 */
+            margin: 0;
+            padding: 0;
+            height: 100vh; /* 確保背景延伸到視窗高度 */
+            background: linear-gradient(#C4E1FF, #FFD9EC, #DFFFDF);
+            background-attachment: fixed; /* 讓背景固定，隨著頁面內容捲動 */
+            overflow: hidden;
+        }
+
+
+        form table {
+            width: 100%;
+            max-width: 600px;
+            background-color: white;
+            margin: 20px auto;
+            border-collapse: collapse;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            text-align: center; /* 表單內容文字置中 */
+        }
+
+        form table th {
+            padding: 10px;
+            text-align: center; /* 確保表格內所有內容置中 */
+            vertical-align: middle;
+        }
+
+        form table td {
+            border-bottom: 1px solid #f2f2f2;
+            padding: 10px;
+            text-align: center; /* 確保表格內所有內容置中 */
+            vertical-align: middle;
+        }
+
+        form input[type="TEXT"] {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            transition: 0.3s;
+        }
+
+        form input[type="TEXT"]:focus {
+            border-color: #6666ff;
+            outline: none;
+        }
+
+
+        input[type="file"] {
+            font-size: 16px;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        /* Button styling */
+        input[type="submit"], select {
+            display: block;
+            width: 100%;
+            max-width: 200px;
+            margin: 20px auto;
+            padding: 10px;
+            background-color: #6666ff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-align: center; /* 按鈕文字置中 */
+        }
+
+        input[type="submit"]:hover {
+            background-color: #3333ff;
+        }
+
+        /* Responsive media queries */
+        @media ( max-width: 768px) {
+            table#table-1, form table {
+                width: 90%;
+            }
+
+            form input[type="submit"] {
+                max-width: 100%;
+            }
+        }
+
+        @media ( max-width: 480px) {
+            table#table-1, form table {
+                width: 100%;
+            }
+
+            form table th, form table td {
+                padding: 5px;
+            }
+
+            input[type="submit"] {
+                padding: 8px;
+            }
+        }
+    </style>
+
+</head>
+<body>
+
+
+<div class="page-container">
+    <!-- 頁首導航欄 -->
+    <header th:replace="fragments/navbar :: navbar"></header>
+
+    <!-- 主頁內容 -->
+    <main class="container my-4 main">
+        <table id="table-1"></table>
+
+        <FORM METHOD="post" th:action="@{/forum_update}" name="form1">
+
+            <table>
+
+                <select  class="mb-3 form-select" id="categorySelect" name="post_category">
+                    <option selected th:text="${postVO.post_category}" th:value="${postVO.post_category}"></option>
+                    <option value="桌球">桌球</option>
+                    <option value="籃球">籃球</option>
+                    <option value="排球">排球</option>
+                    <option value="棒球">棒球</option>
+                    <option value="壘球">壘球</option>
+                    <option value="羽球">羽球</option>
+                    <option value="網球">網球</option>
+                    <option value="足球">足球</option>
+                    <option value="保齡球">保齡球</option>
+                    <option value="壁球">壁球</option>
+                    <option value="撞球">撞球</option>
+                </select> <br>
+
+                <span class="error" id="error0"
+                      th:if="${errorMsgs != null}"
+                      th:utext="${errorMsgs.get('post_category')}"></span>
+
+                <tr>
+                    <td>文章標題</td>
+                    <td><input type="TEXT" name="post_title" th:value="${postVO.post_title}" size="45"/></td>
+
+
+                </tr>
+
+                <tr>
+                    <td>文章內容</td>
+                    <td><textarea name="post_content" th:text="${postVO.post_content}" id="note"
+                                  class="form-control" aria-label="With textarea"> >
+                    </textarea>
+                        <span class="error" id="error1"
+                              th:if="${errorMsgs != null}"
+                              th:utext="${errorMsgs.get('post_title')}"></span>
+<br>
+                        <span class="error" id="error2"
+                              th:if="${errorMsgs != null}"
+                              th:utext="${errorMsgs.get('post_content')}"></span>
+                    </td>
+
+
+                </tr>
+
+                <tr>
+
+            </table>
+            <br>
+
+            <input type="hidden" name="action" value="forum_update">
+            <input type="hidden" name="post_id" th:value="${postVO.post_id}">
+            <input type="hidden" name="post_category" th:value="${postVO.post_category}">
+            <input type="submit" value="送出修改">
+
+            <input type="submit" value="取消修改">
+
+
+        </FORM>
+    </main>
+
+    <!-- 頁尾 -->
+    <footer th:replace="fragments/footer :: footer"></footer>
+</div>
+<script th:src="@{/js/common.js}"></script>
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+        crossorigin="anonymous"
+></script>
+<script>
+    // // 取消按鈕事件
+    // document.querySelector(".btn-cancel").addEventListener("click", function() {
+    //     if (confirm("真要捨棄剛剛寫的？")) {
+    //         window.history.go(-1);
+    //     }
+    // });
+
+    // // 表單提交驗證
+    // document.querySelector("button.btn-edit").addEventListener("click", function(e) {
+    //     e.preventDefault(); // 阻止表單提交
+    //
+    //     const post_category = document.getElementById("post_category").value.trim();
+    //     const post_title = document.getElementById("post_title").value.trim();
+    //     const post_content = document.getElementById("post_content").value.trim();
+    //
+    //     console.log("categorySelect:", categorySelect);
+    //
+    //     if (post_category === "") {
+    //         alert("請選擇文章類別");
+    //         return;
+    //     }
+    //
+    //     if (post_title === "") {
+    //         alert("請填寫文章標題");
+    //         return;
+    //     }
+    //
+    //     if (post_content === "") {
+    //         alert("請填寫文章內容");
+    //         return;
+    //     }
+    //
+    //     // 表單驗證通過，將表單提交
+    //     // 您可以在此處調用 `form.submit()` 或其他提交方法
+    // });
+</script>
+</body>
+</html>
