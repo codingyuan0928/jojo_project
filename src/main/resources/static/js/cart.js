@@ -3,18 +3,24 @@ import {fetchShoppingCartList, updateProductQuantity, deleteProduct,deleteProduc
 const selectAllCheckbox = document.getElementById('select-all');
 const checkboxes = document.querySelectorAll('input[type="checkbox"]');
 
-selectAllCheckbox.addEventListener('change', function() {
-    checkboxes.forEach(checkbox => {
-        checkbox.checked = selectAllCheckbox.checked;
+if (selectAllCheckbox) {
+    selectAllCheckbox.addEventListener('change', function() {
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = selectAllCheckbox.checked;
+        });
+        calculateTotal();  // 全選時重新計算總額
     });
-    calculateTotal();  // 全選時重新計算總額
-});
+}
 
-async function getShoppingCartList(userId) {
+export async function getShoppingCartList(userId) {
     try {
         const data = await fetchShoppingCartList(userId);
 
-        document.getElementById('allSchedule').innerHTML='';
+        const allSchedule = document.getElementById('allSchedule')
+
+        if(allSchedule){
+            allSchedule.innerHTML='';
+        }
 
         const currentDate = new Date();
         // 加上 7 天
@@ -73,7 +79,7 @@ async function getShoppingCartList(userId) {
 
 
 // 增加數量的功能
-function increaseQuantity(button) {
+async function increaseQuantity(button) {
 
     const quantityElement = button.previousElementSibling;
     let quantity = parseInt(quantityElement.textContent);
@@ -81,12 +87,15 @@ function increaseQuantity(button) {
     quantityElement.textContent = quantity;
 
     const productId = button.getAttribute('data-product-id');  // 獲取商品 ID
-    updateProductQuantity(fakUserId, productId, quantity);  // 更新購物車中的商品數量
+    await updateProductQuantity(fakUserId, productId, quantity);  // 更新購物車中的商品數量
     calculateTotal();  // 每次數量變更時重新計算總額
+
+    await getShoppingCartList(fakUserId);
+
 }
 
 // 減少數量的功能
-function decreaseQuantity(button) {
+async function decreaseQuantity(button) {
     const quantityElement = button.nextElementSibling;
     let quantity = parseInt(quantityElement.textContent);
     const productId = button.getAttribute('data-product-id');  // 獲取商品
@@ -95,12 +104,14 @@ function decreaseQuantity(button) {
     if (quantity > 1) {
         quantity--; // 減少數量
         quantityElement.textContent = quantity; // 更新數量顯示
-        updateProductQuantity(fakUserId, productId, quantity);
+        await updateProductQuantity(fakUserId, productId, quantity);
+        await getShoppingCartList(fakUserId);
     } else {
         // 如果商品數量已經是1，提示用戶是否要刪除商品
         if (confirm('商品數量為 1，是否要從購物車中移除？')) {
-            updateProductQuantity(fakUserId, productId, quantity);
+            await updateProductQuantity(fakUserId, productId, quantity);
             removeItem(button); // 呼叫移除商品的函數
+            await getShoppingCartList(fakUserId);
         }
     }
 
@@ -245,11 +256,13 @@ function showSuccessModal(checkoutItems) {
     });
     checkoutModal.show();
 }
-document.getElementById('checkoutModal').addEventListener('hidden.bs.modal', function () {
-    document.querySelectorAll('.modal-backdrop').forEach(backdrop => backdrop.remove());
-});
 
-
+const checkoutModal = document.getElementById('checkoutModal');
+if (checkoutModal) {
+    checkoutModal.addEventListener('hidden.bs.modal', function() {
+        document.querySelectorAll('.modal-backdrop').forEach(backdrop => backdrop.remove());
+    });
+}
 
 let currentStep = 1;
 

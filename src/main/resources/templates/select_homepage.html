@@ -265,9 +265,9 @@
                                     <div class="button-group">
 
                                         <button th:id="${proVO.productId}" class="icon-button">
-                                            <a th:href="@{/shopping_cart}">
+<!--                                            <a th:href="@{/shopping_cart}">-->
                                             <i class="fa fa-shopping-cart icon-size"></i>
-                                            </a>
+<!--                                            </a>-->
                                         </button>
                                     </div>
                                 </div>
@@ -302,7 +302,8 @@
 <!-- 使用模組中的函數 -->
 <script type="module">
     import { addProduct } from './js/cartApi.js';
-    // 確保此腳本在頁面加載後執行
+
+    // 【購物車】確保此腳本在頁面加載後執行
     document.addEventListener("DOMContentLoaded", function () {
         // 選取所有 class 為 'icon-button' 的按鈕 (購物車)
         const buttons = document.querySelectorAll('.icon-button');
@@ -331,7 +332,7 @@
     });
 
 
-    // 確保此腳本在頁面加載後執行
+    // 【直接購買】確保此腳本在頁面加載後執行
     document.addEventListener("DOMContentLoaded", function () {
         // 選取所有 class 為 'btn-primary' 的按鈕
         const buttons = document.querySelectorAll('.btn-primary');
@@ -350,7 +351,7 @@
                     .then(response => {
 
                         // 跳轉到結帳頁面
-                        window.location.href = "/shopping_cart";
+                        window.location.href = "/shoppingcart";
                     })
                     .catch(error => {
                         console.error("Error adding product:", error); // 僅在控制台記錄錯誤

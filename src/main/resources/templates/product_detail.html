@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="zh-Hant">
+
 <head>
     <meta charset="UTF-8">
     <title>運動啾啾_單品頁面</title>
-    <!-- Bootstrap 5 CDN -->
-    <link
-            rel="stylesheet">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <!-- favicon -->
     <link
             rel="icon"
             th:href="@{/images/common/favicon.png}"
             type="image/png"
     />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- bootstrap css -->
     <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
@@ -32,8 +34,111 @@
             rel="stylesheet"
     />
     <link rel="stylesheet" th:href="@{/css/common.css}"/>
-
     <style>
+        /* <!-- 內嵌 CSS --> */
+        /* 搜尋欄與篩選功能對齊 */
+        .form-select,
+        .form-control {
+            height: calc(3.5rem + 2px);
+            /* 設置與篩選選單相等的高度 */
+        }
+
+        /* 圖片大小 */
+        .icon-size {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* 商品圖片調整 */
+        .product-img {
+            object-fit: cover;
+            max-width: 100%;
+        }
+
+        /* 調整按鈕區塊 */
+        .icon-button {
+            background-color: #f8f9fa;
+            /* 灰白底色 */
+            border: none;
+            border-radius: 50%;
+            /* 圓角 */
+            padding: 5px;
+            margin-top: 5px;
+            /* 按鈕上下之間的間距 */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            /* 添加陰影 */
+        }
+
+        /* 調整購物車和最愛按鈕的區塊 */
+        .action-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .product-details {
+            flex-grow: 1;
+        }
+
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            /* 垂直排列按鈕 */
+            align-items: center;
+        }
+
+        /* 商品價格的樣式 */
+        .product-price {
+            color: red;
+            font-weight: bold;
+            font-size: 1.5rem;
+            /* 調整價格的大小 */
+            margin-top: 10px;
+            /* 向下移動價格 */
+        }
+        .productName{
+            color: black;
+        }
+
+        a{
+            text-decoration: none;
+        }
+
+
+        .buy-now {
+            background-color: #28a745;
+            color: white;
+            text-align: center;
+            display: inline-block;
+            padding: 10px 20px;
+            text-decoration: none;
+        }
+
+        /* 調整按鈕樣式 */
+        button {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* 心型圖示樣式 */
+        .heart {
+            font-size: 40px;
+            color: black;
+            transition: all 0.3s ease;
+        }
+
+        /* 空心心型 */
+        .heart.empty::before {
+            content: '♡';
+        }
+
+        /* 實心心型 */
+        .heart.filled::before {
+            content: '♥';
+        }
+
         .ad_product {
             display: flex;
             flex-wrap: nowrap;
@@ -151,17 +256,18 @@
                 }
             }
         }
+
     </style>
 
 </head>
-<body>
 
+
+<body>
 
 <div class="page-container">
     <!-- 頁首導航欄 -->
     <header th:replace="fragments/navbar :: navbar"></header>
 
-    <!--    &lt;!&ndash; 主頁內容 &ndash;&gt;-->
     <main class="container my-4 main">
         <div class="container">
             <div class="product-row my-5 d-flex row">
@@ -207,7 +313,7 @@
                 </div>
                     <!-- 商品資訊區 -->
                     <div class="col-md-6">
-                        <form METHOD="post" th:action="@{/tocart}">
+<!--                        <form METHOD="post" th:action="@{/tocart}">-->
                             <h1 class="product-title" th:text="${proVO.productName}"></h1>
                             <p th:text="${proVO.productContent}"></p>
 
@@ -232,10 +338,10 @@
 
                             <!-- 按鈕區，使用btn-custom-group包裝 -->
                             <div class="btn-custom-group">
-                                <button class="btn btn-dark icon-button" type="submit">加入購物車</button>
-                                <button class="btn btn-dark btn-primary" type="submit">直接購買</button>
+                                <button th:attr="data-id=${proVO.productId}" id="addCart" class="btn btn-dark btn-primary" type="submit">加入購物車</button>
+                                <button th:attr="data-id=${proVO.productId}" id="buyNow" class="btn btn-dark btn-primary" type="submit">直接購買</button>
                             </div>
-                        </form>
+<!--                        </form>-->
                     </div>
 
             </div>
@@ -277,71 +383,69 @@
 </div>
 
 
-<script th:src="@{/js/common.js}"></script>
 <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
         crossorigin="anonymous"
 ></script>
 
-
-
 <script th:src="@{/js/global.js}"></script>
 <!-- 引入模組化的 JavaScript 文件 -->
 <script type="module" th:src="@{/js/cartApi.js}"></script>
+
 <!-- 使用模組中的函數 -->
 <script type="module">
     import { addProduct } from './js/cartApi.js';
 
-    document.addEventListener("DOMContentLoaded", function () {
-        // 選取所有 class 為 'icon-button' 的按鈕 (購物車)
-        const buttons = document.querySelectorAll('.icon-button');
+    // 取得加入購物車按鈕
+    const addCartButton = document.getElementById('addCart');
 
-        // 為每個按鈕添加點擊事件
-        buttons.forEach(button => {
-            button.addEventListener('click', function () {
+    // 監聽按鈕的點擊事件
+    addCartButton.addEventListener('click', async function(event) {
+        // 取得該按鈕的 data-id 值
+        const productId = addCartButton.dataset.id;
+        console.log('產品 ID:', productId); // 顯示產品 ID
 
-        // 從按鈕的 id 取得 productId
-        const productId = button.id;
-        const userId = fakeUserId; // 設定您的 userId
+        // 取得數量選擇的值
+        const quantitySelect = document.getElementById('quantity');
+        const selectedQuantity = quantitySelect.value;
+        console.log('選取的數量:', selectedQuantity); // 顯示選取的數量
 
-        // 取得數量選擇
-        const quantitySelect = document.getElementById("quantity");
+        // 購物人
+        console.log('購物人:',fakUserId)
 
-        // 加入購物車按鈕
-        const addToCartButton = document.getElementById("add-to-cart");
-        addToCartButton.addEventListener("click", function () {
-            const quantity = parseInt(quantitySelect.value); // 取得選擇的數量
-
-            // 呼叫 addProduct 函數
-            addProduct(userId, productId, quantity)
-                .then(response => {
-                    console.log("Product added successfully:", response);
-                    alert("商品已成功加入購物車！");
-                })
-                .catch(error => {
-                    console.error("Error adding product:", error);
-                    alert("加入購物車失敗，請重試。");
-                });
-        });
+        await addProduct(fakUserId,productId,selectedQuantity);
+        alert("商品已成功加入購物車！");
+    });
 
 
-    //     // 直接購買按鈕
-    //     const buyNowButton = document.getElementById("buy-now");
-    //     buyNowButton.addEventListener("click", function () {
-    //         const quantity = parseInt(quantitySelect.value); // 取得選擇的數量
-    //
-    //         // 呼叫 addProduct 函數
-    //         addProduct(userId, productId, quantity)
-    //             .then(response => {
-    //                 // 成功加入購物車後，跳轉到結帳頁面
-    //                 window.location.href = "/checkout";
-    //             })
-    //             .catch(error => {
-    //                 console.error("Error adding product to cart:", error);
-    //             });
-    //     });
-    // });
+    // 取得直接購買按鈕
+    const buyNowButton = document.getElementById('buyNow');
+    // 監聽按鈕的點擊事件
+    buyNowButton.addEventListener('click', async function(event) {
+        // 取得該按鈕的 data-id 值
+        const productId = buyNowButton.dataset.id;
+        console.log('產品 ID:', productId); // 顯示產品 ID
+
+        // 取得數量選擇的值
+        const quantitySelect = document.getElementById('quantity');
+        const selectedQuantity = quantitySelect.value;
+        console.log('選取的數量:', selectedQuantity); // 顯示選取的數量
+
+        // 購物人
+        console.log('購物人:',fakUserId)
+
+        await addProduct(fakUserId,productId,selectedQuantity);
+
+        // 跳轉到購物車頁面
+        window.location.href = `${port}/shoppingcart`;
+    });
+
+
 </script>
+
+
+
+
 </body>
 </html>

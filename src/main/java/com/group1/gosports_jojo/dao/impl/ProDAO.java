@@ -39,7 +39,7 @@ public class ProDAO implements ProDAO_interface {
 
 		//
 		private static final String getAll =
-			"SELECT product_id,vendor_id,product_name,product_content,price,product_spec,stock,created_datetime,removed_datetime,product_status,product_updated_datetime FROM products";
+			"SELECT product_id,vendor_id,product_name,product_content,price,product_spec,stock,created_datetime,removed_datetime,product_status,product_updated_datetime FROM products WHERE product_status = 1";
 
 		//下拉式選單：熱門推薦
 		private static final String getPopular =

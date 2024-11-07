@@ -12,16 +12,11 @@ import {addChatroom} from "./chatApi.js";
  */
 export async function chatWithFriend(friendId){
     isPrivateChate = true;
-    console.log("切換到私聊: ", isPrivateChate);
-
     const privateChatTab = document.querySelector("#private-chat-tab");
 
     // 使用 Bootstrap 的 Tab API 切換到 "邀請" tab
     const tab = new bootstrap.Tab(privateChatTab);
     tab.show(); // 顯示目標 tab
-
-
-
 
     let newActiveItem = document.querySelector(`[data-friend-id="${friendId}"]`);
     if (newActiveItem) {

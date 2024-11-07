@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>新增文章 - addPost.jsp</title>
+    <!-- favicon -->
+    <link
+            rel="icon"
+            th:href="@{/images/common/favicon.png}"
+            type="image/png"
+    />
+    <!-- bootstrap css -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+            crossorigin="anonymous"
+    />
+    <!-- bootstrap icons -->
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400..900&display=swap"
+            rel="stylesheet"
+    />
+    <link rel="stylesheet" th:href="@{/css/common.css}"/>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh; /* 確保背景延伸到視窗高度 */
+            background: linear-gradient(#C4E1FF, #FFD9EC, #DFFFDF);
+            background-attachment: fixed; /* 讓背景固定，隨著頁面內容捲動 */
+            overflow: hidden;
+        }
+
+
+        #main {
+            background-color: white;
+            margin: 0 auto;
+            padding: 2%;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+        }
+
+        h3 {
+            font-size: 24px;
+            color: #333;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+        }
+
+        td {
+            padding: 10px;
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 0px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        select {
+            margin-bottom: 10px;
+        }
+
+        input[type="file"] {
+            font-size: 16px;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        .forum-button {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .forum-button button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .forum-button-cancel {
+            background-color: #ccc;
+            color: white;
+        }
+
+        .forum-button-submit {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .forum-button-cancel:hover {
+            background-color: #999;
+        }
+
+        .forum-button-submit:hover {
+            background-color: #45a049;
+        }
+
+
+        .error {
+            /* border: 1px solid blue; */
+            color: red;
+            font-size: 12px;
+            margin-bottom: 20px;
+
+        }
+
+        /* 圖片預覽區塊樣式 */
+        .image-preview-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .image-preview-container img {
+            max-width: 120px;
+            max-height: 120px;
+            margin: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            object-fit: cover;
+            transition: transform 0.2s ease;
+        }
+
+        .image-preview-container img:hover {
+            transform: scale(1.1);
+        }
+
+        /* 針對平板裝置的樣式調整 */
+        @media ( max-width: 768px) {
+            #main {
+                padding: 10px;
+            }
+
+            input[type="text"], select {
+                font-size: 14px;
+            }
+
+            .forum-button button {
+                font-size: 14px;
+                padding: 8px 15px;
+            }
+
+            .image-preview-container img {
+                max-width: 100px;
+                max-height: 100px;
+            }
+
+            h3 {
+                font-size: 22px;
+            }
+        }
+
+        /* 針對手機的響應式設計 */
+        @media ( max-width: 480px) {
+            #main {
+                padding: 5%;
+                box-shadow: none;
+            }
+
+            h3 {
+                font-size: 20px;
+            }
+
+            input[type="text"], select {
+                font-size: 13px;
+            }
+
+            .forum-button button {
+                font-size: 13px;
+                padding: 6px 12px;
+            }
+
+            .image-preview-container img {
+                max-width: 80px;
+                max-height: 80px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+
+<div class="page-container">
+    <!-- 頁首導航欄 -->
+    <header th:replace="fragments/navbar :: navbar"></header>
+
+    <!-- 主頁內容 -->
+    <main class="container my-4 main">
+
+
+        <FORM METHOD="post" th:action="@{/insert_post}" style="margin-bottom: 0px;" id="forumForm">
+
+            <p id="main" style="padding: 5%">
+
+                <select class="mb-3 form-select" id="categorySelect"
+                        name="post_category">
+                    <option selected th:value="${param.post_category}">話題類別</option>
+                    <option value="桌球">桌球</option>
+                    <option value="籃球">籃球</option>
+                    <option value="排球">排球</option>
+                    <option value="棒球">棒球</option>
+                    <option value="壘球">壘球</option>
+                    <option value="羽球">羽球</option>
+                    <option value="網球">網球</option>
+                    <option value="足球">足球</option>
+                    <option value="保齡球">保齡球</option>
+                    <option value="壁球">壁球</option>
+                    <option value="撞球">撞球</option>
+                </select>
+
+                <span class="error" id="error0"
+                      th:if="${errorMsgs != null}"
+                      th:utext="${errorMsgs.get('post_category')}"></span>
+                <br>
+
+                <tr>
+                    <td>文章標題</td>
+                    <td><input type="TEXT" name="post_title" th:value="${param.post_title}" size="45" id="topicInput"/>
+                    </td>
+                </tr>
+
+                <span class="error" id="error1"
+                      th:if="${errorMsgs != null}"
+                      th:utext="${errorMsgs.get('post_title')}">
+            </span>
+
+                <br>
+
+                <tr>
+                    <td>文章內容</td>
+                    <td><input type="TEXT" name="post_content" th:value="${param.post_content}" size="45"
+                               id="contentTextarea"/></td>
+                </tr>
+
+
+                <span class="error" id="error2"
+                      th:if="${errorMsgs != null}"
+                      th:utext="${errorMsgs.get('post_content')}">
+            </span>
+
+            <div class="forum-button">
+
+
+                <button type="submit" class="btn btn-primary"
+                        data-id="${article.id}">送出文章
+                </button>
+                <input type="hidden" name="post_id" th:value="${param.post_id}">
+                <button type="button" class="btn btn-danger" data-id="${article.id}">取消</button>
+
+            </div>
+            </p>
+        </FORM>
+
+
+        <script>
+            // 取消按鈕事件
+            document.querySelector(".btn-danger").addEventListener("click", function () {
+                if (confirm("真要放棄嗎？ QwQ")) {
+                    window.history.go(-1);
+                }
+            })
+
+
+        </script>
+
+
+    </main>
+
+    <!-- 頁尾 -->
+    <footer th:replace="fragments/footer :: footer"></footer>
+</div>
+
+
+<script th:src="@{/js/common.js}"></script>
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+        crossorigin="anonymous"
+></script>
+</body>
+</html>

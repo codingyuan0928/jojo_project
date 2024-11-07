@@ -1,0 +1,390 @@
+
+<!DOCTYPE html>
+
+
+
+
+
+
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-Hant">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Bootstrap CSS -->
+<!--   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" -->
+<!--     integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous"> -->
+
+  <title>group_find_all</title>
+
+
+
+
+
+
+
+<!-- favicon -->
+    <link
+            rel="icon"
+            th:href="@{/images/common/favicon.png}"
+            type="image/png"
+    />
+    <!-- bootstrap css -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+            crossorigin="anonymous"
+    />
+    <!-- bootstrap icons -->
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400..900&display=swap"
+            rel="stylesheet"
+    />
+    <link rel="stylesheet" th:href="@{/css/common.css}"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <style>
+
+    *{
+      box-sizing:border-box;
+    }
+    .form-select{
+      display: inline-block;
+      /* border: 1px solid brown; */
+    }
+
+    .fake-header{
+      /* display: inline-block; */
+/*        border: 1px solid rgb(24, 22, 20);  */
+      margin: 1%;
+      position: sticky;
+      top: 0;
+      background-color: white;
+    }
+
+    /* .group_yes_no_button{
+         display: inline-block;
+      width: 35%;
+      margin-right: 0;
+      border: 1px solid rgb(0, 0, 0);
+ 
+    } */
+
+    .qurey_btn{
+     display: inline-block;
+      width:18%
+    }
+
+    .open_group_btn{
+      display: inline-block; 
+      margin-right: 0;
+      width:18%;
+    }
+
+   
+    .group_title_list_big_scope {
+      border-bottom: 1px solid black;
+      margin: 2%;
+      background-color: rgb(209, 255, 255);      
+    
+      /* width: 49%; */
+     
+    }
+
+    .group_list_big_scope
+    {
+      border: 1px solid gray;
+      margin: 2%;
+      background-color:rgb(218, 255, 243);
+    cursor: pointer;
+      /* width: 49%; */
+     
+    }
+    
+    .input-group{
+    width: 66.2%;	
+    border-radius:50px;
+    margin:1%
+    
+    }
+    
+    .error{
+    color:red;
+    }
+
+    .group_list_left_up{
+      /* border: 1px solid rgb(236, 67, 67); */
+      width: 49%;
+      display: inline-block;
+     
+    }
+    .group_list_right_bottom{
+      /* border: 1px solid rgb(95, 67, 236); */
+      width: 49%;
+      display: inline-block;
+     
+    }
+    .item{
+      /* border: 1px solid green; */
+      display: inline-block;
+      width: 31.5%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    } 
+    .item2{
+      /* border: 1px solid rgb(195, 76, 29); */
+      display: inline-block;
+      width: 31.5%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    } 
+
+    div.listEmpty{
+    font-size: 30px;
+    }
+    
+    /* 使用 RWD */
+    @media (max-width: 900.98px){
+      .group_title_list_big_scope{
+   display: none;
+    }
+      .group_list_left_up{
+        /* padding: 4%; */
+        display: block;
+      width: 100%;
+      /* border: 2px solid rgb(255, 0, 0); */
+    }
+
+    .group_list_right_bottom{
+      /* border: 1px solid rgb(95, 67, 236); */
+      width: 100%;
+      display: block;
+     
+    }
+    .item11, .item12{
+      /* border: 1px solid rgb(195, 76, 29); */
+      display: inline-block;
+      width: 23.5%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    } 
+
+    .item13{
+      /* border: 1px solid rgb(195, 76, 29); */
+      display: inline-block;
+      width: 47%; 
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    } 
+    
+
+}
+
+
+  </style>
+
+
+</head>
+
+<body>
+
+<div class="page-container">
+    <!-- 頁首導航欄 -->
+    <header th:replace="fragments/navbar :: navbar"></header>
+
+    <!-- 主頁內容 -->
+    <main class="container my-4 main">
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<form method="post" th:action="@{getCitySport}" >
+						
+  <div class="fake-header">
+    <!-- <div> -->
+     
+     
+      <select name="cityType" class="form-select" aria-label="Default select example"  style="width:30%;">
+		<option th:each="cityVO : ${listCity}" 
+		th:value="${cityVO.cityType}"
+		 th:text="${cityVO.cityType}"  
+		 th:selected="${cityVO.cityType == selectedCityType}">
+      </select>
+ 
+     
+      <select name="groupType" class="form-select" aria-label="Default select example" style="width: 30%;">
+		<option th:each="sportVO : ${listSport}" 
+		th:value="${sportVO.sportType}" 
+		th:text="${sportVO.sportType}"
+		th:selected="${sportVO.sportType == selectedGroupType}">
+      </select>
+
+      <div class="qurey_btn"  >
+        <button type="submit" class="btn btn-success" >查詢揪團</button>
+<!--         <input type="hidden" name="action" value="getCitySport"> -->
+      </div>
+     
+     
+     
+      <div class="open_group_btn">
+        <button type="button" class="btn btn-primary btn-lg"  >我要揪團</button>
+       
+      </div>
+    </div>
+     </form>
+    
+    <form method="post" th:action="@{serchGroupName}" >
+     <div class="input-group mb-3"> 
+  <input type="text"  name="serchGroupName" th:value="${serchGroupName}"
+  class="form-control" placeholder="請填入要查詢的團名" aria-label="Recipient's username" aria-describedby="button-addon2">
+  <button class="btn btn-outline-secondary" type="submit" id="button-addon2">查詢團名</button>
+<!--     <input type="hidden" name="action" value="serchGroupName"> -->
+   
+   
+  
+
+    <p th:if="${errorMsgs != null}">
+    <span class="error" th:utext="${errorMsgs.get('serchGroupName_1')}"></span>
+   
+     <span class="error" th:utext="${errorMsgs.get('serchGroupName_2')}"></span>
+     
+     </p>
+	
+	
+	
+</div>
+         </form>
+     
+<!--     <br> -->
+
+<!-- 資料名的最外層表格 -->
+    <div class="group_title_list_big_scope">
+
+        <div class="group_list_left_up">
+          <div class="item" >團名</div>
+          <div class="item" >開打時間</div>
+          <div class="item" >地點</div>
+          
+        </div>
+
+        <div class="group_list_right_bottom">
+          <div class="item2" >揪團人數</div>
+          <!-- <div class="item2">截止時間</div> -->
+          <div class="item2">狀態</div>
+          <div class="item2">參團種類</div>
+
+        </div>
+
+    </div>
+
+    <!-- 揪團列表最外層表格範例1-->
+  
+<!-- {  -->
+<!-- 	count: ${gStat.count}, -->
+<!-- 	groupId: ${groupVO.groupId} -->
+<!-- } -->
+<!--     <div th:each="groupVO : ${listGroup}" th:class="group_list_big_scope group_list_big_scope${groupVOStat.count}"> -->
+    <div th:each="groupVO, gStat: ${listGroup}"
+    	th:class="'group_list_big_scope group_list_big_scope' + ${gStat.count}"
+   		th:onclick="handleClick({ groupId: [[${groupVO.groupId}]] });">
+   		
+      <div class="group_list_left_up">
+        <div class="item item11" th:text="${groupVO.groupName}"></div>
+        <div class="item item12" th:text="${#dates.format(groupVO.groupPlayingDatetime , 'yyyy-MM-dd hh:mm')}"></div>
+        <div class="item item13" th:text="${groupVO.groupAddress}"></div>
+        
+      </div>
+
+      <div class="group_list_right_bottom">
+        <div class="item2 item11" th:text="${groupVO.groupPrimaryMember}+ '人'" > </div>
+        <!-- <div class="item2">截止時間：2024/11/21</div> -->
+        <div class="item2 item12" id="item_1" th:text="${groupVO.groupStatusDesc}"></div>
+        <div class="item2 item13" id="item_2" th:text="${groupVO.groupType} + ${groupVO.groupId}"></div>
+
+      </div>
+      
+      <input type="hidden" name="groupId" id="groupId${s.count}" value="${groupVO.groupId}" >
+       <input type="hidden" name="action" value="choose_group">
+  
+  </div>
+  
+     <div class="listEmpty" th:if="${listGroup.isEmpty()}" th:text="'&nbsp&nbsp&nbsp&nbsp&nbsp找不到揪團 &#128517'"></div>
+
+<!-- // url 偷渡參數 --> 
+<!-- ?section=[[${errorMsgs}]] --> 
+  
+
+
+
+
+
+<!--   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" -->
+<!--     integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" -->
+<!--     crossorigin="anonymous"></script> -->
+
+
+<script  th:src="@{/js/common.js}"></script>
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+        crossorigin="anonymous"
+></script>
+
+
+
+	
+
+
+ </main>
+
+    <!-- 頁尾 -->
+    <footer th:replace="fragments/footer :: footer"></footer>
+</div>
+
+ <script th:inline="javascript">
+ 
+  $(".open_group_btn").on("click",function(){
+
+        window.location=/*[[@{/group_form}]]*/'';
+       
+       
+//        /*[[${'/nextPage'}]]*/
+//        /*[[@{/users/login}]]*/''
+       
+    });
+  
+  
+const path = [[@{/group_join}]];
+
+const handleClick = (param) => {
+	window.location=`${path}/?groupId=${param.groupId}`;
+}
+
+ 
+ </script> 
+</body>
+
+</html>

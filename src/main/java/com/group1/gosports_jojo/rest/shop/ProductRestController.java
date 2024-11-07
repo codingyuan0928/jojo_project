@@ -51,7 +51,7 @@ public class ProductRestController {
 
     @GetMapping("/shopping_cart")
     public String shoppingCart() {
-        return "shoppingcart";
+        return "_shoppingcart";
     }
 
 

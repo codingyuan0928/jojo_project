@@ -1,0 +1,373 @@
+
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-Hant">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <!-- Bootstrap CSS -->
+<!--   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" -->
+<!--     integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous"> -->
+    <title>Group_form_update</title>
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+<!-- favicon -->
+    <link
+            rel="icon"
+            th:href="@{/images/common/favicon.png}"
+            type="image/png"
+    />
+    <!-- bootstrap css -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+            crossorigin="anonymous"
+    />
+    <!-- bootstrap icons -->
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400..900&display=swap"
+            rel="stylesheet"
+    />
+    <link rel="stylesheet" th:href="@{/css/common.css}"/>
+
+
+    
+ <style>
+    
+    #note{
+   word-break: break-all;
+   }
+    
+    .group-title {
+      font-size: 50px;
+    }
+
+    .group-dropdown-inlineblock {
+      display: inline-block;
+
+    }
+
+    /* 此class是將畫面分成兩邊的div */
+    .left_right_div {
+      padding: 4%;
+      display: inline-block;
+      width: 49%;
+      /* border: 2px solid blue; */
+     vertical-align: top;
+     
+    }
+
+    @media (max-width: 999.98px){
+      .left_right_div {
+        padding: 4%;
+        display: block;
+      width: 100%;
+      /* border: 2px solid rgb(255, 0, 0); */
+      
+    }
+}
+
+    .image_put_upload_status{
+/*        border: 2px solid gray;  */
+      width: 100%;
+       height: 385px; 
+       background-color: rgba(211, 211, 211, 0.233);
+/*       overflow: hidden; */
+    }
+
+    img {   
+     max-width: 100%;
+      max-height: 100%;
+    }
+
+    label {
+      display: block;
+      font:
+        1rem 'Fira Sans',
+        sans-serif;
+    }
+
+    /* input,
+    label {
+      /* margin: 0.4rem 0!important; */
+     
+
+
+    .group_yes_no_button{
+      display: flex;
+      max-width: 100%;
+      justify-content: center;
+     
+      /* position: relative; */
+      
+      /* transform: translateX(25%); */
+      /* bottom: 10px; */
+    }
+    
+    button {
+      margin: 1rem
+        /* width: 20%;
+      margin-right: 10%;
+      margin-top: 2%; */
+    }
+    
+  .error{color:red;
+    }
+
+
+  </style>
+
+</head>
+
+<body>
+
+
+<div class="page-container">
+    <!-- 頁首導航欄 -->
+    <header th:replace="fragments/navbar :: navbar"></header>
+
+    <!-- 主頁內容 -->
+    <main class="container my-4 main">
+
+
+
+
+<FORM METHOD="post"  th:action="@{/update_group}"  name="form1" enctype="multipart/form-data">
+
+
+
+  <!-- 分左右的div標籤 -->
+  <div class="left_right_div">
+    <!-- 將 class 增加group-title , 並將文字大小修改成 50px -->
+    <label  class="form-label group-title">編輯揪團</label>
+    <div class="input-group mb-4">
+      <span class="input-group-text" id="basic-addon1">團名</span>
+      <input type="text"  th:value="${groupVO.groupName}" name="groupName"  placeholder="取個團名"  
+      class="form-control" aria-label="Username" aria-describedby="basic-addon1"/>
+    
+    <p class="error" th:if="${errorMsgs != null}">
+    <span class="error" th:utext="${errorMsgs.get('groupName')}"></span>
+     </p>
+    </div>
+
+ 
+    <!--下拉選單  -->
+ 
+      
+      
+    <select disabled name="groupType"  class="form-select" th:value="${groupVO.groupType}" aria-label="Default select example">
+				<option th:value="${groupVO.groupType}" th:text="${groupVO.groupType}">
+    </select>
+    <br>
+ 
+ 
+ 
+    <select disabled name="cityType" class="form-select" th:value="${groupVO.groupCity}" aria-label="Default select example">
+				<option th:value="${groupVO.groupCity}"  th:text="${groupVO.groupCity}" >
+    </select>
+    <br>
+
+
+
+
+    <div class="input-group mb-4">
+      <span class="input-group-text" id="basic-addon1">地址</span>
+      <input type="text" name="groupAddress" th:value="${groupVO.groupAddress}"   placeholder="請輸入場館或地址" 
+       class="form-control"  aria-label="Username" aria-describedby="basic-addon1">
+         <p class="error" th:if="${errorMsgs != null}">
+    <span class="error" th:text="${errorMsgs.get('groupAddress')}"></span>
+     </p>
+    </div>
+    
+    
+
+    <div class="input-group mb-4">
+      <span class="input-group-text" id="basic-addon1">揪團人數</span>
+      <input type="text" name="groupPrimaryMember" th:value="${groupVO.groupPrimaryMember}"  placeholder="請輸入數字" 
+     class="form-control"   aria-label="Username" aria-describedby="basic-addon1">
+     <p class="error" th:if="${errorMsgs != null}">
+    <span class="error" th:utext="${errorMsgs.get('groupPrimaryMember')}"></span>
+     </p>
+    </div>
+
+<!--     <div class="input-group mb-4"> -->
+<!--       <span class="input-group-text" id="basic-addon1">備取人數</span> -->
+<!-- <%--       <input type="text" name="secondaryMember" value="${param.secondaryMember}" placeholder="請輸入數字"  --%> -->
+<!--       class="form-control"  aria-label="Username" aria-describedby="basic-addon1"> -->
+<!-- <%--       <P>${errorMsgs.secondaryMember}</P> --%> -->
+<!--     </div> -->
+    
+    
+    <div class="mb-3">
+    截止時間：
+     <input name="groupJoinDeadline" th:value="${groupJoinDeadline}" id="date2" type="datetime-local" >
+    </div>
+    
+<div class="mb-3">    開打時間：
+    <input name="groupPlayingDatetime" th:value="${groupPlayingDatetime}" id="date1" type="datetime-local" >
+    <p class="error" th:if="${errorMsgs != null}">
+    <span class="error" th:utext="${errorMsgs.get('groupJoinDeadline')}"></span>
+     </p>
+  </div>
+
+   
+
+
+  </div>
+
+
+  <!-- 分左右的div標籤 -->
+  <div class="left_right_div" >
+
+
+    <!-- <label for="meeting-time">開團時間：</label> -->
+    
+    <div class="input-group mb-3">
+      <span class="input-group-text">備註</span>
+       
+        <textarea  name="groupNote" th:text="${groupVO.groupNote}" id="note" style="resize:none;"
+       class="form-control" aria-label="With textarea">
+       </textarea>
+       
+<!-- <%--          <textarea  name="groupNote" value="${param.groupNote}"  --%> -->
+<!--        class="form-control" aria-label="With textarea"></textarea> -->
+    </div>
+     <p class="error" th:if="${errorMsgs != null}">
+    <span class="error" th:utext="${errorMsgs.get('groupNote')}"></span>
+     </p>
+    
+    
+    <div>
+      <label for="groupPic"  class="form-label">上傳照片</label>
+      <input name="groupPic" value="${groupVO.groupPic}" 
+      class="form-control form-control-lg" id="groupPic" type="file" accept="image/*" multiple="multiple">
+    </div>
+    <p class="error" th:if="${errorMsgs != null}">
+    <span class="error" th:utext="${errorMsgs.get('groupPic')}"></span>
+     </p>
+    
+    
+    <div  id="preview" class="image_put_upload_status">
+<!-- <img src="<%=request.getContextPath()%>/group/DBGifReader?groupId=${param.groupId}" > -->
+<img th:src="@{/get_group_photo} + '?groupId=' + ${groupVO.groupId}" >
+    </div>
+      </div>
+
+
+    <div class="group_yes_no_button">
+    <button type="button" class="btn btn-secondary">取消</button>
+    <button type="submit" class="btn btn-primary">送出</button>
+    </div>
+
+ <input type="hidden" name="groupId" th:value="${param.groupId}" >
+
+<input type="hidden" name="action" value="update_group">
+
+
+</FORM>
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+<script>
+  
+          var preview_el = document.getElementById("preview");
+        var the_file_el = document.getElementById("groupPic");
+
+        // =========================== 透過 File 取得預覽圖 ========================= //
+        var preview_img = function (file) {
+            //console.log(file);
+
+            var reader = new FileReader(); // 用來讀取檔案
+            reader.readAsDataURL(file); // 讀取檔案
+            reader.addEventListener("load", function () {
+                //console.log(reader.result);
+                let img_str = `<img src="${reader.result}" class="preview_img">`;
+                preview_el.innerHTML = img_str;
+            });
+        };
+
+        preview_el.addEventListener("click", function () {
+        	the_file_el.click();
+        });
+
+        the_file_el.addEventListener("change", function (e) {
+             console.log( this.files );
+            if (this.files.length > 0) {
+                preview_img(this.files[0]);
+            } else {
+                preview_el.innerHTML = '<span class="text">預覽圖</span>';
+            }
+        });
+
+
+
+
+
+        $(".btn-secondary").on("click",function(){
+            let r = confirm("真要捨棄剛剛寫的？");
+            if(r==true){
+              window.location="/group_find_all";
+            }
+          });
+
+
+ 
+
+    
+
+  </script>
+  
+
+ </main>
+
+    <!-- 頁尾 -->
+    <footer th:replace="fragments/footer :: footer"></footer>
+</div>
+
+<script  th:src="@{/js/common.js}"></script>
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+        crossorigin="anonymous"
+></script>
+
+
+
+
+</body>
+
+
+
+
+</html>

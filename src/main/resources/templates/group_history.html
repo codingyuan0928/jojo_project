@@ -1,0 +1,589 @@
+
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-Hant">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+<!--   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" -->
+<!--     integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous"> -->
+    <title>Group_history</title>
+    
+     
+
+
+<!-- favicon -->
+    <link
+            rel="icon"
+            th:href="@{/images/common/favicon.png}"
+            type="image/png"
+    />
+    <!-- bootstrap css -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+            crossorigin="anonymous"
+    />
+    <!-- bootstrap icons -->
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400..900&display=swap"
+            rel="stylesheet"
+    />
+    <link rel="stylesheet" th:href="@{/css/common.css}"/>
+ 
+    
+  <style>
+        *{
+            box-sizing: border-box;
+        }
+
+        .fake-header-rate{
+            /* display: inline-block; */
+            /* border: 1px solid red; */
+            /* margin-left: 10%;
+            margin-right: 10%; */
+            width:100%;
+            padding-left: 5%;
+            padding-right: 5%;
+            min-width: 414px;
+
+            display: flex;
+            justify-content: center;
+      
+
+        }
+        /* .card text-dark bg-light mb-3{
+            display: inline-block;
+        } */
+        .card-div{
+            display: inline-block;
+
+            /* border: 1px solid blue; */
+            width: 30%;
+            min-width: 120px;
+            margin: 1px;
+        }
+
+
+
+
+
+        /* 頁籤區塊 */
+      div.tab_container div.tab_list_block{
+        padding-left: 20px;
+        position: relative;
+        z-index: 2;
+      }
+      
+      /* 頁籤列表 */
+      div.tab_container div.tab_list_block ul.tab_list{
+        list-style: none;
+        display: inline-block;
+        margin: 0;
+        padding: 0;
+      }
+      div.tab_container div.tab_list_block ul.tab_list > li{
+        display: inline-block;
+      }
+      div.tab_container div.tab_list_block ul.tab_list > li > a{
+        text-decoration: none;
+        display: inline-block;
+        /* border-top: 1px solid #ccc; */
+        /* border-right: 1px solid #ccc; */
+        /* border-left: 1px solid #ccc; */
+        
+        /* border-bottom: 1px solid black; */
+        padding: 2px 20px;
+        border-radius: 5px 5px 0 0;
+        cursor: pointer;
+        color: #ccc;
+      }
+      
+      /* 畫出底部黑線 */
+      
+      div.tab_container div.tab_list_block ul.tab_list > li > a.-on{
+        /* border-top: 1px solid black; */
+        /* border-right: 1px solid black; */
+        /* border-left: 1px solid black; */
+        border-bottom: 3px solid white;
+        color: black;
+      }
+      
+      /* 頁籤內容區塊 */
+      div.tab_container div.tab_contents{
+        border: 1px solid rgb(135, 135, 135);
+        position: relative;
+        top: -1px;
+        margin-left: 1%;
+        margin-right: 1%;
+        border-radius: 10px;
+        z-index: 1;
+       
+      }
+      div.tab_container div.tab_contents div.tab{
+        padding: 10px;
+        display: none;
+      }
+      div.tab_container div.tab_contents div.tab.-on{
+        display: block;
+      }
+
+/* 	調整頁籤內容顯示高度 */
+	.tab_contents
+	{ overflow-y:scroll;
+		height:40vh;
+		  border: 1px solid red;
+	}
+
+
+
+
+
+
+      .group_list_big_scope
+    {
+      border: 1px solid black;
+      margin: 2%;
+      background-color:rgb(218, 255, 243);
+      cursor: pointer;
+/*       height:40px; */
+      
+      /* width: 49%; */
+     
+    }
+
+    .group_list_left_up{
+      /* border: 1px solid rgb(236, 67, 67); */
+      width: 48%;
+      
+      display: inline-block;
+      
+     
+    }
+    .group_list_right_bottom{
+      /* border: 1px solid rgb(95, 67, 236); */
+      width: 48%;
+      display: inline-block;
+     
+    }
+
+
+    .item{
+/*        border: 5px solid green;  */
+      display: inline-block;
+       margin-top:1%; 
+       margin-bottom:2%; 
+       vertical-align: middle;
+      /* width: 30%;  */
+    } 
+
+    .item11{
+        width: 30%;
+      	vertical-align: middle;
+        
+    }
+    .item13{
+        width: 45%;
+        vertical-align: middle;
+    }
+
+    .item12{
+        width: 20%;
+        vertical-align: middle;
+    }
+
+
+    .item2{
+      /* border: 1px solid rgb(195, 76, 29); */
+      display: inline-block;
+      width: 100%;
+      vertical-align: middle;
+
+    } 
+    
+
+
+
+
+    /* 使用 RWD */
+    @media (max-width: 990.98px){
+     
+      .group_list_left_up{
+        /* padding: 4%; */
+        display: block;
+      width: 100%;
+      /* border: 2px solid rgb(255, 0, 0); */
+      font-size: 14px;
+    }
+
+    .group_list_right_bottom{
+      /* border: 1px solid rgb(95, 67, 236); */
+      width: 100%;
+      display: block;
+      font-size: 14px;
+    }
+  
+
+}
+
+
+
+
+    </style>
+
+</head>
+
+<body th:fragment="group_history_fra">
+
+    
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<div align="center" th:fragment="group_history_div">
+
+<!-- 三個卡片的 div -->
+<div class="fake-header-rate mt-2" >
+    <!-- 各個卡片div -->
+    <div class="card-div">
+      <div class="card text-dark bg-light mb-3" style="max-width: 12rem;">
+        <div class="card-header" style="text-align: center;" >成團成功率</div>
+        <div class="card-body">
+          <!-- <h5 class="card-title">Light card title</h5> -->
+         
+          <p th:if="${0 != countLeaderTimes.count + countLeaderNo.count}"
+          class="card-text" style="text-align: center;"
+          th:text="${(countLeaderTimes.count*100/(countLeaderNo.count + countLeaderTimes.count))}+ '%'">
+<!--           <fmt:formatNumber type="number" value="${(countLeaderTimes.count/(countLeaderNo.count + countLeaderTimes.count))*100} " maxFractionDigits="0"/>% -->
+          </p>
+          
+<!-- <%--           <p>countLeaderTimes:${countLeaderTimes.count}次  leaderNo:${countLeaderNo.count}</p> --%> -->
+          
+          
+          <p th:if="${0 == countLeaderTimes.count + countLeaderNo.count}"
+          class="card-text" th:text="'無揪團紀錄'" style="text-align: center;"> 
+          </p>
+          
+        </div>
+      </div>
+    </div>
+
+      <!-- 各個卡片div -->
+      <div class="card-div">
+      <div class="card text-dark bg-light mb-3" style="max-width: 12rem;">
+        <div class="card-header" style="text-align: center;">出席率</div>
+        <div class="card-body">
+          <!-- <h5 class="card-title">Light card title</h5> -->
+          
+          <p th:if="${0 != noCount.count + yesCount.count}"
+          class="card-text" style="text-align: center;"
+          th:text="${(yesCount.count*100/(noCount.count + yesCount.count))} + '%'"> 
+          
+<!--           <fmt:formatNumber type="number" value="${(yesCount.count/(noCount.count + yesCount.count))*100} " maxFractionDigits="0"/>% -->
+<!-- <%--            ${(yesCount.count/(noCount.count + yesCount.count))*100}% --%> -->
+           </p>
+           
+           <p th:if="${0 == noCount.count + yesCount.count}"
+           th:text="'無參團紀錄'"
+           class="card-text" style="text-align: center;">  </p>
+         
+           
+        </div>
+      </div>
+      </div>
+
+        <!-- 各個卡片div -->
+    <div class="card-div">
+      <div class="card text-dark bg-light mb-3" style="max-width: 12rem;">
+        <div class="card-header" style="text-align: center;">缺席次數</div>
+        <div class="card-body">
+          <!-- <h5 class="card-title">Light card title</h5> -->
+          <p class="card-text " style="text-align: center;" th:text="${noCount.count}+'次'"> </p>
+
+     
+        </div>
+      </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+    <div class="tab_container">
+
+        <!-- ↓↓↓ 頁籤 ↓↓↓ -->
+          <div class="tab_list_block">
+            <ul class="tab_list">
+    
+              <!-- class加上「-on」，使該標籤內容可以被看到 -->
+              <li><a href="#" data-target="tab1" class="tab -on">目前參團及揪團</a></li>
+              <li><a href="javascript.void(0);" data-target="tab2" class="tab">兩個月內參團及揪團紀錄</a></li>
+              <!-- <li><a href="#" data-target="tab3" class="tab">我發起的話題</a></li> -->
+            </ul>
+          </div>
+    
+    
+        <!-- ↓↓↓ 頁籤裡的內容 ↓↓↓ -->
+          <div class="tab_contents">
+    
+            <!-- class加上「-on」，使該標籤內容可以被看到 -->
+            <!-- ============頁籤一內容======================= -->
+         
+         
+            <div class="tab tab1 -on">
+              
+
+                <div th:each="memberVO1, gStat: ${listCurrent}"
+                 th:class="'group_list_big_scope group_list_big_scope1'+ ${gStat.count}"
+                 th:onclick="ahandleClick({ groupId: [[${memberVO1.groupId}]] });"
+                >
+
+                    <div class="group_list_left_up">
+                      <div class="item item11" th:text="${memberVO1.groupType} + '-' + ${memberVO1.groupName}"></div>
+                      <div class="item item12"  th:text="${memberVO1.memberRole}"></div>
+                      <div class="item item13"  th:text="${#dates.format(memberVO1.groupPlayingDatetime , 'yyyy-MM-dd hh:mm')}"></div>
+                      
+                    </div>
+              
+                    <div class="group_list_right_bottom">
+                      <div class="item2 item14" th:text="'活動地點：'+${memberVO1.groupAddress}+'- groupId:'+ ${memberVO1.groupId}"></div>
+                    </div>
+              
+                </div>
+                
+                  <script th:inline="javascript">
+   
+   
+                  const path1 = [[@{/group_join}]];
+
+                	  const ahandleClick = (param) => {
+                	  	window.location=`${path1}/?groupId=${param.groupId}`;
+                	  }
+                  
+                  
+// 				 $("div.group_list_big_scope1${s.count}").on("click",function(e){
+// 				     window.location='<%=request.getContextPath()%>/group/group.do?action=choose_group&groupId=${memberVO1.groupId}';
+// 				 });
+				 
+				 </script>
+
+            
+            </div>
+    
+    
+
+    
+            <!-- ============頁籤二內容======================= -->
+            <div class="tab tab2">
+                <div th:each="memberVO2, gStat: ${listHistory}"
+                th:class="'group_list_big_scope group_list_big_scope2'+ ${gStat.count}"
+                 th:onclick="bhandleClick({ groupId: [[${memberVO2.groupId}]] });">
+
+                    <div class="group_list_left_up">
+                      <div class="item item11" th:text="${memberVO2.groupType} + '-' + ${memberVO2.groupName}"> </div>
+                     
+                      <div th:if="${'團長' == memberVO2.memberRole}"
+                      class="item item12" th:text="${memberVO2.memberRole}"></div>
+                      
+                      <div th:if= "${'團長' != memberVO2.memberRole && 'YES' == memberVO2.presentLog}"
+                      class="item item12" th:text="'出席'"></div>
+                      
+                      <div th:if= "${'團長' != memberVO2.memberRole && 'NO' == memberVO2.presentLog}"
+                      class="item item12" th:text="'缺席'"></div>
+                     
+                      <div class="item item13" th:text="${#dates.format(memberVO2.groupPlayingDatetime , 'yyyy-MM-dd hh:mm')}"></div>
+                      
+                    </div>
+              
+                    <div class="group_list_right_bottom">
+                      <div class="item2 item14" th:text="'活動地點：'+${memberVO2.groupAddress} + 'groupId:' + ${memberVO2.groupId}"> </div>
+                    </div>
+              
+                </div>
+                
+                  <script th:inline="javascript">
+   
+                  
+                  const path2 = [[@{/group_join_close}]];
+
+                	  const bhandleClick = (param) => {
+                	  	window.location=`${path2}/?groupId=${param.groupId}`;
+                	  }
+                  
+   
+// 				 $("div.group_list_big_scope2${s.count}").on("click",function(e){
+// 				     window.location='<%=request.getContextPath()%>/group/group.do?action=choose_old_group&groupId=${memberVO2.groupId}';
+// 				 });
+				 
+				 </script>
+                
+                
+              
+            </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <!-- ============頁籤三內容,預留======================= -->
+            <!-- <div class="tab tab3">
+              頁籤三的內容<br>
+              內容
+            </div> -->
+          </div>
+    
+        </div>
+    
+    
+    
+    
+    
+        <script>
+    // ↓↓↓ script第二步 ↓↓↓
+          // ↓↓↓↓ 從老師網頁貼來的!!!!! ↓↓↓↓ 
+            function tab_active(){
+              console.log(location);  //觀察location，Location是網址的各部位資訊
+    
+              let target_tab;
+              switch(location.hash){    //
+                case "#tab1":
+                  target_tab = "tab1";
+                  break;
+                case "#tab2":
+                  target_tab = "tab2";
+                  break;
+                case "#tab3":
+                  target_tab = "tab3";
+                  break;
+                default:
+                  target_tab = "tab1";
+              }
+              
+              var all_a_tab = document.querySelectorAll("a.tab");
+              for(let i = 0; i < all_a_tab.length; i++){
+                all_a_tab[i].classList.remove("-on");   //刪除三個a標籤的-on
+              }
+              document.querySelector("a.tab[data-target=" + target_tab + "]").classList.add("-on"); //用data-target決定要幫誰加上-on
+              
+              var all_div = document.querySelectorAll("div.tab");
+              for(let i = 0; i < all_div.length; i++){
+                all_div[i].classList.remove("-on");   //刪除三個a標籤的-on
+              }
+              document.querySelector("div.tab." + target_tab).classList.add("-on"); //幫某a標籤加上-on
+            }
+          // ↑↑↑↑ 從老師網頁貼來的!!!!! ↑↑↑↑
+    // ↑↑↑ script第二步 ↑↑↑
+    
+    
+    // ↓↓↓ script第一步 ↓↓↓
+            // console.log(this);          //此處this指的是「全域物件window」
+    
+            document.addEventListener("DOMContentLoaded",function(){
+    
+    // ↓↓↓ script第四步 ↓↓↓
+              // 第三步：連到外部網站，再按上一頁時，會觸發 DOMContentLoaded 事件，所以再執行：
+            tab_active();
+    // ↑↑↑ script第四步 ↑↑↑
+
+                let all_a = document.querySelectorAll("a.tab");
+                // console.log(all_a);  //NodeList(3) [a.tab.-on, a.tab, a.tab]
+                for(let i = 0 ; i < all_a.length ; i++){
+                    // console.log(i);
+                    all_a[i].addEventListener("click", function(r){
+                    // all_a[i].addEventListener("click", (r) => { //測：改用箭頭函式，不用#175的匿名函式，
+    
+                        console.log(r);
+                        r.preventDefault();     //使用preventDefault把a標籤原本的行為關掉(點擊a標籤，不會跳頁到頁籤二或頁籤三)
+                    
+                        all_a.forEach(function(item, j){
+                          console.log(j);  //不管點頁籤一/二/三，都會印出跑出三個頁籤
+                          item.classList.remove("-on"); //目的：刪掉class的-on
+                        });
+                        // console.log(this);  //當使用#125匿名函式，this用於指物件，此處this指的是「當點擊頁籤一，會出現對應的標籤」；this限用於匿名函式!!!
+                                               //若#175匿名函式改用#176箭頭函式時，此處this指的是「document物件」
+                        // console.log(e.target); //不管使用匿名函式還是箭頭函式，都會出現a標籤!!
+                        this.classList.add("-on");  //點擊後會出現黑線外框
+    
+                        let content_div = this.closest("div.tab_container").querySelectorAll("div.tab");  //使用closet往父層找元素(div標籤，class為tab_container)，再往內層找
+                        //console.log(content_div);
+    
+    
+                        content_div.forEach(function(item,j){
+                          // console.log(item);
+                          item.classList.remove("-on");
+                        })
+    
+    
+                        //使用querySelector找到某個內容的div，替它加上-on
+                        // document.querySelector("div.tab.tab2").classList.add("-on");
+    
+                        //替每個a標籤，加上自訂屬性data-target=1/2/3，改寫上列語法#201如下
+                        document.querySelector("div.tab." + this.getAttribute("data-target")).classList.add("-on");
+    
+                        // 點擊頁籤時，加進瀏覽歷程(點擊頁籤三時，再點上一頁/下一頁，網址會變，但內容不變)，故須搭配「加上自訂函式(在script最上半段)」
+                        history.pushState(null, null, "#" + this.getAttribute("data-target"));
+    
+                      });
+    
+                }
+            });
+    // ↑↑↑ script第一步 ↑↑↑
+    
+    
+    
+    // ↓↓↓ script第三步 ↓↓↓
+            // script最開始的自訂函式之後：popstate 事件觸發，執行 tab_active() 函式
+                window.addEventListener("popstate", function(){
+                  // console.log("ttt");
+                  tab_active();
+                });
+    // ↑↑↑ script第三步 ↑↑↑
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+</div>
+
+</body>
+
+
+
+</html>
