@@ -27,4 +27,5 @@ public interface UserService {
     UserVO findByEmail(String email);
 
     List<UserListDTO> getAllUserDTOs();
+
 }

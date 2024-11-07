@@ -74,6 +74,7 @@ public class UserServiceImpl implements UserService {
         userVO.setNewsletterSubscriptionConsentField(newsletterSubscriptionConsentField);
         userVO.setGroupPoints(groupPoints);
         userVO.setInterestsTag(interestsTag);
+
         dao.update(userVO);
         return userVO;
     }
@@ -156,6 +157,7 @@ public class UserServiceImpl implements UserService {
 
         return userDTOs;
     }
+
 
     private UserListDTO convertToDTO(UserVO userVO) {
         UserListDTO dto = new UserListDTO();
