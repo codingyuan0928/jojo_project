@@ -32,7 +32,7 @@ public class GosportsJojoApplication implements CommandLineRunner {
     public void updatePasswordsForTable(String tableName, String idColumn) {
         Connection con = null;
         PreparedStatement pstmt = null;
-        String url = "jdbc:mysql://localhost:3307/go_sports?serverTimezone=Asia/Taipei";
+        String url = "jdbc:mysql://localhost:3306/go_sports?serverTimezone=Asia/Taipei";
         String userid = "root";
         String passwd = "123456";
         String updatePassword = "UPDATE " + tableName + " SET password = ? WHERE " + idColumn + " = ?";
