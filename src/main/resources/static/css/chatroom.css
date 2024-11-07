@@ -178,7 +178,7 @@
     padding: 20px;            /* 給內容區域添加內邊距 */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 增加輕微陰影提升立體感 */
     color: #333;               /* 使用深色字體保證對比度 */
-    height: 70vh; /* 高度 */
+    height: 53vh; /* 高度 */
     overflow-y: auto;  /* 讓內容超出時出現垂直滾動條 */
 }
 
@@ -553,7 +553,15 @@ small.text-muted {
 }
 
 /* 使 #chatPlaceholder 內的內容垂直和水平居中 */
-#chatPlaceholder {
+#chatPlaceholder{
+    display: flex;
+    flex-direction: column; /* 元素垂直排列 */
+    justify-content: center; /* 垂直居中 */
+    align-items: center; /* 水平居中 */
+    height: 70vh; /* 占滿父容器高度，確保居中對齊有效 */
+}
+
+#chatWindow {
     display: flex;
     flex-direction: column; /* 元素垂直排列 */
     justify-content: center; /* 垂直居中 */
