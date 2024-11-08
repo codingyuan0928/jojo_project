@@ -65,6 +65,85 @@
             border-radius: 5px;
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
         }
+        /* 側邊欄背景設置為黑色 */
+        .custom-sidebar-bg {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 200px;
+            height: 100%;
+            background-color: #333 !important; /* 黑色背景 */
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background-repeat: no-repeat;
+            background-position: center bottom; /* 將 logo 放置在側邊欄底部中央 */
+            background-size: 80px auto; /* 控制 logo 大小，可根據需要調整 */
+        }
+
+
+        /* 側邊欄中的鏈接樣式 */
+        .custom-sidebar-link {
+            color: #FFC107; /* 黃色文字 */
+            font-family: "Noto Sans TC", sans-serif;
+            font-style: normal;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 5px; /* 輕微圓角 */
+            transition: background-color 0.3s; /* 增加懸停時的過渡效果 */
+        }
+
+
+        /* 側邊欄中的圖標樣式 */
+        .custom-sidebar-link i {
+            width: 30px;
+            text-align: center;
+            margin-right: 10px;
+            color: #FFC107; /* 黃色圖標 */
+        }
+
+        /* 側邊欄鏈接的懸停效果 */
+        .custom-sidebar-link:hover {
+            background-color: #444; /* 深灰色懸停背景 */
+            color: #FFF; /* 懸停時文字變為白色 */
+            text-decoration: none;
+        }
+
+        .custom-sidebar-link:hover i {
+            color: #FFF; /* 懸停時圖標變為白色 */
+        }
+        .logo {
+            width: 80px; /* 設置寬度，根據需要調整大小 */
+            height: 80px; /* 設置高度，保持寬高相同 */
+            border-radius: 50%; /* 讓圖片變為圓形 */
+            overflow: hidden; /* 確保圖片內容不會超出圓形範圍 */
+            object-fit: cover; /* 確保圖片充滿圓形，且不變形 */
+            border: 2px solid #FFC107; /* 可選，設置圖片的外邊框顏色 */
+            margin-bottom: 22px !important; /* 如果還需要向上，可以進一步增加負的 margin-bottom */
+        }
+
+        /* 包含 logo 的容器，使其在側邊欄底部 */
+        .sidebar-logo {
+            text-align: center;
+            margin-top: auto; /* 確保 logo 放在側邊欄底部 */
+            padding-bottom: 20px;
+            padding-right: 10px; /* 向右偏移一些距離 */
+        }
+        .custom-sidebar-link {
+            color: #FFC107 !important;
+            font-family: "Noto Sans TC", sans-serif !important;
+            font-style: normal !important;
+            display: flex !important;
+            align-items: center !important;
+            padding: 10px 15px !important;
+            border-radius: 5px !important;
+            transition: background-color 0.3s !important;
+            text-align: left !important;
+            font-size: 14px !important; /* 調整字體大小 */
+            line-height: 1.5 !important; /* 調整行高 */
+        }
     </style>
 </head>
 <body>
@@ -80,7 +159,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a th:href="@{/vendors/add_product}" class="nav-link custom-sidebar-link">
+                            <a href="#" class="nav-link custom-sidebar-link">
                                 <i class="fas fa-upload"></i> 商品上架
                             </a>
                         </li>
@@ -105,6 +184,9 @@
                             </a>
                         </li>
                     </ul>
+                    <div class="sidebar-logo">
+                        <img th:src="@{/images/common/logo.svg}" alt="Logo" class="img-fluid logo">
+                    </div>
                 </aside>
 
 
