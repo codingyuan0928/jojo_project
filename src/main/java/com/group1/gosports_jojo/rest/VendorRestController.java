@@ -116,7 +116,7 @@ public class VendorRestController {
     public ResponseEntity<String> logout(HttpSession session) {
         session.invalidate();
         System.out.println("廠商用戶已登出");
-        return ResponseEntity.status(HttpStatus.OK).body("廠商已成功登出");
+        return ResponseEntity.status(HttpStatus.OK).body("廠商用戶已成功登出");
     }
 
 }

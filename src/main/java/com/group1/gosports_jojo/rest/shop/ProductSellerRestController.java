@@ -47,7 +47,7 @@ public class ProductSellerRestController {
     }
 
     /**
-     * 上架/下架產品
+     * 上架/下架產品   刪除商品(狀態改成2)
      * @param request
      * @return
      */
@@ -55,12 +55,13 @@ public class ProductSellerRestController {
     public ResponseEntity<Map<String, String>> batchChangeStatus(@RequestBody ProductStatusUpdateRequest request) {
         List<Integer> productIds = request.getProductIds();
         Integer status = request.getStatus();
+        Boolean isDelete = request.getIsDelete();
 
-        productService.updateProductsStatus(productIds,status);
+        productService.updateProductsStatus(productIds,status,isDelete);
 
         // 返回 JSON 格式的消息
         Map<String, String> response = new HashMap<>();
-        response.put("message", "下架成功");
+        response.put("message", "成功");
         return ResponseEntity.ok(response);
     }
 
