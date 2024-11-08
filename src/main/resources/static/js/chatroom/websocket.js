@@ -473,5 +473,5 @@ function showBootstrapAlert(message) {
     // 設定 Alert 自動消失（可選）
     setTimeout(() => {
         customAlert.innerHTML = '';
-    }, 5000); // 5秒後自動消失
+    }, 8000); // 8秒後自動消失
 }
