@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Responsive Chat Interface with Collapsible Menu</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>聊天室</title>
+<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">-->
+
 </head>
-<link rel="stylesheet" th:href="@{/css/chatroom.css}">
+
 <!-- favicon -->
 <link
         rel="icon"
@@ -25,9 +26,15 @@
         href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400..900&display=swap"
         rel="stylesheet"
 />
+
+<link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+        crossorigin="anonymous"
+/>
+<link rel="stylesheet" th:href="@{/css/chatroom.css}">
 <link rel="stylesheet" th:href="@{/css/common.css}"/>
-
-
 <body>
 <!--<nav class="navbar navbar-light bg-light">-->
 <!--    <div class="container-fluid">-->
@@ -46,8 +53,8 @@
     <header th:replace="fragments/navbar :: navbar"></header>
 
     <!-- 主頁內容 -->
-<!--    <main class="container my-4 main">-->
-        <div class="container-fluid mt-4 p-3 main-content" style="width: 96vw; margin-left: auto; margin-right: auto;">
+<!--    <main class="container my-4 ">-->
+        <div class="container-fluid my-4 p-3 main-content" style="width: 96vw; margin-left: auto; margin-right: auto;">
             <div class="row">
                 <!-- Left Column - Chat List with Hamburger Menu -->
                 <div class="col-12 col-md-3 p-0">
@@ -174,13 +181,14 @@
                                 </button>
                                 <div id="stickerPanel" class="sticker-panel" style="display: none;">
                                     <!-- 貼圖選擇區 -->
-                                    <img th:src="@{images/chatroom/dog1.png}" class="sticker" alt="sticker1">
-                                    <img th:src="@{images/chatroom/dog2.png}" class="sticker" alt="sticker2">
-                                    <img th:src="@{images/chatroom/dog4.png}" class="sticker" alt="sticker3">
-                                    <img th:src="@{images/chatroom/dog5.png}" class="sticker" alt="sticker3">
-                                    <img th:src="@{images/chatroom/dog6.png}" class="sticker" alt="sticker3">
-                                    <img th:src="@{images/chatroom/dog7.png}" class="sticker" alt="sticker3">
-                                    <img th:src="@{images/chatroom/dog8.png}" class="sticker" alt="sticker3">
+                                    <img th:src="@{images/chatroom/Chima1.png}" class="sticker" alt="sticker1">
+                                    <img th:src="@{images/chatroom/Chima2.png}" class="sticker" alt="sticker2">
+                                    <img th:src="@{images/chatroom/Chima3.png}" class="sticker" alt="sticker3">
+                                    <img th:src="@{images/chatroom/Chima4.png}" class="sticker" alt="sticker4">
+                                    <img th:src="@{images/chatroom/Chima5.png}" class="sticker" alt="sticker5">
+                                    <img th:src="@{images/chatroom/Chima6.png}" class="sticker" alt="sticker6">
+                                    <img th:src="@{images/chatroom/Chima7.png}" class="sticker" alt="sticker7">
+                                    <img th:src="@{images/chatroom/Chima8.png}" class="sticker" alt="sticker8">
                                     <!-- 更多貼圖 -->
                                 </div>
                                 <input type="file" id="fileInput" style="display: none;">
@@ -274,8 +282,12 @@
     <!-- 頁尾 -->
     <footer th:replace="fragments/footer :: footer"></footer>
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+        crossorigin="anonymous"
+></script>
+<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>-->
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.1/dist/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <script th:src="@{/js/chatroom/chatroomGlobals.js}"></script>

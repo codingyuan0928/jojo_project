@@ -3,7 +3,8 @@
          id="profileUpdateStaticBackdrop"
          tabindex="-1"
          aria-labelledby="profileUpdateStaticBackdrop"
-         aria-hidden="true">
+         aria-hidden="true"
+         data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-lg modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
@@ -107,6 +108,16 @@
                             </div>
                         </div>
                         <div class="mb-3 row w-100">
+                            <div style="cursor: pointer; color: black; text-decoration: none; transition: color 0.3s ease, background-color 0.3s ease;"
+                                 onmouseover="this.style.color='#333'; this.style.textDecoration='underline';"
+                                 onmouseout="this.style.color='black'; this.style.textDecoration='none';"
+                                 onmousedown="this.style.color='#666'; this.style.backgroundColor='#f0f0f0';"
+                                 onmouseup="this.style.color='#333'; this.style.backgroundColor='transparent';"
+                                 data-bs-toggle="modal" data-bs-target="#rest_password">
+                                修改密碼連結
+                            </div>
+                        </div>
+                        <div class="mb-3 row w-100">
                             <label class="col-form-label col-2 text-wrap">營業登記文件</label>
                             <input type="file" id="pdfInput" accept="application/pdf" class="mb-2"/>
                             <div class="col-12">
@@ -115,6 +126,7 @@
                                 </object>
                             </div>
                         </div>
+
                     </div>
                 <!--管理員欄位-->
                     <div th:if="${role == 'ADMIN'&& isAuthenticated == true}" class="px-0 w-100 d-flex flex-column align-items-center">
@@ -142,7 +154,16 @@
                                 <input type="email" readonly class="form-control-plaintext ps-2" style="cursor: default" th:value="${email}"/>
                             </div>
                         </div>
-
+                        <div class="mb-3 row w-100" data-bs-dismiss="modal">
+                            <div style="cursor: pointer; color: black; text-decoration: none; transition: color 0.3s ease, background-color 0.3s ease;"
+                                 onmouseover="this.style.color='#333'; this.style.textDecoration='underline';"
+                                 onmouseout="this.style.color='black'; this.style.textDecoration='none';"
+                                 onmousedown="this.style.color='#666'; this.style.backgroundColor='#f0f0f0';"
+                                 onmouseup="this.style.color='#333'; this.style.backgroundColor='transparent';"
+                                 data-bs-toggle="modal" data-bs-target="#rest_password">
+                                修改密碼連結
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">

@@ -23,7 +23,9 @@ public class OrderService{
 	public List<OrderVO> getAll(Integer orderStatus) {
 		return dao.getAll(orderStatus);
 	}
-	
+	public  void UpdateOrder(Integer id,Integer status){
+		dao.update(id,status);
+	}
 //
 //	public OrderVO getOneOrder(Integer orderno) {
 //		return dao.findByPrimaryKey(orderno);

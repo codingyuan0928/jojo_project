@@ -17,20 +17,6 @@ import java.sql.Timestamp;
 @Configuration
 public class RedisConfig {
 
-//    @Bean
-//    public JedisConnectionFactory jedisConnectionFactory() {
-//        JedisPoolConfig poolConfig =new JedisPoolConfig();
-//        poolConfig.setMaxTotal(10);
-//        poolConfig.setMaxIdle(5);
-//        poolConfig.setMinIdle(5);
-//        JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory(poolConfig);
-//        jedisConnectionFactory.setHostName("localhost");
-//        jedisConnectionFactory.setPort(6379);
-//        jedisConnectionFactory.setDatabase(3);
-//        return jedisConnectionFactory;
-//    }
-
-
     @Bean
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
         RedisTemplate<String, Object> template = new RedisTemplate<>();

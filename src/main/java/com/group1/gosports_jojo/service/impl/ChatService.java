@@ -138,35 +138,38 @@ public class ChatService {
 
         // 查找所有 key 包含 例如；"1" 的 chatRoom
         Set<String> chatRoomKeys = redisTemplate.keys("chatRoom:*" + userId + "*");
-
-        if (chatRoomKeys != null) {
-            for (String chatRoomKey : chatRoomKeys) {
-                // 從 Redis 取出聊天室內最後一筆資料
-                PrivateChatMessageDTO lastMessage = (PrivateChatMessageDTO) redisTemplate.opsForList().index(chatRoomKey, -1);
-                Integer senderId = lastMessage.getSenderId();
-                Integer receiverId = lastMessage.getReceiverId();
-                String message = lastMessage.getContent();
-                Timestamp timestamp = lastMessage.getTimestamp();
-
-                // 確認 friendId 與 friend 其他資訊
-                Integer friendId = senderId.equals(userId) ? receiverId : senderId;
-                User referenceById = userRepository.getReferenceById(friendId);
-                String friendName = referenceById.getUsername();
-                Integer unreadMessages = (Integer)redisTemplate.opsForHash().get("unreadMessages:" + chatRoomKey,userId.toString());
-
-
-                PrivateChatListResponse.PrivateChatItem privateChatItem = new PrivateChatListResponse.PrivateChatItem(
-                        friendId,
-                        friendName,
-                        message,
-                        timestamp,
-                        unreadMessages != null ? unreadMessages : 0
-                );
-                result.add(privateChatItem);
-            }
-            // 按時間倒序排序，最近的消息在最前面
-            result.getPrivateChatList().sort(Comparator.comparing(PrivateChatListResponse.PrivateChatItem::getTimestamp).reversed());
+        // 如果沒有找到任何相關的 chatRoomKeys，直接返回空的結果
+        if (chatRoomKeys == null || chatRoomKeys.isEmpty()) {
+            return result; // 返回空的 PrivateChatListResponse
         }
+
+        for (String chatRoomKey : chatRoomKeys) {
+            // 從 Redis 取出聊天室內最後一筆資料
+            PrivateChatMessageDTO lastMessage = (PrivateChatMessageDTO) redisTemplate.opsForList().index(chatRoomKey, -1);
+            Integer senderId = lastMessage.getSenderId();
+            Integer receiverId = lastMessage.getReceiverId();
+            String message = lastMessage.getContent();
+            Timestamp timestamp = lastMessage.getTimestamp();
+
+            // 確認 friendId 與 friend 其他資訊
+            Integer friendId = senderId.equals(userId) ? receiverId : senderId;
+            User referenceById = userRepository.getReferenceById(friendId);
+            String friendName = referenceById.getUsername();
+            Integer unreadMessages = (Integer)redisTemplate.opsForHash().get("unreadMessages:" + chatRoomKey,userId.toString());
+
+
+            PrivateChatListResponse.PrivateChatItem privateChatItem = new PrivateChatListResponse.PrivateChatItem(
+                    friendId,
+                    friendName,
+                    message,
+                    timestamp,
+                    unreadMessages != null ? unreadMessages : 0
+            );
+            result.add(privateChatItem);
+        }
+        // 按時間倒序排序，最近的消息在最前面
+        result.getPrivateChatList().sort(Comparator.comparing(PrivateChatListResponse.PrivateChatItem::getTimestamp).reversed());
+
         return result;
 
     }
@@ -325,6 +328,15 @@ public class ChatService {
     public void addNewChatroom(Integer senderId, Integer receiverId) {
         String room = Math.min(senderId,receiverId) + "." + Math.max(senderId,receiverId);
         String key = "chatRoom:" + room;
+
+        // 檢查 Redis 中的第一條訊息是否為 "開始聊天吧!"
+        PrivateChatMessageDTO firstMessage = (PrivateChatMessageDTO) redisTemplate.opsForList().index(key, 0);
+
+        if (firstMessage != null && "開始聊天吧!".equals(firstMessage.getContent())) {
+            // 第一條訊息已經是 "開始聊天吧!"，直接返回
+            return;
+        }
+
         PrivateChatMessageDTO privateChatMessageDTO = new PrivateChatMessageDTO(
                 senderId,
                 receiverId,

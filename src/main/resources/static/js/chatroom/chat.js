@@ -303,8 +303,7 @@ async function getPrivateChatHistory(userId,friendId){
     deletePrivateUnread(roomId,fakeUserId)
 
     try {
-        const res = await fetchPrivateChatHistory(userId,friendId);
-        console.log('Response:', res);
+        const res = await fetchPrivateChatHistory(fakeUserId,friendId);
         const{chatHistories,friend} = res;
 
         document.getElementById('userInfoHeader-avatar').setAttribute('src', `${port}/friends/users/${friendId}/profile-picture`);

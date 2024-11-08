@@ -101,6 +101,7 @@
                 <label for="exampleInputEmail1" class="form-label"
                   >電子信箱</label
                 >
+                <span id="login-email-error" class="error-message ps-2"></span>
                 <input
                   type="email"
                   class="form-control"
@@ -113,6 +114,7 @@
                 <label for="exampleInputPassword1" class="form-label"
                   >密碼</label
                 >
+                <span id="login-password-error" class="error-message ps-2"></span>
                 <input
                   type="password"
                   class="form-control"
@@ -127,7 +129,8 @@
                   data-bs-target="#staticBackdrop"
                   >會員註冊</a
                 >
-                <a th:href="@{/user_forget_password}" class="px-2 anchor-text"
+                <a href="javascript:void(0)" class="px-2 anchor-text" data-bs-toggle="modal"
+                   data-bs-target="#rest_password"
                   >忘記密碼</a
                 >
               </div>
@@ -282,7 +285,7 @@
       </div>
     </div>
 <div th:replace="fragments/vendor_register_modal :: vendor_register_modal"></div>
-
+<div th:replace ="fragments/reset_password :: reset_password"></div>
 
   <script th:src="@{/js/common.js}"></script>
   <script
@@ -333,7 +336,7 @@
           }
 
           try {
-            const response = await fetch(/*[[@{/auth/login}]]*/'', {
+            const response = await fetch('/auth/login', {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               credentials: "include",
@@ -354,7 +357,17 @@
                 localStorage.removeItem("savedEmail");
               }
               window.location.href = data.redirectUrl;
-            } else if (response.status === 401) {
+            } else if(response.status === 400){
+              document.getElementById("email-validate-icon").innerHTML = '';
+              const errorData = await response.json();
+              for (const [field, message] of Object.entries(errorData)) {
+                const errorElement = document.getElementById(`login-${field}-error`);
+                if (errorElement) {
+                  errorElement.innerText = message;
+                  errorElement.style.color = "red";
+                }
+              }
+            }else if (response.status === 401) {
               alert("登入失敗，請檢查您的帳號或密碼");
             } else if(response.status===404){
               alert("此帳號尚未註冊!!!");
