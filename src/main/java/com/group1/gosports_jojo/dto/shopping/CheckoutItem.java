@@ -12,4 +12,5 @@ public class CheckoutItem {
     private Integer quantity;
     private Integer price;
     private Integer vendorId;
+    private String pickAddress;  // 取貨地址
 }
