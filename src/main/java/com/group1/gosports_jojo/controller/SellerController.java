@@ -73,7 +73,7 @@ public String orderPending(Model model, @RequestParam("id") Integer id
 }
 
 @GetMapping("/order_pending")
-public String orderviews(Model model) {
+public String orderviews(HttpServletRequest req,Model model) {
     List<OrderVO> list = orderSvc.getAll(0); // 呼叫無參數版本的 getAll 方法
     model.addAttribute("list", list);
 
@@ -212,6 +212,15 @@ public String searchPendingOrderTime(HttpServletRequest req, Model model, HttpSe
 
 @GetMapping("/add_product")
     public String addProduct(HttpServletRequest req, Model model, HttpServletResponse res){
+    //書懿新增
+    HttpSession session = req.getSession();
+    Vendor vendor = (Vendor) session.getAttribute("vendorAccount");
+    model.addAttribute("vendorId", vendor.getVendorId());
+    Integer vendorId = vendor.getVendorId();
+
+    model.addAttribute("unreadV", notificationSvc.getCountUnreadNotificationV(vendorId).getCount());
+
+
         return "add_product";
 
     }
