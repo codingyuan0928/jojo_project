@@ -281,7 +281,7 @@
         </div>
 
         <div class="group_join_member_list_left">
-          <div class="item11" th:text="${memberVO.username} + '(ID:' + ${memberVO.userId} + ')'"></div>
+          <div class="item11" th:text="${memberVO.username}"></div>
 
           
           <div class="item12" th:if="${'團長' == memberVO.memberRole}" th:text="'團長'"></div>
@@ -294,7 +294,7 @@
 		
         <div th:class="'group_join_member_right group_join_member_right'+ ${gStat.count}">
 
-            <a  class="btn btn-primary" th:href="@{/chatroom}" >加好友</a>
+            <a  class="btn btn-primary" th:href="@{/chatroom}" >來聊天吧</a>
 <!--            <button type="button" class="btn btn-primary">加好友</button>-->
           
              <input type="hidden" name="primaryMember"  th:value="${groupVO.groupPrimaryMember} " >

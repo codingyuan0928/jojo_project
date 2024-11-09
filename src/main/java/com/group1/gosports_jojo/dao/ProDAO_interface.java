@@ -17,5 +17,25 @@ public interface ProDAO_interface {
           public List<ProVO> getSearchnam(String productName);
           public List<ProVO> getOverviewPicture(Integer productId);
           public List<ProVO> getAd();
-         
+
+        //查證檢舉商品
+        public List<ProVO> getProductByKeyWord(String keyword1, String keyword2);
+
+        //查詢近30分鐘成立訂單(buyer&seller)
+        public List<ProVO> getOrderCreatedList();
+
+        //查詢近30分鐘完成訂單(buyer)，order_status為1
+        public List<ProVO> getOrderCompletedList();
+
+        //隱藏商品(下架檢舉商品)
+        public void updateHidden(Integer product_id);
+
+        //新增推薦商品
+        public void changeAdOn(Integer productId);
+
+        //移除推薦商品
+        public void changeAdOff(Integer productId);
+
+
+
 }

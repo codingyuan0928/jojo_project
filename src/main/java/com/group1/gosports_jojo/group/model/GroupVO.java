@@ -23,7 +23,17 @@ public class GroupVO  implements java.io.Serializable{
 	private Timestamp groupUpdateDatetime;
 	private String groupShow;
 	private Integer groupModifyCount;
-	
+
+	//////////////////////////////////   用於揪團通知    //////////////////////////////////
+	private Integer memberListId;
+	private Integer userId;
+	private String memberRole;
+	private String presentLog;
+	private Timestamp updatedDatetime;
+	private Integer rankNo;
+	private Integer groupPoints;
+
+
 	
 	public GroupVO() {
 		super();
@@ -126,7 +136,55 @@ public class GroupVO  implements java.io.Serializable{
 	public void setGroupNote(String groupNote) {
 		this.groupNote = groupNote;
 	}
-	
+
+
+	//////////////////////////////////    揪團通知    //////////////////////////////////
+	public Integer getUserId() {
+		return userId;
+	}
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+	public Integer getMemberListId() {
+		return memberListId;
+	}
+	public void setMemberListId(Integer memberListId) {
+		this.memberListId = memberListId;
+	}
+	public String getMemberRole() {
+		return memberRole;
+	}
+	public void setMemberRole(String memberRole) {
+		this.memberRole = memberRole;
+	}
+	public String getPresentLog() {
+		return presentLog;
+	}
+	public void setPresentLog(String presentLog) {
+		this.presentLog = presentLog;
+	}
+	public Timestamp getUpdatedDatetime() {
+		return updatedDatetime;
+	}
+	public void setUpdatedDatetime(Timestamp updatedDatetime) {
+		this.updatedDatetime = updatedDatetime;
+	}
+
+
+	public Integer getRankNo() {
+		return rankNo;
+	}
+	public void setRankNo(Integer rankNo) {
+		this.rankNo = rankNo;
+	}
+
+	public Integer getGroupPoints() {
+		return groupPoints;
+	}
+	public void setGroupPoints(Integer groupPoints) {
+		this.groupPoints = groupPoints;
+	}
+
 //	 for join member_list from memberVO
 //    public com.member.model.MemberVO getMemberVO() {
 //	    com.member.model.DeptService deptSvc = new com.dept.model.DeptService();

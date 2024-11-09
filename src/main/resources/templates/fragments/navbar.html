@@ -47,11 +47,10 @@
                         id="notify"
                 >
                     <a th:href="@{/user_profile(section='notifications')}"> <img th:src="@{/images/common/navbar-bell.svg}" alt="小鈴鐺"/></a>
-                    <a th:href="@{/user_profile(section='notifications')}">                    <span
-                            class="position-absolute top-1 start-50 translate-middle badge rounded-pill bg-danger"
-                    >
-            99+
-          </span></a>
+                    <a th:href="@{/user_profile(section='notifications')}">
+                        <span class="position-absolute top-1 end-0 translate-middle badge rounded-pill bg-danger" th:if="${unreadC>0}" th:text="${unreadC}">
+                        </span>
+                    </a>
 
                 </div
                 >
@@ -134,7 +133,7 @@
                     >
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link nav-link-h" href="#"
+                    <a class="nav-link nav-link-h" th:href="@{/feedback_form}"
                     ><i class="bi bi-headset"></i>客服表單</a
                     >
                 </li>

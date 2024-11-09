@@ -20,6 +20,12 @@ public class ProVO implements java.io.Serializable{
 	//////////jimmy table//////////////
 	private byte[] picture;
 
+	// 查證檢舉商品
+	private String username;
+
+	// 查詢訂單
+	private Integer orderId;
+	private Integer userId;
 
 
 
@@ -142,5 +148,33 @@ public class ProVO implements java.io.Serializable{
 				", product_updated_datetime=" + product_updated_datetime +
 				"]";
 	}
+
+	// 查證檢舉商品
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	//查詢訂單成立
+	public Integer getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(Integer orderId) {
+		this.orderId = orderId;
+	}
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+
+
 
 }
