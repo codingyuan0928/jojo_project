@@ -427,21 +427,34 @@ export function sendMessage(messageContent) {
 /**
  * DEMO-發送訊息事件
  */
+// 設置點擊按鈕事件
 document.getElementById('sendMessageBtn').addEventListener('click', function () {
+    sendMessageFromInput();
+});
+
+// 設置按 Enter 鍵事件
+document.getElementById('messageInput').addEventListener('keyup', function (event) {
+    if (event.key === 'Enter') { // 使用 'Enter' 判斷按鍵
+        sendMessageFromInput();
+    }
+});
+
+// 封裝發送訊息邏輯的函數
+function sendMessageFromInput() {
     // 獲取輸入框中的訊息內容
     const messageInput = document.getElementById('messageInput');
     const messageContent = messageInput.value.trim();
 
     // 確保訊息不是空的
     if (messageContent) {
-
         // 調用發送訊息的函數
         sendMessage(messageContent);
 
         // 清空輸入框
         messageInput.value = '';
     }
-});
+}
+
 
 /**
  * DEMO-播放音效的函數
