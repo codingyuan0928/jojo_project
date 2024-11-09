@@ -45,10 +45,7 @@ public String orderFinish(HttpServletRequest req, Model model, HttpServletRespon
 
     return "order_finish";
 }
-@GetMapping("/order_finish_search")
-public String orderFinishSearch() {
-    return "order_finish_searcdddh";
-}
+
 @PostMapping("/order_views")
 public String orderPending(Model model, @RequestParam("id") Integer id
 ,@RequestParam("status") Integer status) {
@@ -179,7 +176,7 @@ public String searchPendingOrderTime(HttpServletRequest req, Model model, HttpSe
     }
 
 
-@GetMapping("/insert_product")
+@PostMapping("/insert_product")
 public String insertProduct(HttpServletRequest req, Model model, HttpServletResponse res) throws
         IOException, ServletException {
 
