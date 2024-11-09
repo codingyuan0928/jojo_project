@@ -1,389 +1,374 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>登入</title>
     <!-- favicon -->
     <link
-      rel="icon"
-      th:href="@{/images/common/favicon.png}"
-      type="image/png"
+            rel="icon"
+            th:href="@{/images/common/favicon.png}"
+            type="image/png"
     />
     <!-- bootstrap css -->
     <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
-      crossorigin="anonymous"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+            crossorigin="anonymous"
     />
     <!-- bootstrap icons -->
     <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
     />
     <!-- google fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
     <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400..900&display=swap"
-      rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400..900&display=swap"
+            rel="stylesheet"
     />
-    <link rel="stylesheet" th:href="@{/css/common.css}" />
-    <link rel="stylesheet" th:href="@{/css/login.css}" />
+    <link rel="stylesheet" th:href="@{/css/common.css}"/>
+    <link rel="stylesheet" th:href="@{/css/login.css}"/>
     <!-- spinner -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
     <style>
-      body {
-        font-optical-sizing: auto;
-        font-style: normal;
-        background-image: url("/images/login/login-bgImg.svg");
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: cover;
-        top: 0;
-        left: 0;
-        height: 100vh;
-        width: 100%;
-        z-index: -1;
-      }
+        body {
+            font-optical-sizing: auto;
+            font-style: normal;
+            background-image: url("/images/login/login-bgImg.svg");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 100%;
+            z-index: -1;
+        }
     </style>
-  </head>
-  <body>
-    <main>
-      <div
-        class="container"
-        style="position: relative; top: 50vh; transform: translateY(-50%)"
-      >
+</head>
+<body>
+<main>
+    <div
+            class="container"
+            style="position: relative; top: 50vh; transform: translateY(-50%)"
+    >
         <div class="row d-flex justify-content-center">
-          <div
-            class="d-none d-lg-flex col-5 login-left-section flex-column justify-content-around rounded-when-lg-left"
-            style="background-color: rgba(255, 255, 255, 0.21)"
-          >
-            <img
-              th:src="@{/images/login/login-IMG-text.svg}"
-              alt="一起運動吧(文字)"
-              class="d-inline-block my-3 px-2 py-2"
-              style="max-width: 100%"
-            />
-            <img
-              th:src="@{/images/login/login-IMG-pic.svg}"
-              alt="一起運動吧(圖片)"
-              class="d-inline-block my-2 ps-2 pe-5"
-              style="max-width: 100%"
-            />
-          </div>
-          <div
-            class="col-10 col-md-8 col-lg-5 login-right-section rounded-0 rounded-when-lg-right px-5 pb-0"
-            style="background-color: #f6f4ff"
-          >
             <div
-              class="d-flex flex-column my-3 justify-content-center align-items-center"
+                    class="d-none d-lg-flex col-5 login-left-section flex-column justify-content-around rounded-when-lg-left"
+                    style="background-color: rgba(255, 255, 255, 0.21)"
             >
-              <div class="logo-pic-container mx-3 mb-2">
-                <a th:href="@{/}">
-                  <img
-                    th:src="@{/images/common/logo.svg}"
-                    alt="Go Sport Logo"
-                    class="logo"
-                  />
-                </a>
-              </div>
-              <p
-                class="my-auto"
-                style="font-size: 1.2rem; white-space: nowrap; font-weight: 900"
-              >
-                Go Sport 運動揪揪
-              </p>
+                <img
+                        th:src="@{/images/login/login-IMG-text.svg}"
+                        alt="一起運動吧(文字)"
+                        class="d-inline-block my-3 px-2 py-2"
+                        style="max-width: 100%"
+                />
+                <img
+                        th:src="@{/images/login/login-IMG-pic.svg}"
+                        alt="一起運動吧(圖片)"
+                        class="d-inline-block my-2 ps-2 pe-5"
+                        style="max-width: 100%"
+                />
             </div>
-            <form>
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label"
-                  >電子信箱</label
-                >
-                <span id="login-email-error" class="error-message ps-2"></span>
-                <input
-                  type="email"
-                  class="form-control"
-                  id="exampleInputEmail1"
-                  aria-describedby="emailHelp"
-                />
-                <div id="emailHelp" class="form-text"></div>
-              </div>
-              <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label"
-                  >密碼</label
-                >
-                <span id="login-password-error" class="error-message ps-2"></span>
-                <input
-                  type="password"
-                  class="form-control"
-                  id="exampleInputPassword1"
-                />
-              </div>
-              <div class="d-flex flex-row-reverse">
-                <a
-                  th:href="@{/user_registration}"
-                  class="px-2 anchor-text"
-                  data-bs-toggle="modal"
-                  data-bs-target="#staticBackdrop"
-                  >會員註冊</a
-                >
-                <a href="javascript:void(0)" class="px-2 anchor-text" data-bs-toggle="modal"
-                   data-bs-target="#rest_password"
-                  >忘記密碼</a
-                >
-              </div>
-              <div class="mb-5 form-check">
-                <input
-                  type="checkbox"
-                  class="form-check-input"
-                  id="remember-email-checkbox"
-                />
-                <label class="form-check-label" for="remember-email-checkbox"
-                  >記住信箱</label
-                >
-              </div>
-              <div class="btn-container text-center">
-                <button
-                  type="button"
-                  class="btn btn-primary col-9 my-0"
-                  id="login-btn"
-                >
-                  Login
-                </button>
-              </div>
-            </form>
             <div
-              class="mt-5 mx-5 mb-0 keep-width"
-              style="border-bottom: 0.5px solid #a59595"
-            ></div>
-            <div class="text-center">
-              <p
-                class="mt-0 d-inline-flex mb-0 mb-xxl-1"
-                style="font-size: 0.8rem"
-              >
-                選擇其他登入方法
-              </p>
-            </div>
+                    class="col-10 col-md-8 col-lg-5 login-right-section rounded-0 rounded-when-lg-right px-5 pb-0"
+                    style="background-color: #f6f4ff"
+            >
+                <div
+                        class="d-flex flex-column my-3 justify-content-center align-items-center"
+                >
+                    <div class="logo-pic-container mx-3 mb-2">
+                        <a th:href="@{/}">
+                            <img
+                                    th:src="@{/images/common/logo.svg}"
+                                    alt="Go Sport Logo"
+                                    class="logo"
+                            />
+                        </a>
+                    </div>
+                    <p
+                            class="my-auto"
+                            style="font-size: 1.2rem; white-space: nowrap; font-weight: 900"
+                    >
+                        Go Sport 運動揪揪
+                    </p>
+                </div>
+                <form>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label"
+                        >電子信箱</label
+                        >
+                        <span id="login-email-error" class="error-message ps-2"></span>
+                        <input
+                                type="email"
+                                class="form-control"
+                                id="exampleInputEmail1"
+                                aria-describedby="emailHelp"
+                        />
+                        <div id="emailHelp" class="form-text"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label"
+                        >密碼</label
+                        >
+                        <span id="login-password-error" class="error-message ps-2"></span>
+                        <input
+                                type="password"
+                                class="form-control"
+                                id="exampleInputPassword1"
+                        />
+                    </div>
+                    <div class="d-flex flex-row-reverse">
+                        <a
+                                th:href="@{/user_registration}"
+                                class="px-2 anchor-text"
+                                data-bs-toggle="modal"
+                                data-bs-target="#staticBackdrop"
+                        >會員註冊</a
+                        >
+                        <a href="javascript:void(0)" class="px-2 anchor-text" data-bs-toggle="modal"
+                           data-bs-target="#rest_password"
+                        >忘記密碼</a
+                        >
+                    </div>
+                    <div class="mb-5 form-check">
+                        <input
+                                type="checkbox"
+                                class="form-check-input"
+                                id="remember-email-checkbox"
+                        />
+                        <label class="form-check-label" for="remember-email-checkbox"
+                        >記住信箱</label
+                        >
+                    </div>
+                    <div class="btn-container text-center">
+                        <button
+                                type="button"
+                                class="btn btn-primary col-9 my-0"
+                                id="login-btn"
+                        >
+                            Login
+                        </button>
+                    </div>
+                </form>
+                <div class="my-3 mx-5" style="position: relative; text-align: center;">
+                    <span class="divider-text" style="font-size: 0.8rem; background-color: #f6f4ff; padding: 0 8px;">
+                        選擇其他登入方法
+                    </span>
+                </div>
 
-            <div
-              class="container d-flex align-items-center justify-content-center mb-0"
-            >
-              <div>
-                <img
-                  th:src="@{/images/login/login-fb-icon.svg}"
-                  alt="fb登入"
-                  class="mx-4 mb-2 mb-xxl-0 third-party-btn"
-                  style="transform: scale(75%); cursor: pointer"
-                />
-              </div>
-              <div>
-                <img
-                  th:src="@{/images/login/login-google.svg}"
-                  alt="google登入"
-                  class="mx-4 mb-2 mb-xxl-0 third-party-btn"
-                  style="transform: scale(75%); cursor: pointer"
-                />
-              </div>
+                <div
+                        class=" my-3"
+                >
+                    <a href="/auth/google" class="col-9 d-flex align-items-center justify-content-center" style="text-decoration: none!important;">
+                        <div style="align-items: center;border-radius: 4px;font-size: 1.1rem !important;"
+                             class="btn btn-primary my-0 mx-3 w-100">
+                            <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google Logo"
+                                 style="width: 18px; margin-right: 8px;border-radius:180px;">
+                            <span>Sign in with Google</span>
+                        </div>
+                    </a>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-    </main>
-    <!-- 註冊Modal -->
-    <div id="modal-container" style="width: 100%">
-      <div
-        class="modal fade"
-        id="staticBackdrop"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        tabindex="1"
-        aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
-      >
+    </div>
+</main>
+<!-- 註冊Modal -->
+<div id="modal-container" style="width: 100%">
+    <div
+            class="modal fade"
+            id="staticBackdrop"
+            data-bs-backdrop="static"
+            data-bs-keyboard="false"
+            tabindex="1"
+            aria-labelledby="staticBackdropLabel"
+            aria-hidden="true"
+    >
         <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content smaller-modal smallest-modal">
-            <div
-              class="modal-header py-1"
-              style="background-color: #c6d9fd; position: relative"
-            >
-              <div
-                style="
+            <div class="modal-content smaller-modal smallest-modal">
+                <div
+                        class="modal-header py-1"
+                        style="background-color: #c6d9fd; position: relative"
+                >
+                    <div
+                            style="
                   display: flex;
                   justify-content: center;
                   width: 100%;
                   align-items: center;
                 "
-              >
-                <div>
-                  <img
-                    th:src="@{/images/common/logo.svg}"
-                    alt="Go Sport Logo"
-                    class="logo"
-                    style="max-width: 50px; max-height: 50px"
-                  />
+                    >
+                        <div>
+                            <img
+                                    th:src="@{/images/common/logo.svg}"
+                                    alt="Go Sport Logo"
+                                    class="logo"
+                                    style="max-width: 50px; max-height: 50px"
+                            />
+                        </div>
+                        <h5
+                                class="modal-title ms-3"
+                                id="staticBackdropLabel"
+                                style="font-weight: 900"
+                        >
+                            Go Sport 運動揪揪
+                        </h5>
+                    </div>
+                    <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                    ></button>
                 </div>
-                <h5
-                  class="modal-title ms-3"
-                  id="staticBackdropLabel"
-                  style="font-weight: 900"
-                >
-                  Go Sport 運動揪揪
-                </h5>
-              </div>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <div
-                style="font-size: 1.25rem; font-weight: 900"
-                class="my-3 text-center smaller-text"
-              >
-                🎉🎉歡迎您加入 go Sport 運動揪揪!!!!!!
-              </div>
-              <div
-                style="font-size: 1.25rem; font-weight: 900"
-                class="my-3 smaller-text"
-              >
-                請問您是想要...
-              </div>
-              <div class="d-flex mt-2 mb-4 ps-1 ps-sm-5">
-                <p class="my-auto smaller-text" style="font-size: 1.25rem">
-                  🏋️成為運動揪揪的會員嗎?
-                </p>
-                <a
-                  class="btn btn-warning yellow-button smaller-text"
-                  id="user-registration-btn"
-                  th:href="@{/user_registration}"
-                >
-                  點選
-                </a>
-              </div>
-              <div class="d-flex my-2 ps-1 ps-sm-5">
-                <p class="my-auto smaller-text" style="font-size: 1.25rem">
-                  💡成為運動用品的廠商嗎?
-                </p>
-                <a
+                <div class="modal-body">
+                    <div
+                            style="font-size: 1.25rem; font-weight: 900"
+                            class="my-3 text-center smaller-text"
+                    >
+                        🎉🎉歡迎您加入 go Sport 運動揪揪!!!!!!
+                    </div>
+                    <div
+                            style="font-size: 1.25rem; font-weight: 900"
+                            class="my-3 smaller-text"
+                    >
+                        請問您是想要...
+                    </div>
+                    <div class="d-flex mt-2 mb-4 ps-1 ps-sm-5">
+                        <p class="my-auto smaller-text" style="font-size: 1.25rem">
+                            🏋️成為運動揪揪的會員嗎?
+                        </p>
+                        <a
+                                class="btn btn-warning yellow-button smaller-text"
+                                id="user-registration-btn"
+                                th:href="@{/user_registration}"
+                        >
+                            點選
+                        </a>
+                    </div>
+                    <div class="d-flex my-2 ps-1 ps-sm-5">
+                        <p class="my-auto smaller-text" style="font-size: 1.25rem">
+                            💡成為運動用品的廠商嗎?
+                        </p>
+                        <a
 
-                  class="btn btn-warning yellow-button smaller-text"
-                  id="vendor-registration-btn"
-                  data-bs-toggle="modal"
-                  data-bs-target="#vendorRegisterStaticBackdrop "
-                  href="javascript:void(0);"
-                >
-                  點選
-                </a>
-              </div>
+                                class="btn btn-warning yellow-button smaller-text"
+                                id="vendor-registration-btn"
+                                data-bs-toggle="modal"
+                                data-bs-target="#vendorRegisterStaticBackdrop "
+                                href="javascript:void(0);"
+                        >
+                            點選
+                        </a>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
+</div>
 <div th:replace="fragments/vendor_register_modal :: vendor_register_modal"></div>
-<div th:replace ="fragments/reset_password :: reset_password"></div>
+<div th:replace="fragments/reset_password :: reset_password"></div>
 
-  <script th:src="@{/js/common.js}"></script>
-  <script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
-    crossorigin="anonymous"
-  ></script>
+<script th:src="@{/js/common.js}"></script>
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+        crossorigin="anonymous"
+></script>
 
 
-  <script th:inline="javascript">
+<script th:inline="javascript">
 
     window.addEventListener("DOMContentLoaded", () => {
-      // 提前宣告常用的 DOM 元素
-      const emailInput = document.getElementById("exampleInputEmail1");
-      const passwordInput = document.getElementById("exampleInputPassword1");
-      const rememberCheckbox = document.getElementById("remember-email-checkbox");
-      const loginButton = document.getElementById("login-btn");
+        // 提前宣告常用的 DOM 元素
+        const emailInput = document.getElementById("exampleInputEmail1");
+        const passwordInput = document.getElementById("exampleInputPassword1");
+        const rememberCheckbox = document.getElementById("remember-email-checkbox");
+        const loginButton = document.getElementById("login-btn");
 
-      const savedEmail = localStorage.getItem("savedEmail");
-      if (savedEmail) {
-        emailInput.value = savedEmail;
-        rememberCheckbox.checked = true;
-      }
+        const savedEmail = localStorage.getItem("savedEmail");
+        if (savedEmail) {
+            emailInput.value = savedEmail;
+            rememberCheckbox.checked = true;
+        }
 
-      [emailInput, passwordInput].forEach((input) => {
-        input.addEventListener("keypress", (event) => {
-          if (event.key === "Enter") {
-            event.preventDefault();
-            if (!loginButton.disabled) {
-              loginButton.click();
-            }
-          }
-        });
-      });
-
-
-      if (loginButton) {
-        loginButton.addEventListener("click", async (event) => {
-          event.preventDefault();
-
-          const email = emailInput.value;
-          const password = passwordInput.value;
-          const rememberEmail = rememberCheckbox.checked;
-
-          if (!email || !password) {
-            alert("請輸入完整的登入資訊");
-            return;
-          }
-
-          try {
-            const response = await fetch('/auth/login', {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              credentials: "include",
-              body: JSON.stringify({ email, password }),
-            });
-
-            if (response.ok) {
-              const data = await response.json();
-              if(data && data.role==="user"){
-                sessionStorage.setItem('userId', data.userId);}
-              else if(data && data.role==="vendor"){
-                sessionStorage.setItem('vendorId', data.vendorId);
-              }
-
-              if (rememberEmail) {
-                localStorage.setItem("savedEmail", email);
-              } else {
-                localStorage.removeItem("savedEmail");
-              }
-              window.location.href = data.redirectUrl;
-            } else if(response.status === 400){
-              document.getElementById("email-validate-icon").innerHTML = '';
-              const errorData = await response.json();
-              for (const [field, message] of Object.entries(errorData)) {
-                const errorElement = document.getElementById(`login-${field}-error`);
-                if (errorElement) {
-                  errorElement.innerText = message;
-                  errorElement.style.color = "red";
+        [emailInput, passwordInput].forEach((input) => {
+            input.addEventListener("keypress", (event) => {
+                if (event.key === "Enter") {
+                    event.preventDefault();
+                    if (!loginButton.disabled) {
+                        loginButton.click();
+                    }
                 }
-              }
-            }else if (response.status === 401) {
-              alert("登入失敗，請檢查您的帳號或密碼");
-            } else if(response.status===404){
-              alert("此帳號尚未註冊!!!");
-            }
-          } catch (err) {
-            console.error("登入過程中發生錯誤:", err);
-            alert("無法連接到伺服器，請稍後再試");
-          }finally {
-            loginButton.disabled = false;
-            loginButton.textContent = "Login";
-          }
+            });
         });
-      }
+
+
+        if (loginButton) {
+            loginButton.addEventListener("click", async (event) => {
+                event.preventDefault();
+
+                const email = emailInput.value;
+                const password = passwordInput.value;
+                const rememberEmail = rememberCheckbox.checked;
+
+                if (!email || !password) {
+                    alert("請輸入完整的登入資訊");
+                    return;
+                }
+
+                try {
+                    const response = await fetch('/auth/login', {
+                        method: "POST",
+                        headers: {"Content-Type": "application/json"},
+                        credentials: "include",
+                        body: JSON.stringify({email, password}),
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data && data.role === "user") {
+                            sessionStorage.setItem('userId', data.userId);
+                        } else if (data && data.role === "vendor") {
+                            sessionStorage.setItem('vendorId', data.vendorId);
+                        }
+
+                        if (rememberEmail) {
+                            localStorage.setItem("savedEmail", email);
+                        } else {
+                            localStorage.removeItem("savedEmail");
+                        }
+                        window.location.href = data.redirectUrl;
+                    } else if (response.status === 400) {
+                        document.getElementById("email-validate-icon").innerHTML = '';
+                        const errorData = await response.json();
+                        for (const [field, message] of Object.entries(errorData)) {
+                            const errorElement = document.getElementById(`login-${field}-error`);
+                            if (errorElement) {
+                                errorElement.innerText = message;
+                                errorElement.style.color = "red";
+                            }
+                        }
+                    } else if (response.status === 401) {
+                        alert("登入失敗，請檢查您的帳號或密碼");
+                    } else if (response.status === 404) {
+                        alert("此帳號尚未註冊!!!");
+                    }
+                } catch (err) {
+                    console.error("登入過程中發生錯誤:", err);
+                    alert("無法連接到伺服器，請稍後再試");
+                } finally {
+                    loginButton.disabled = false;
+                    loginButton.textContent = "Login";
+                }
+            });
+        }
     });
 
-  </script>
+</script>
 
-  </body>
+</body>
 </html>

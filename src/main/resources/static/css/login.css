@@ -45,18 +45,7 @@
 #login-btn {
   font-size: 1.1rem !important;
 }
-.third-party-btn {
-  border-radius: 50%;
-  transition: all 0.3s ease;
-}
-.third-party-btn:hover {
-  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-  outline: rgba(236, 109, 181, 1);
-}
-.third-party-btn:active,
-.third-party-btn:focus {
-  opacity: 0.3;
-}
+
 .yellow-button {
   color: white;
   padding: 0.2rem 1rem;
@@ -67,4 +56,28 @@
 .yellow-button:hover,
 .yellow-button:focus {
   color: white !important;
+}
+.divider-text {
+  position: relative;
+  z-index: 1;
+}
+
+.divider-text::before,
+.divider-text::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 50%;
+  height: 1px;
+  background-color: #a59595;
+}
+
+.divider-text::before {
+  left: -50%;
+  margin-left: -8px;
+}
+
+.divider-text::after {
+  right: -50%;
+  margin-right: -8px;
 }

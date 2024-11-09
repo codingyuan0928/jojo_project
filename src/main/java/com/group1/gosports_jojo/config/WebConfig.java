@@ -20,6 +20,7 @@ public class WebConfig {
         registrationBean.addUrlPatterns("/group_history/*");
         registrationBean.addUrlPatterns("/group_join/*");
         registrationBean.addUrlPatterns("/group_join_close/*");
+        registrationBean.addUrlPatterns("/chatroom/*");
         registrationBean.setOrder(1);
         System.out.println("會員頁面造訪");
         return registrationBean;

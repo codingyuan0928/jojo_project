@@ -1,5 +1,7 @@
 package com.group1.gosports_jojo.filter;
 
+import com.group1.gosports_jojo.entity.Administrator;
+
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,12 +16,22 @@ public class AdminRedirectFilter implements Filter {
         HttpServletResponse res = (HttpServletResponse) response;
         HttpSession session = req.getSession();
 
-        Object account = session.getAttribute("administratorAccount");
+        Object adminAccount = (Administrator) session.getAttribute("administratorAccount");
 
-        if (account == null) {
+        if (adminAccount == null) {
             res.sendRedirect("/administrator_login");
             return;
         }
+
+        if(adminAccount instanceof Administrator && ((Administrator)adminAccount).getEnabled()==0) {
+            res.sendRedirect(req.getContextPath() + "/account-suspended");
+            return;
+        }
+
+
+
+
+
         chain.doFilter(request, response);
     }
 }
