@@ -102,7 +102,7 @@ public class GroupDAO implements GroupDAO_interface {
 	private static final String GET_GROUP_SUCCESS_MEMBERLIST = "SELECT g2.group_id as group_id, g2.group_name as group_name, user_id "
 			+ "FROM group_lists g1, "
 			+ "(SELECT member_lists.group_id, member_role, user_id, group_name,  rank() over (partition by group_id, member_role order by updated_datetime) as rank_no FROM member_lists, group_lists WHERE member_lists.group_id = group_lists.group_id "
-			+ "AND member_lists.group_id IN (SELECT group_id FROM group_lists WHERE group_status_desc = '報名截止' AND group_show = 'YES' AND DATE_SUB(now(),INTERVAL 1 minute) <= group_join_deadline AND group_join_deadline < now()) "
+			+ "AND member_lists.group_id IN (SELECT group_id FROM group_lists WHERE group_status_desc = '報名截止' AND group_show = 'YES' AND DATE_SUB(now(),INTERVAL 2 minute) <= group_join_deadline AND group_join_deadline < now()) "
 			+ "AND member_role IN ('團長', '報名')) g2 " + "WHERE g1.group_id = g2.group_id "
 			+ "AND g2.rank_no <= g1.group_primary_member";
 
@@ -113,7 +113,7 @@ public class GroupDAO implements GroupDAO_interface {
 			+ "FROM group_lists g1, "
 			+ "(SELECT member_lists.group_id, member_role, user_id, group_name,  rank() over (partition by group_id, member_role order by updated_datetime) as rank_no "
 			+ "FROM member_lists, group_lists " + "WHERE member_lists.group_id = group_lists.group_id "
-			+ "AND member_lists.group_id IN (SELECT group_id FROM group_lists WHERE group_status_desc = '報名截止' AND group_show = 'YES' AND DATE_SUB(now(),INTERVAL 1 minute) <= group_join_deadline AND group_join_deadline < now()) "
+			+ "AND member_lists.group_id IN (SELECT group_id FROM group_lists WHERE group_status_desc = '報名截止' AND group_show = 'YES' AND DATE_SUB(now(),INTERVAL 2 minute) <= group_join_deadline AND group_join_deadline < now()) "
 			+ "AND member_role IN ('報名')) g2 " + "WHERE g1.group_id = g2.group_id "
 			+ "AND g2.rank_no > g1.group_primary_member";
 
@@ -123,7 +123,7 @@ public class GroupDAO implements GroupDAO_interface {
 	// 'NO'的group_id，查詢member_list
 	private static final String GET_GROUP_CANCEL_MEMBERLIST = "SELECT member_lists.group_id, group_name, user_id FROM member_lists, group_lists "
 			+ "WHERE member_lists.group_id = group_lists.group_id "
-			+ "AND member_lists.group_id IN (SELECT group_id FROM group_lists WHERE group_show = 'NO' AND DATE_SUB(now(),INTERVAL 1 minute) <= group_updated_datetime AND group_updated_datetime < now()) "
+			+ "AND member_lists.group_id IN (SELECT group_id FROM group_lists WHERE group_show = 'NO' AND DATE_SUB(now(),INTERVAL 2 minute) <= group_updated_datetime AND group_updated_datetime < now()) "
 			+ "AND member_role IN ('團長', '報名')";
 
 //////////////////////////////////    活動提醒通知    //////////////////////////////////
@@ -140,13 +140,13 @@ public class GroupDAO implements GroupDAO_interface {
 
 //////////////////////////////////    提醒團長回覆團員出缺席通知    //////////////////////////////////
 
-	// 查詢狀態為報名截止，且now() - 1 minute <= group_playing_datetime < now()
+	// 查詢狀態為報名截止，且now() - 2 minute <= group_playing_datetime < now()
 	// 的group_id，查詢團長名單
 	private static final String GET_GROUP_PRESENT_REPLY_LEADER = "SELECT g2.group_id as group_id, g2.group_name as group_name, user_id "
 			+ "FROM group_lists g1, "
 			+ "(SELECT member_lists.group_id, member_role, user_id, group_name,  rank() over (partition by group_id, member_role order by updated_datetime) as rank_no "
 			+ "FROM member_lists, group_lists " + "WHERE member_lists.group_id = group_lists.group_id "
-			+ "AND member_lists.group_id IN (SELECT group_id FROM group_lists WHERE group_status_desc = '報名截止' AND group_show = 'YES' AND DATE_SUB(now(),INTERVAL 1 minute) <= group_playing_datetime AND group_playing_datetime < now()"
+			+ "AND member_lists.group_id IN (SELECT group_id FROM group_lists WHERE group_status_desc = '報名截止' AND group_show = 'YES' AND DATE_SUB(now(),INTERVAL 2 minute) <= group_playing_datetime AND group_playing_datetime < now()"
 			+ "AND member_role IN ('團長'))) g2 " + "WHERE g1.group_id = g2.group_id";
 
 //////////////////////////////////查證檢舉揪團    //////////////////////////////////

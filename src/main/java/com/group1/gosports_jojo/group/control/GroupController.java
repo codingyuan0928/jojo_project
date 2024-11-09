@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -619,7 +620,7 @@ public class GroupController {
 		if (groupName == null || groupName.trim().length() == 0) {
 			errorMsgs.put("groupName", "請勿空白");
 		} else if (!groupName.trim().matches(groupNameReg)) { // 以下練習正則(規)表示式(regular-expression)
-			errorMsgs.put("groupName", "長度必需在1到10之間");
+			errorMsgs.put("groupName", "不能特殊符號,長度必需在1到10之間");
 		}
 
 		String groupType = req.getParameter("groupType");

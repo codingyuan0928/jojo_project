@@ -54,7 +54,7 @@ public class NotificationTimerController{
 
 //////////////////////////////////    成團通知    //////////////////////////////////
 
-			@Scheduled(fixedRate = 1, timeUnit = TimeUnit.MINUTES)
+			@Scheduled(fixedRate = 2, timeUnit = TimeUnit.MINUTES)
 			public void insertGroupSuccessNotification() {
 				
 System.out.println(dateExecute+" 執行insertGroupSuccessNotification");
@@ -77,7 +77,7 @@ System.out.println(dateExecute+" 執行insertGroupSuccessNotification");
 
 //////////////////////////////////    流團通知    //////////////////////////////////
 
-			@Scheduled(fixedRate = 1, timeUnit = TimeUnit.MINUTES)
+			@Scheduled(fixedRate = 2, timeUnit = TimeUnit.MINUTES)
 			public void insertGroupCancelNotification() {
 System.out.println(dateExecute+" 執行insertGroupCancelNotification");
 
@@ -98,7 +98,7 @@ System.out.println(dateExecute+" 執行insertGroupCancelNotification");
 
 //////////////////////////////////    活動提醒通知    //////////////////////////////////
 			
-			@Scheduled(fixedRate = 1, timeUnit = TimeUnit.MINUTES)
+			@Scheduled(fixedRate = 2, timeUnit = TimeUnit.MINUTES)
 			public void insertGroupStartNotification() {
 System.out.println(dateExecute+" 執行insertGroupStartNotification");
 
@@ -120,7 +120,7 @@ System.out.println(dateExecute+" 執行insertGroupStartNotification");
 
 //////////////////////////////////    候補失敗通知    //////////////////////////////////
 
-			@Scheduled(fixedRate = 1, timeUnit = TimeUnit.MINUTES)
+			@Scheduled(fixedRate = 2, timeUnit = TimeUnit.MINUTES)
 			public void insertGroupSecondaryListNotification() {
 System.out.println(dateExecute+" 執行insertGroupSecondaryListNotification");
 
@@ -142,7 +142,7 @@ System.out.println(dateExecute+" 執行insertGroupSecondaryListNotification");
 
 //////////////////////////////////    團長回覆團員出缺席通知    //////////////////////////////////
 
-			@Scheduled(fixedRate = 1, timeUnit = TimeUnit.MINUTES)
+			@Scheduled(fixedRate = 2, timeUnit = TimeUnit.MINUTES)
 			public void insertGroupPresentReplyNotification() {
 System.out.println(dateExecute+" 執行insertGroupPresentReplyNotification");
 
@@ -164,7 +164,7 @@ System.out.println(dateExecute+" 執行insertGroupPresentReplyNotification");
 
 //////////////////////////////////    新增缺席警告通知    //////////////////////////////////
 
-			@Scheduled(fixedRate = 1, timeUnit = TimeUnit.MINUTES)
+			@Scheduled(fixedRate = 2, timeUnit = TimeUnit.MINUTES)
 			public void insertGroupAbsenceAlertyNotification() {
 System.out.println(dateExecute+" 執行insertGroupAbsenceAlertyNotification");
 
@@ -184,7 +184,7 @@ System.out.println(dateExecute+" 執行insertGroupAbsenceAlertyNotification");
 			
 //////////////////////////////////    新增移除檢舉揪團通知    //////////////////////////////////
 
-			@Scheduled(fixedRate = 1, timeUnit = TimeUnit.MINUTES)
+			@Scheduled(fixedRate = 2, timeUnit = TimeUnit.MINUTES)
 			public void insertGroupReportNotification() {
 System.out.println(dateExecute+" 執行insertGroupReportNotification");
 
@@ -208,7 +208,7 @@ System.out.println(dateExecute+" 執行insertGroupReportNotification");
 
 //////////////////////////////////    新增移除檢舉文章通知    //////////////////////////////////
 
-			@Scheduled(fixedRate = 1, timeUnit = TimeUnit.MINUTES)
+			@Scheduled(fixedRate = 2, timeUnit = TimeUnit.MINUTES)
 			public void insertArticleReportNotification() {
 System.out.println(dateExecute+" 執行insertArticleReportNotification");
 
@@ -232,7 +232,7 @@ System.out.println(dateExecute+" 執行insertArticleReportNotification");
 
 //////////////////////////////////    新增移除檢舉留言通知    //////////////////////////////////
 
-			@Scheduled(fixedRate = 1, timeUnit = TimeUnit.MINUTES)
+			@Scheduled(fixedRate = 2, timeUnit = TimeUnit.MINUTES)
 			public void insertReplyReportNotification() {
 System.out.println(dateExecute+" 執行insertReplyReportNotification");
 
@@ -256,7 +256,7 @@ System.out.println(dateExecute+" 執行insertReplyReportNotification");
 
 //////////////////////////////////    新增移除檢舉商品通知    //////////////////////////////////
 
-			@Scheduled(fixedRate = 1, timeUnit = TimeUnit.MINUTES)
+			@Scheduled(fixedRate = 2, timeUnit = TimeUnit.MINUTES)
 			public void insertProductReportNotification() {
 System.out.println(dateExecute+" 執行insertProductReportNotification");
 
@@ -280,7 +280,7 @@ System.out.println(dateExecute+" 執行insertProductReportNotification");
 
 //////////////////////////////////    新增訂單成立通知(buyer & seller)    //////////////////////////////////
 
-			@Scheduled(fixedRate = 1, timeUnit = TimeUnit.MINUTES)
+			@Scheduled(fixedRate = 2, timeUnit = TimeUnit.MINUTES)
 			public void insertOrderCreatedNotification() {
 System.out.println(dateExecute+" 執行insertOrderCreatedNotification");
 
@@ -305,7 +305,7 @@ System.out.println(dateExecute+" 執行insertOrderCreatedNotification");
 
 //////////////////////////////////    新增訂單完成通知(buyer)    //////////////////////////////////
 
-			@Scheduled(fixedRate = 1, timeUnit = TimeUnit.MINUTES)
+			@Scheduled(fixedRate = 2, timeUnit = TimeUnit.MINUTES)
 			public void insertOrderCompletedBuyerNotification() {
 System.out.println(dateExecute+" 執行insertOrderCompletedBuyerNotification");
 
@@ -324,7 +324,7 @@ System.out.println(dateExecute+" 執行insertOrderCompletedBuyerNotification");
 
 //////////////////////////////////    新增廠商停權(經檢舉)(seller)    //////////////////////////////////
 
-			@Scheduled(fixedRate = 1, timeUnit = TimeUnit.MINUTES)
+			@Scheduled(fixedRate = 2, timeUnit = TimeUnit.MINUTES)
 			public void insertVendorDeactivateNotification() {
 System.out.println(dateExecute+" 執行insertVendorDeactivateNotification");
 
@@ -347,7 +347,7 @@ System.out.println(dateExecute+" 執行insertVendorDeactivateNotification");
 
 //////////////////////////////////    新增「廠商資格審核(seller)-1通知」    //////////////////////////////////
 
-			@Scheduled(fixedRate = 1, timeUnit = TimeUnit.MINUTES)
+			@Scheduled(fixedRate = 2, timeUnit = TimeUnit.MINUTES)
 			public void insertVendorCheckNotification1() {
 System.out.println(dateExecute+" 執行insertVendorCheckNotification1");
 
@@ -366,7 +366,7 @@ System.out.println(dateExecute+" 執行insertVendorCheckNotification1");
 		
 //////////////////////////////////    新增「廠商資格審核(seller)-2通知」，並設置停權(enabled=0)    //////////////////////////////////
 		
-			@Scheduled(fixedRate = 1, timeUnit = TimeUnit.MINUTES)
+			@Scheduled(fixedRate = 2, timeUnit = TimeUnit.MINUTES)
 			public void insertVendorCheckNotification2() {
 System.out.println(dateExecute+" 執行insertVendorCheckNotification2");
 				
@@ -390,7 +390,7 @@ System.out.println(dateExecute+" 執行insertVendorCheckNotification2");
 			
 //////////////////////////////////    新增「好友邀請通知」    //////////////////////////////////
 		
-			@Scheduled(fixedRate = 1, timeUnit = TimeUnit.MINUTES)
+			@Scheduled(fixedRate = 2, timeUnit = TimeUnit.MINUTES)
 			public void insertFriendPendingNotification() {
 System.out.println(dateExecute+" 執行insertFriendPendingNotification");
 				
@@ -402,15 +402,15 @@ System.out.println(dateExecute+" 執行insertFriendPendingNotification");
 					Integer FriendId = listFriendPending.get(i).getFriendId();
 					String UserName = listFriendPending.get(i).getUsernaame();
 					
-					System.out.println("listFriendPending: 發起邀請用戶-" + UserId + "；被請求成為好友用戶-" + FriendId + "-" + UserName);
-					notificationSvc.insertFriendPendingNotification(UserId, FriendId, UserName);
+					System.out.println("listFriendPending: 發起邀請用戶-" + UserId + "；被請求成為好友用戶-" + FriendId + "-發起邀請用戶-" + UserName);
+					notificationSvc.insertFriendPendingNotification(FriendId, UserId, UserName);
 				}
 				;
 			}
 		
 //////////////////////////////////    新增「好友成立通知」    //////////////////////////////////
 		
-			@Scheduled(fixedRate = 1, timeUnit = TimeUnit.MINUTES)
+			@Scheduled(fixedRate = 2, timeUnit = TimeUnit.MINUTES)
 			public void insertFriendAcceptedNotification() {
 System.out.println(dateExecute+" 執行insertFriendAcceptedNotification");
 				
@@ -422,7 +422,7 @@ System.out.println(dateExecute+" 執行insertFriendAcceptedNotification");
 					Integer FriendId = listFriendAccepted.get(i).getFriendId();
 					String UserName = listFriendAccepted.get(i).getUsernaame();
 					
-					System.out.println("listFriendAccepted: 發起邀請用戶-" + UserId + "；被請求成為好友用戶-" + FriendId + "-" + UserName);
+					System.out.println("listFriendAccepted: 發起邀請用戶-" + UserId + "；被請求成為好友用戶-" + FriendId + "-發起邀請用戶-" + UserName);
 					notificationSvc.insertFriendAcceptedNotification(UserId, FriendId, UserName);
 				}
 				;

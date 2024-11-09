@@ -38,7 +38,7 @@ public class NotificationDAO implements NotificationDAO_interface {
 
 	// 查詢缺席警告名單
 	private static final String GET_GROUP_ABSENCE_ALERT_LIST = "SELECT m2.user_id as user_id FROM "
-			+ "(SELECT user_id, count(present_log) FROM member_lists WHERE DATE_SUB(now(),INTERVAL 1 minute) <= updated_datetime AND updated_datetime < now() AND present_log = 'NO' GROUP BY user_id HAVING count(present_log) = 1) m1 "
+			+ "(SELECT user_id, count(present_log) FROM member_lists WHERE DATE_SUB(now(),INTERVAL 2 minute) <= updated_datetime AND updated_datetime < now() AND present_log = 'NO' GROUP BY user_id HAVING count(present_log) = 1) m1 "
 			+ "JOIN (SELECT user_id, count(present_log) FROM member_lists WHERE updated_datetime > DATE_SUB(now(),INTERVAL 30 day) AND present_log = 'NO' GROUP BY user_id HAVING count(present_log) = 4) m2 "
 			+ "ON m1.user_id = m2.user_id";
 

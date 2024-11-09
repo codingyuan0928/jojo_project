@@ -72,10 +72,10 @@ public class ProDAO implements ProDAO_interface {
 			+ "WHERE product_name LIKE '%' ? '%'  OR product_content LIKE '%' ? '%' ";
 
 	//查詢近1分鐘成立訂單(buyer&seller)
-	private static final String GET_ORDER_CREATED_LIST = "SELECT order_id, user_id, vendor_id FROM orders WHERE DATE_SUB(now(),INTERVAL 1 minute) <= created_datetime AND created_datetime < now()";
+	private static final String GET_ORDER_CREATED_LIST = "SELECT order_id, user_id, vendor_id FROM orders WHERE DATE_SUB(now(),INTERVAL 2 minute) <= created_datetime AND created_datetime < now()";
 
 	//查詢近1分鐘完成訂單(buyer)，order_status為1
-	private static final String GET_ORDER_COMPLETED_LIST = "SELECT order_id, user_id FROM orders WHERE order_status = 1 AND DATE_SUB(now(),INTERVAL 1 minute) <= updated_datetime AND updated_datetime < now()";
+	private static final String GET_ORDER_COMPLETED_LIST = "SELECT order_id, user_id FROM orders WHERE order_status = 1 AND DATE_SUB(now(),INTERVAL 2 minute) <= updated_datetime AND updated_datetime < now()";
 
 	//隱藏商品(下架檢舉商品)
 	private static final String UPDATE_PRODUCT_HIDDEN = "UPDATE products set product_status='0', product_updated_datetime=curtime() where product_id = ?";

@@ -33,7 +33,7 @@ public class VendorDAO implements VendorDAO_interface {
 	
 	
 	//查詢近1分鐘，新註冊的廠商名單 (須到CustomerSupportDao加入審核名單 & 須到NotificationDao加入「17.廠商資格審核(seller)-1」通知)
-	private static final String GET_NEW_VENDOR = "SELECT vendor_id FROM vendors WHERE enabled=1 AND status = 0 AND DATE_SUB(now(),INTERVAL 1 minute) <= created_at AND created_at < now()";
+	private static final String GET_NEW_VENDOR = "SELECT vendor_id FROM vendors WHERE enabled=1 AND status = 0 AND DATE_SUB(now(),INTERVAL 2 minute) <= created_at AND created_at < now()";
 	
 	
 	//查詢審核狀態於3天前更新為2的廠商名單

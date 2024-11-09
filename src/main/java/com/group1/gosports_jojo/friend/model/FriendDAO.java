@@ -34,14 +34,14 @@ public class FriendDAO implements FriendDAO_interface {
 	
 	//查詢好友邀請--A向B發出好友邀請，通知B
 	private static final String GET_FRIEND_PENDING = "SELECT friends.user_id as user_id, friend_id, username "
-			+ "FROM friends LEFT JOIN users ON friends.friend_id = users.user_id "
-			+ "WHERE status = 'PENDING' AND DATE_SUB(now(),INTERVAL 1 minute) <= requested_at AND requested_at < now() ";
+			+ "FROM friends LEFT JOIN users ON friends.user_id = users.user_id "
+			+ "WHERE status = 'PENDING' AND DATE_SUB(now(),INTERVAL 2 minute) <= requested_at AND requested_at < now() ";
 
 	
 	//查詢好友成立--B接受A的好友邀請，通知A
 	private static final String GET_FRIEND_ACCEPTED = "SELECT friends.user_id as user_id, friend_id, username "
-			+ "FROM friends LEFT JOIN users ON friends.user_id = users.user_id "
-			+ "WHERE status = 'ACCEPTED' AND DATE_SUB(now(),INTERVAL 1 minute) <= responded_at AND responded_at < now() ";
+			+ "FROM friends LEFT JOIN users ON friends.friend_id = users.user_id "
+			+ "WHERE status = 'ACCEPTED' AND DATE_SUB(now(),INTERVAL 2 minute) <= responded_at AND responded_at < now() ";
 
 	
 

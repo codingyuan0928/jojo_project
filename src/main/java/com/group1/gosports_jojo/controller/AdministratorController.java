@@ -220,6 +220,21 @@ public class AdministratorController {
             System.out.println("#156--formId: " + formId);
             System.out.println("#156--notifiedReferenceId: " + str);
 
+            if (str == null || (str.trim()).length() == 0) {
+                customerSupportSvc.updateFeedback2(status, notificationContent, formId);
+
+                List<CustomerSupportVO> customerSupportList1 = customerSupportSvc.findPendingCaseC();
+                model.addAttribute("customerSupportList1", customerSupportList1);
+
+                List<CustomerSupportVO> customerSupportList2 = customerSupportSvc.getAllC();
+                model.addAttribute("customerSupportList2", customerSupportList2);
+
+                List<NotificationItemListVO> customerSupportList = notificationItemListSvc.getAll();
+                model.addAttribute("customerSupportList", customerSupportList);
+
+                return "admin_customer_support";// 程式中斷
+            }
+
             if (str != null || (str.trim()).length() != 0) {
                 CustomerSupportDTO customerSupportDTO = new CustomerSupportDTO();
 
