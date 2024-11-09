@@ -54,8 +54,9 @@
 
     <!-- 主頁內容 -->
 <!--    <main class="container my-4 ">-->
-        <div class="container-fluid my-4 p-3 main-content" style="width: 96vw; margin-left: auto; margin-right: auto;">
-            <div class="row">
+    <div class="container-fluid my-4 p-3 main-content"
+         style="display: flex; flex-direction: column; width: 96vw; margin-left: auto; margin-right: auto; flex-grow: 1;">
+            <div class="row" style="display:flex; flex-grow: 1;">
                 <!-- Left Column - Chat List with Hamburger Menu -->
                 <div class="col-12 col-md-3 p-0">
                     <nav class="navbar navbar-light bg-light d-md-none">
@@ -154,7 +155,7 @@
                     <!--  聊天視窗 -->
                     <div id="chatWindow" class="flex-column h-100" style="display: none;">
                         <!-- User Info Header -->
-                        <div class="d-flex mb-3 align-items-center">
+                        <div class="d-flex mb-3 align-items-center" style="height: 36px;">
                             <div id="userInfo" class="user-avatar me-3" style="margin-left: 18px;">
                                 <img id="userInfoHeader-avatar" src="" alt="Avatar" class="rounded-circle" style="width: 40px; height: 40px;">
                             </div>
@@ -172,7 +173,7 @@
                         </div>
 
                         <!-- Message Input Area -->
-                        <div class="message-input-container">
+                        <div class="message-input-container" style="height: 85px">
                             <div class="message-input-group">
                                 <input id="messageInput" type="text" class="message-input"
                                        placeholder="Type your message here...">
