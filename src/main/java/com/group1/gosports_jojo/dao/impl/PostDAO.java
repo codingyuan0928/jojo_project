@@ -79,6 +79,20 @@ public class PostDAO implements PostDAO_interface {
 			+ "WHERE p.post_status = 1 AND post_title LIKE concat ('%',?,'%') or post_content LIKE  concat ('%',?,'%') "
 			+ "ORDER BY count DESC, good DESC, p.created_datetime DESC ";
 
+
+	private static final String GET_ONE_PSTMT = "SELECT post_id, user_id, post_title, post_category, post_content, created_datetime, updated_datetime  FROM posts WHERE post_id = ?";
+
+	//查證檢舉文章
+	private static final String GET_ARTICLE_BY_KEYWORD = "SELECT post_id, post_category, post_title, post_content, created_datetime, updated_datetime, post_status "
+			+ "FROM posts "
+			+ "WHERE post_title like '%' ? '%' or post_content like '%' ? '%'";
+
+	//隱藏文章(移除檢舉文章)
+	private static final String UPDATE_ARTICLE_HIDDEN = "UPDATE posts set post_status='0', updated_datetime=curtime() where post_id = ?";
+
+
+
+
 	// 新增文章
 	@Override
 	public void insert(PostVO postVO) {
@@ -391,5 +405,113 @@ public class PostDAO implements PostDAO_interface {
 			}
 		}
 	}
+
+
+
+
+	@Override
+	public List<PostVO> getArticleByKeyWord(String keyword1, String keyword2) {
+		List<PostVO> list = new ArrayList<PostVO>();
+		PostVO postVO = null;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			con = ds.getConnection();
+
+			pstmt = con.prepareStatement(GET_ARTICLE_BY_KEYWORD);
+
+			pstmt.setString(1, keyword1);
+			pstmt.setString(2, keyword2);
+
+			rs = pstmt.executeQuery();
+//			SELECT post_id, post_category, post_title, post_content, created_datetime, updated_datetime, post_status
+			while (rs.next()) {
+
+				postVO = new PostVO();
+				postVO.setPost_id(rs.getInt("post_id"));
+				postVO.setPost_category(rs.getString("post_category"));
+				postVO.setPost_title(rs.getString("post_title"));
+				postVO.setPost_content(rs.getString("post_content"));
+				postVO.setCreated_datetime(rs.getTimestamp("created_datetime"));
+				postVO.setUpdated_datetime(rs.getTimestamp("updated_datetime"));
+				postVO.setPost_status(rs.getInt("post_status"));
+
+				list.add(postVO);
+
+			}
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+
+	}
+
+
+	//隱藏文章
+	@Override
+	public void updateHidden(Integer post_id) {
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+
+			con = ds.getConnection();
+
+			pstmt = con.prepareStatement(UPDATE_ARTICLE_HIDDEN);
+
+			pstmt.setInt(1, post_id);
+
+			pstmt.executeUpdate();
+
+			// Handle any driver errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+
+	}
+
+
 
 }

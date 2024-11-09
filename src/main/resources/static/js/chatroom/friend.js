@@ -406,7 +406,12 @@ document.querySelectorAll('.search-input').forEach(input => {
     input.addEventListener('click', function() {
         var myModal = new bootstrap.Modal(document.querySelector('.searchModal'));
         myModal.show();
+        // 將焦點設置到輸入框
+        myModal._element.addEventListener('shown.bs.modal', function () {
+            document.querySelector('.modalSearchInput').focus();
+        });
     });
+
 });
 
 

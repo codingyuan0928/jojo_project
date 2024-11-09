@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import java.sql.Timestamp;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -44,6 +45,7 @@ public class FriendService {
         invitation.setUserId(sender);
         invitation.setFriendId(receiver);
         invitation.setStatus("PENDING"); // 設定邀請狀態
+        invitation.setRequestedAt(new Timestamp(System.currentTimeMillis()));
 
         // 保存邀請到資料庫
         friendRepository.save(invitation);
@@ -64,6 +66,7 @@ public class FriendService {
 
         // 更新邀請狀態為已接受
         invitation.setStatus("ACCEPTED");
+        invitation.setRespondedAt(new Timestamp(System.currentTimeMillis()));
         friendRepository.save(invitation);
 
         // 返回接受邀請的使用者名字

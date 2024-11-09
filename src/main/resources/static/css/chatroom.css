@@ -517,20 +517,20 @@ small.text-muted {
 
 #customAlert {
     position: fixed;
-    bottom: 20px;
+    top: 100px;
     right: 20px;
     z-index: 1000; /* 保證它顯示在其他元素上面 */
     width: 300px; /* 設定 alert 寬度，可根據需求調整 */
 }
 
 #customAlert .alert {
-    background-color: #FFF0E1; /* 更改背景顏色 */
-    border-color: #FFAD5F; /* 更改邊框顏色 */
-    color: #FFAD5F; /* 更改文字顏色 */
+    background-color: #d5fdd5; /* 更改背景顏色 */
+    border-color: #155724; /* 更改邊框顏色 */
+    color: #155724; /* 更改文字顏色 */
 }
 
 #customAlert .alert .close {
-    color: #FFAD5F; /* 更改關閉按鈕顏色 */
+    color: #155724; /* 更改關閉按鈕顏色 */
 }
 
 .date-divider {

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>Go Sport | 廠商訊息通知</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- favicon -->
+    <link
+            rel="icon"
+            th:href="@{/images/common/favicon.png}"
+            type="image/png"
+    />
+    <!-- bootstrap css -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+            crossorigin="anonymous"
+    />
+    <!-- bootstrap icons -->
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400..900&display=swap"
+            rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+    <style>
+
+        .popup-header h2 {
+            margin: 0;
+        }
+
+
+        /*彈出視窗到此*/
+        /* 自定義 sidebar 的背景顏色 */
+        .table-bordered th, .table-bordered td {
+            text-align: center; /* 水平置中 */
+            vertical-align: middle; /* 垂直置中 */
+        }
+
+        /* 自定義 sidebar 的背景顏色 */
+        .custom-sidebar-bg {
+            position: fixed; /* 固定位置 */
+            left: 0; /* 固定在左側 */
+            top: 0; /* 從頂部開始 */
+            width: 200px; /* 設置 sidebar 的寬度 */
+            height: 100%; /* 使高度覆蓋整個屏幕 */
+            background-color: rgba(255, 254, 210, 0.75) !important; /* 使用半透明背景顏色 */
+            padding: 20px; /* 添加一些內邊距以增加內容的舒適度 */
+        }
+
+        .custom-sidebar-link {
+            color: #0D6EFD;
+            font-family: "Noto Sans TC", system-ui;
+            font-optical-sizing: auto;
+            font-style: normal;
+            display: flex;
+            align-items: center; /* 垂直居中圖標和文字 */
+            padding: 10px; /* 增加一些內邊距讓鏈接更顯眼 */
+        }
+
+        .custom-sidebar-link i {
+            width: 30px; /* 設置固定寬度，確保所有圖標占用的空間相同 */
+            text-align: center; /* 圖標水平居中 */
+            margin-right: 10px; /* 圖標和文字之間的間距 */
+        }
+
+        .custom-sidebar-link:hover {
+            background-color: #e9ecef; /* 增加懸停效果 */
+            text-decoration: none; /* 移除懸停時可能的下劃線 */
+        }
+
+        .table th, .table td {
+            text-align: center; /* 水平置中 */
+            vertical-align: middle; /* 垂直置中 */
+        }
+
+
+        a.info-a{
+            text-decoration: none;
+        }
+
+
+
+        .info-item {
+
+            list-style: none; /* 無列表符號 */
+            background-color: #b3cde0;
+            border-bottom: 1px solid #a1b8c3;
+            padding: 20px;
+            border-radius: 8px;
+            /*            font-size: 1.2rem; */
+            margin-bottom: 10px;
+            margin-right: 3%;
+        }
+
+
+        .info-category {
+            font-weight: bold;
+            color: #003366;
+        }
+
+
+        .info-content {
+            margin-top: 10px;
+            color: #333;
+            word-break: break-word;
+            line-height: 1.8rem;
+        }
+
+        @media (max-width:767.98px) {
+            .info-content {
+                font-size: 1rem;
+                line-height: 1.5rem;
+            }
+
+            .info-list {
+                border-radius: 4px;
+                margin-left: 5%;
+            }
+        }
+
+        .info-date {
+            font-size: 1rem;
+            color: #6c757d;
+        }
+
+        @media (max-width:767.98px) {
+            .info-date {
+                font-size: 0.8rem;
+            }
+        }
+
+        .btn-light{
+            border:none;
+            background-color:transparent;
+            float: right;
+        }
+
+    </style>
+</head>
+
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <!-- 左側選單 -->
+        <aside class="col-md-2 p-3 custom-sidebar-bg">
+            <ul class="nav flex-column">
+
+                <li class="nav-item">
+                    <a th:href="@{/vendors/product_menu}" class="nav-link custom-sidebar-link">
+                        <i class="fa-solid fa-bars"></i> 商品總覽
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/vendors/add_product}" class="nav-link custom-sidebar-link">
+                        <i class="fas fa-upload"></i> 商品上架
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/vendors/order_pending}" class="nav-link custom-sidebar-link">
+                        <i class="fa-solid fa-gears"></i> 訂單管理
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/vendors/notification_vendor}" class="nav-link custom-sidebar-link">
+                        <i class="fa-solid fa-bell"></i> 訊息通知
+                        <span th:if="${unreadV>0}" th:text="'●'" style="font-size:smaller; color: red;"></span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/vendors/order_pending}" class="nav-link custom-sidebar-link"  data-bs-target="#profileUpdateStaticBackdrop"  data-bs-toggle="modal">
+                        <img th:src="${avatar}" style="width: 30px;height: 30px;border-radius: 180px;margin-right: 10px;border: #0D6EFD solid 0.5px" >編輯資料
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="javascript:void(0)" class="nav-link custom-sidebar-link" onclick="vendorLogout()">
+                        <i class="fa-solid fa-right-from-bracket"></i>    登出
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- 內容區域 -->
+        <main class="col-md-10 offset-md-2 p-3" style="margin-left: 230px;">
+            <!-- 				<h2>訂單管理</h2> -->
+            <h2 class="mb-3">訊息通知</h2> <!-- 使用更大的 mb（margin-bottom）值來增加距離 -->
+
+<!--            <div class="d-flex justify-content-between align-items-center mb-3">-->
+
+                <th:block th:each="notiVO : ${vendorNotification}">
+
+                    <li class="info-item" th:if="${'13.訂單成立(seller)' == notiVO.notificationItem}">
+                        <form method="post" th:action="@{/vendors/hidden_notification_V}" >
+                            <input type="hidden" name="notificationId" th:value="${notiVO.notificationId}">
+                            <button type="submit" class="btn btn-light">
+                                <img th:class="delete" th:src="@{/images/customer_support/delete_notification.png}" alt="&#10006" width="20px" align="right">
+                            </button>
+                        </form>
+                        <div class="info-category" th:text="${'&#128276' + notiVO.notificationCategory}"></div>
+                        <div class="info-content">
+                            <a th:href="@{/vendors/order_pending}" class="info-a">
+                                訂單編號 <span style="font-weight:bold; text-decoration: underline;" th:text="${notiVO.referenceId}"></span> ，訂單已成立
+                            </a>
+                        </div>
+                        <div class="info-date" th:text="'訊息發送時間：' + ${#dates.format(notiVO.sendDatetime, 'yyyy-MM-dd hh:mm:ss')}"> </div>
+                    </li>
+
+
+                    <li class="info-item" th:if="${'15.商品下架(經檢舉)(seller)' == notiVO.notificationItem}">
+                        <form method="post" th:action="@{/vendors/hidden_notification_V}" >
+                            <input type="hidden" name="notificationId" th:value="${notiVO.notificationId}">
+                            <button type="submit" class="btn btn-light">
+                                <img th:class="delete" th:src="@{/images/customer_support/delete_notification.png}" alt="&#10006" width="20px" align="right">
+                            </button>
+                        </form>
+                        <div class="info-category" th:text="${'&#128276' + notiVO.notificationCategory}"></div>
+                        <div class="info-content">
+                            <a th:href="@{/vendors/product_menu}" class="info-a">
+                                因商品 <span style="font-weight:bold; text-decoration: underline;" th:text="${notiVO.referenceId}"></span> ，不符合本平台規範，已被下架
+                            </a>
+                        </div>
+                        <div class="info-date" th:text="'訊息發送時間：' + ${#dates.format(notiVO.sendDatetime, 'yyyy-MM-dd hh:mm:ss')}"> </div>
+                    </li>
+
+
+
+                    <li class="info-item" th:if="${'16.廠商停權(經檢舉)(seller)' == notiVO.notificationItem}">
+                        <form method="post" th:action="@{/vendors/hidden_notification_V}" >
+                            <input type="hidden" name="notificationId" th:value="${notiVO.notificationId}">
+                            <button type="submit" class="btn btn-light">
+                                <img th:class="delete" th:src="@{/images/customer_support/delete_notification.png}" alt="&#10006" width="20px" align="right">
+                            </button>
+                        </form>
+                        <div class="info-category" th:text="${'&#128276' + notiVO.notificationCategory}"></div>
+                        <div class="info-content">
+<!--                            <a href='#' class="info-a">-->
+                                因您的商城不符合本平台規範，已被停權。
+<!--                            </a>-->
+                        </div>
+                        <div class="info-date" th:text="'訊息發送時間：' + ${#dates.format(notiVO.sendDatetime, 'yyyy-MM-dd hh:mm:ss')}"> </div>
+                    </li>
+
+
+                    <li class="info-item" th:if="${'17.廠商資格審核(seller)-1' == notiVO.notificationItem}">
+                        <form method="post" th:action="@{/vendors/hidden_notification_V}" >
+                            <input type="hidden" name="notificationId" th:value="${notiVO.notificationId}">
+                            <button type="submit" class="btn btn-light">
+                                <img th:class="delete" th:src="@{/images/customer_support/delete_notification.png}" alt="&#10006" width="20px" align="right">
+                            </button>
+                        </form>
+                        <div class="info-category" th:text="${'&#128276' + notiVO.notificationCategory}"></div>
+                        <div class="info-content">
+<!--                            <a href='#' class="info-a">-->
+                                您所提供的審查資料不符規定，請於3日內重新補件；若未如期補件，或補件後審核失敗，運動揪揪平台將於3日後移除此註冊帳號
+<!--                            </a>-->
+                        </div>
+                        <div class="info-date" th:text="'訊息發送時間：' + ${#dates.format(notiVO.sendDatetime, 'yyyy-MM-dd hh:mm:ss')}"> </div>
+                    </li>
+
+                </th:block>
+
+<!--            </div>-->
+
+        </main>
+    </div>
+</div>
+<div th:replace="fragments/profile_update_modal :: profile_update_modal"></div>
+<div th:replace ="fragments/reset_password :: reset_password"></div>
+
+
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
+
+</script>
+
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+        crossorigin="anonymous"
+></script>
+
+
+<script  th:src="@{/js/common.js}"></script>
+</body>
+</html>
