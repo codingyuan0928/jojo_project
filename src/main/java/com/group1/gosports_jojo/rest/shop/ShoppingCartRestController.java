@@ -62,7 +62,7 @@ public class ShoppingCartRestController {
     @GetMapping("/view")
     @Operation(summary = "查看購物中的商品",description = "會回傳 ProductVO 包含 商品編號, 商品名稱, 剩餘庫存")
     public ResponseEntity<List<ProductVO>> viewCart(@RequestParam Integer userId) {
-        List<ProductVO> cart = shoppingCartService.testviewCart(userId);
+        List<ProductVO> cart = shoppingCartService.viewCart(userId);
         return ResponseEntity.ok(cart);
     }
 

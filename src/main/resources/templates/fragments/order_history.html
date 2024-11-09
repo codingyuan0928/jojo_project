@@ -1,0 +1,227 @@
+<div th:fragment="order_history" class="d-flex justify-content-center w-100">
+    <style>
+        th,
+        td {
+            text-align: center;
+            vertical-align: middle;
+        }
+    </style>
+    <!-- 主內容區域 -->
+
+        <div class="d-flex flex-column align-items-center w-100 mt-3" >
+            <h3 class="">我的訂單紀錄</h3>
+            <table id="orderTable" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>訂單編號</th>
+                    <th>訂購日期</th>
+                    <th>商城名稱</th>
+                    <th>金額合計</th>
+                    <th>預計取貨時間</th>
+                </tr>
+                </thead>
+                <tbody id="orderTableBody">
+                <!-- 訂單資料 -->
+                </tbody>
+            </table>
+        </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
+
+        <div class="modal-dialog modal-lg">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <h5>感謝您的支持和信任，這是您的訂單</h5>
+                    <h5>訂單詳情</h5>
+                    <table class="table">
+                        <tr>
+                            <td>訂購姓名</td>
+                            <td id="orderCustomerName"></td>
+                        </tr>
+                        <tr>
+                            <td>E-mail</td>
+                            <td id="orderEmail"></td>
+                        </tr>
+                        <tr>
+                            <td>訂單編碼</td>
+                            <td id="orderNumber"></td>
+                        </tr>
+                        <tr>
+                            <td>訂購日期</td>
+                            <td id="orderDate"></td>
+                        </tr>
+                        <tr>
+                            <td>訂單金額</td>
+                            <td id="orderAmount"></td>
+                        </tr>
+                        <tr>
+                            <td>預計取貨時間</td>
+                            <td id="pickupDate"></td>
+                        </tr>
+                        <tr>
+                            <td>付款方式</td>
+                            <td id="paymentMethod"></td>
+                        </tr>
+                        <tr>
+                            <td>取貨地址</td>
+                            <td id="pickupAddress"></td>
+                        </tr>
+                    </table>
+                    <h5>訂購商品明細</h5>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>商品名稱</th>
+                            <th>數量</th>
+                            <th>小計</th>
+                        </tr>
+                        </thead>
+                        <tbody id="orderItemsTableBody">
+                        <!-- 商品項目會在這裡被追加 -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/js/common.js}"></script>
+    <script th:src="@{/js/global.js}"></script>
+    <script>
+
+        function closePopup() {
+            document.getElementById('orderPopup').style.display = 'none';
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            if (isNaN(date.getTime())) {
+                console.error("Invalid date format:", dateString);
+                return dateString; // 無法解析時回傳原日期字串
+            }
+
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+
+            return `${year}-${month}-${day} ${hours}:${minutes}`;
+        }
+
+        // 訂單 Table API
+        function getOrder() {
+            const url = `/order/${fakUserId}`;
+            return fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                })
+        }
+
+        // 顯示訂單資料的函數
+        async function displayOrders() {
+            const orders = await getOrder();
+            const orderTableBody = document.getElementById('orderTableBody');
+            orderTableBody.innerHTML = '';  // 清空列表
+            orders.forEach(order => {
+                const tr = document.createElement('tr');
+
+                // 取得訂單詳情並顯示在表格中
+                tr.innerHTML = `
+            <td>${order.id}</td>
+            <td>${formatDate(order.createdDatetime)}</td>
+            <td>${order.vendor.shopName}</td>
+            <td>${order.totalAmount}</td>
+            <td>${formatDate(order.pickupDate)}</td>
+            <td><button class="btn btn-primary" onclick='getOrderItems(${order.id})'>顯示訂單</button></td>
+        `;
+                orderTableBody.appendChild(tr); // 追加到表格
+
+            });
+        }
+
+        displayOrders();
+
+        // 我的訂單明細 popup API
+        function fetchOrderItems(orderId) {
+            const url = `/order/findOrderDetailsByOrderId/${orderId}`;
+            return fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                })
+        }
+
+        // 我的訂單明細 popup 畫面渲染
+        async function getOrderItems(orderId) {
+            // 假設 fetchOrderItems 回傳訂單和訂單項目的詳細資料
+            const res = await fetchOrderItems(orderId);
+            const id = res[0].orderId; // 訂單編號
+            const username = res[0].username;
+            const email = res[0].email;
+            const orderDate = res[0].createdDatetime;
+            const pickupDate = res[0].pickupDate;
+            const amount = res[0].totalAmount;
+
+
+            const address = res[0].pickAddress;
+
+            // 填充訂單詳情
+            document.getElementById('orderNumber').textContent = id;
+            document.getElementById('orderCustomerName').textContent = username;
+            document.getElementById('orderEmail').textContent = email;
+            document.getElementById('orderDate').textContent = formatDate(orderDate);
+            document.getElementById('orderAmount').textContent = `NT$ ${amount}`;
+            document.getElementById('pickupDate').textContent = formatDate(pickupDate);
+            console.log(pickupDate);
+            document.getElementById('paymentMethod').textContent = '現金';
+            document.getElementById('pickupAddress').textContent = address;
+
+            // 清空舊的商品明細
+            const orderItemsTableBody = document.getElementById('orderItemsTableBody');
+            orderItemsTableBody.innerHTML = '';
+
+            // 顯示每一個商品的明細
+            res.forEach(item => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+            <td>${item.productName}</td>
+            <td>${item.quantity}</td>
+            <td>NT$ ${item.price * item.quantity}</td>
+        `;
+                orderItemsTableBody.appendChild(tr); // 將每一項商品追加到表格中
+            });
+
+            // 顯示 Modal
+            const orderModal = new bootstrap.Modal(document.getElementById('orderModal'));
+            orderModal.show();
+        }
+
+
+        var currentPage = 1;
+
+    </script>
+</div>
