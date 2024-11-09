@@ -254,7 +254,7 @@ public class GroupController {
 				errorMsgs.put("groupJoinDeadline", "截止時間要比開打時間早 12 小時");
 			}
 			if ((nowTime > groupPlayingDatetime.getTime() + i) || (nowTime >groupJoinDeadline.getTime()) ) {
-				errorMsgs.put("groupJoinDeadline", "開打時間要選未來12小時候,及報名時間要是未來式喔~");
+				errorMsgs.put("groupJoinDeadline", "開打時間要選未來12小時後,及報名時間要是未來式喔~");
 			}
 		} catch (IllegalArgumentException e) {
 			errorMsgs.put("groupJoinDeadline", "請輸入時間及日期");
@@ -675,7 +675,7 @@ public class GroupController {
 				errorMsgs.put("groupJoinDeadline", "截止時間要比開打時間早 12 小時");
 			}
 			if ((nowTime > groupPlayingDatetime.getTime() + i) || (nowTime >groupJoinDeadline.getTime()) ) {
-				errorMsgs.put("groupJoinDeadline", "開打時間要選未來12小時候,及報名時間要是未來式喔~");
+				errorMsgs.put("groupJoinDeadline", "開打時間要選未來12小時後,及報名時間要是未來式喔~");
 			}
 		} catch (IllegalArgumentException e) {
 			errorMsgs.put("groupJoinDeadline", "請輸入時間及日期");
