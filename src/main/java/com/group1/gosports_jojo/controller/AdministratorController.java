@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin")
 public class AdministratorController {
 
     @Autowired
@@ -26,7 +25,7 @@ public class AdministratorController {
     private AdminService adminService;
 
 
-    @GetMapping("/administrators")
+    @GetMapping("/admin/administrators")
     public String administrators(Model model) {
         List<UserListDTO> userLists = userService.getAllUserDTOs();
         model.addAttribute("userlists", userLists);
