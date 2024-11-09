@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <title>論壇首頁</title>
+    <title>Go Sport | 論壇首頁</title>
     <!-- favicon -->
     <link
             rel="icon"
@@ -42,7 +42,10 @@
             height: 100vh; /* 確保背景延伸到視窗高度 */
             background: linear-gradient( #99caff, #FFD9EC, #DFFFDF);
             background-attachment: fixed; /* 讓背景固定，隨著頁面內容捲動 */
-            overflow: hidden;
+            overflow: scroll;
+        }
+        body::-webkit-scrollbar {
+            display: none; /* 適用於 Chrome, Safari 和 Opera */
         }
 
         img {
@@ -132,6 +135,7 @@
         div.tab_container div.tab_contents div.tab {
             padding: 10px;
             display: none;
+
         }
 
         div.tab_container div.tab_contents div.tab.-on {
@@ -211,6 +215,7 @@
                 </form>
                 <p th:if="${errorMsgs != null} " th:text="${errorMsgs.get('empty1')}"></p>
                 <p th:if="${errorMsgs != null} " th:text="${errorMsgs.get('empty2')}"></p>
+
                 <!-- ↓↓↓ 頁籤裡的內容 ↓↓↓ -->
                 <div class="tab_contents">
 
@@ -222,9 +227,11 @@
                             <div class="list-group px-3">
 
                                 <div class="list-group-item">
+                                    <p th:if="${list.isEmpty}" th:text="查無此資料"></p>
                                     <div th:each="postVO : ${list}" class="article">
                                         <div class="d-flex w-100 justify-content-between">
                                             <h5 class="mb-1">
+
                                                 <a th:href="@{/getOne(post_id=${postVO.post_id},user_id=${userId})}">
                                                     [[${postVO.post_category}]] [[${postVO.post_title}]]
                                                 </a>
@@ -251,6 +258,7 @@
                             <!-- 文章列表 -->
                             <div class="list-group px-3">
                                 <div class="list-group-item">
+                                    <p th:if="${list.isEmpty}" th:text="查無此資料"></p>
                                     <div th:each="postVO : ${list2}" class="article">
 
                                         <div class="d-flex w-100 justify-content-between">
@@ -297,7 +305,7 @@
     function tab_active() {
 
         let target_tab;
-        switch (location.hash) { //
+        switch (location.hash) {
             case "#tab1":
                 target_tab = "tab1";
                 break;

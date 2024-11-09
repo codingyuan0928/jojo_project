@@ -1,8 +1,12 @@
 package com.group1.gosports_jojo.controller;
 
 import com.group1.gosports_jojo.dao.impl.AddProductDAO;
+import com.group1.gosports_jojo.entity.Vendor;
 import com.group1.gosports_jojo.model.AddProductVO;
 import com.group1.gosports_jojo.model.OrderVO;
+import com.group1.gosports_jojo.model.UserVO;
+import com.group1.gosports_jojo.notification.model.NotificationService;
+import com.group1.gosports_jojo.notification.model.NotificationVO;
 import com.group1.gosports_jojo.service.impl.shop.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,6 +39,10 @@ public class SellerController {
     @Autowired
     AddProductDAO adao;
 
+    //書懿新增
+    @Autowired
+    NotificationService notificationSvc;
+
 
 
 @GetMapping("/order_finish")
@@ -43,12 +52,16 @@ public String orderFinish(HttpServletRequest req, Model model, HttpServletRespon
     List<OrderVO> list = orderSvc.getAll(1); // 呼叫無參數版本的 getAll 方法
     req.setAttribute("list", list);
 
+    //書懿新增
+    HttpSession session = req.getSession();
+    Vendor vendor = (Vendor) session.getAttribute("vendorAccount");
+    model.addAttribute("vendorId", vendor.getVendorId());
+    Integer vendorId = vendor.getVendorId();
+    model.addAttribute("unreadV", notificationSvc.getCountUnreadNotificationV(vendorId).getCount());
+
     return "order_finish";
 }
-@GetMapping("/order_finish_search")
-public String orderFinishSearch() {
-    return "order_finish_searcdddh";
-}
+
 @PostMapping("/order_views")
 public String orderPending(Model model, @RequestParam("id") Integer id
 ,@RequestParam("status") Integer status) {
@@ -60,14 +73,28 @@ public String orderPending(Model model, @RequestParam("id") Integer id
 }
 
 @GetMapping("/order_pending")
-public String orderviews(Model model) {
+public String orderviews(HttpServletRequest req,Model model) {
     List<OrderVO> list = orderSvc.getAll(0); // 呼叫無參數版本的 getAll 方法
     model.addAttribute("list", list);
+
+    //書懿新增
+    HttpSession session = req.getSession();
+    Vendor vendor = (Vendor) session.getAttribute("vendorAccount");
+    model.addAttribute("vendorId", vendor.getVendorId());
+    Integer vendorId = vendor.getVendorId();
+    model.addAttribute("unreadV", notificationSvc.getCountUnreadNotificationV(vendorId).getCount());
+
     return "order_pending";
 }
 
 @GetMapping("/product_menu")
-public String productMenu() {
+public String productMenu(HttpServletRequest req, Model model, HttpServletResponse res) {
+    //書懿新增
+    HttpSession session = req.getSession();
+    Vendor vendor = (Vendor) session.getAttribute("vendorAccount");
+    model.addAttribute("vendorId", vendor.getVendorId());
+    Integer vendorId = vendor.getVendorId();
+    model.addAttribute("unreadV", notificationSvc.getCountUnreadNotificationV(vendorId).getCount());
 
     return "product_menu";
 }
@@ -85,7 +112,7 @@ public String searchOrderTime(HttpServletRequest req, Model model, HttpServletRe
         // 如果 time1 或 time2 為 null 或空，處理錯誤情況，例如設置默認值或返回錯誤訊息
         req.setAttribute("errorMsg", "日期區間無效，請重新選擇時間範圍。");
 
-        return "order_finish_searcdddh"; // 結束這個請求處理
+        return "order_finish_search"; // 結束這個請求處理
     }
 
     System.out.println(time1);
@@ -117,7 +144,12 @@ public String searchOrderTime(HttpServletRequest req, Model model, HttpServletRe
         System.out.println(e);
     });
 
-
+    //書懿新增
+    HttpSession session = req.getSession();
+    Vendor vendor = (Vendor) session.getAttribute("vendorAccount");
+    model.addAttribute("vendorId", vendor.getVendorId());
+    Integer vendorId = vendor.getVendorId();
+    model.addAttribute("unreadV", notificationSvc.getCountUnreadNotificationV(vendorId).getCount());
 
     return "order_finish";
 }
@@ -157,8 +189,12 @@ public String searchPendingOrderTime(HttpServletRequest req, Model model, HttpSe
             endTime = Timestamp.valueOf(timeOne.atStartOfDay());
         }
 
-
-
+    //書懿新增
+    HttpSession session = req.getSession();
+    Vendor vendor = (Vendor) session.getAttribute("vendorAccount");
+    model.addAttribute("vendorId", vendor.getVendorId());
+    Integer vendorId = vendor.getVendorId();
+    model.addAttribute("unreadV", notificationSvc.getCountUnreadNotificationV(vendorId).getCount());
 
         Set<OrderVO> orderList = orderSvc.getOrdersByTime(beginTime, endTime);//, orderStatus);
 
@@ -169,11 +205,22 @@ public String searchPendingOrderTime(HttpServletRequest req, Model model, HttpSe
 
         return "order_pending";
         //return "order_pending_search";
+
+
     }
 
 
 @GetMapping("/add_product")
     public String addProduct(HttpServletRequest req, Model model, HttpServletResponse res){
+    //書懿新增
+    HttpSession session = req.getSession();
+    Vendor vendor = (Vendor) session.getAttribute("vendorAccount");
+    model.addAttribute("vendorId", vendor.getVendorId());
+    Integer vendorId = vendor.getVendorId();
+
+    model.addAttribute("unreadV", notificationSvc.getCountUnreadNotificationV(vendorId).getCount());
+
+
         return "add_product";
 
     }
@@ -253,7 +300,60 @@ public String insertProduct(HttpServletRequest req, Model model, HttpServletResp
     req.setAttribute("ERRM", errm); //
     //檢查錯誤
 
+
+    //書懿新增
+    HttpSession session = req.getSession();
+    Vendor vendor = (Vendor) session.getAttribute("vendorAccount");
+    model.addAttribute("vendorId", vendor.getVendorId());
+    Integer vendorId = vendor.getVendorId();
+
+    model.addAttribute("unreadV", notificationSvc.getCountUnreadNotificationV(vendorId).getCount());
+
         return "add_product";
     }
+
+
+
+    @GetMapping("/notification_vendor")
+    public String getNotificationByVendor(HttpServletRequest req, Model model) {
+
+        HttpSession session = req.getSession();
+        Vendor vendor = (Vendor) session.getAttribute("vendorAccount");
+        model.addAttribute("vendorId", vendor.getVendorId());
+        Integer vendorId = vendor.getVendorId();
+
+        List<NotificationVO> list = notificationSvc.getNotificationByVendor(vendorId);
+        model.addAttribute("vendorNotification",list);
+
+        //書懿新增
+        notificationSvc.updateNotificationReadedV(vendorId);
+
+        model.addAttribute("unreadNotificationIdV", notificationSvc.getUnreadNotificationV(vendorId));
+        model.addAttribute("unreadV", notificationSvc.getCountUnreadNotificationV(vendorId).getCount());
+
+        return "notification_vendor";
+    }
+
+
+    @PostMapping("/hidden_notification_V")
+    public String hiddenNotificationV(HttpServletRequest req, Model model) {
+        HttpSession session = req.getSession();
+        Vendor vendor = (Vendor) session.getAttribute("vendorAccount");
+        model.addAttribute("vendorId", vendor.getVendorId());
+        Integer vendorId = vendor.getVendorId();
+
+        Integer notificationId = Integer.valueOf(req.getParameter("notificationId"));
+        notificationSvc.hiddenNotification(notificationId);
+        System.out.println("#324--notificationId"+notificationId);
+
+        List<NotificationVO> list = notificationSvc.getNotificationByVendor(vendorId);
+        model.addAttribute("vendorNotification",list);
+        System.out.println("#327--查詢廠商通知"+list);
+
+        return "notification_vendor";
+    }
+
+
+
 }
 

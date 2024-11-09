@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>聊天室</title>
+    <title>Go Sport | 聊天室</title>
 <!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">-->
 
 </head>
@@ -54,8 +54,9 @@
 
     <!-- 主頁內容 -->
 <!--    <main class="container my-4 ">-->
-        <div class="container-fluid my-4 p-3 main-content" style="width: 96vw; margin-left: auto; margin-right: auto;">
-            <div class="row">
+    <div class="container-fluid my-4 p-3 main-content"
+         style="display: flex; flex-direction: column; width: 96vw; margin-left: auto; margin-right: auto; flex-grow: 1;">
+            <div class="row" style="display:flex; flex-grow: 1;">
                 <!-- Left Column - Chat List with Hamburger Menu -->
                 <div class="col-12 col-md-3 p-0">
                     <nav class="navbar navbar-light bg-light d-md-none">
@@ -103,6 +104,7 @@
                                      aria-labelledby="private-chat-tab">
                                     <div id="chatList" class="list-group">
                                         <!-- 以下私聊項目 -->
+                                        <p class="no-friend-message">快去找好友聊天吧！</p>
                                     </div>
                                 </div>
                                 <!-- 群聊清單 -->
@@ -153,7 +155,7 @@
                     <!--  聊天視窗 -->
                     <div id="chatWindow" class="flex-column h-100" style="display: none;">
                         <!-- User Info Header -->
-                        <div class="d-flex mb-3 align-items-center">
+                        <div class="d-flex mb-3 align-items-center" style="height: 36px;">
                             <div id="userInfo" class="user-avatar me-3" style="margin-left: 18px;">
                                 <img id="userInfoHeader-avatar" src="" alt="Avatar" class="rounded-circle" style="width: 40px; height: 40px;">
                             </div>
@@ -171,7 +173,7 @@
                         </div>
 
                         <!-- Message Input Area -->
-                        <div class="message-input-container">
+                        <div class="message-input-container" style="height: 85px">
                             <div class="message-input-group">
                                 <input id="messageInput" type="text" class="message-input"
                                        placeholder="Type your message here...">
@@ -220,7 +222,7 @@
                         </div>
 
                         <!-- 搜索結果區域 -->
-                        <div id="searchResults" class="search-results mt-3">
+                        <div id="searchResults" class="search-results mt-3" style="max-height: 250px; overflow-y: auto;">
                             <p class="no-search">No recent searches</p>
                         </div>
 

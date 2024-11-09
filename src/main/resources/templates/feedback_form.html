@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Go Sport | 客服表單</title>
+
+
+<!-- favicon -->
+<link rel="icon" th:href="@{/images/common/favicon.png}"
+	type="image/png" />
+
+<!-- bootstrap css -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+	crossorigin="anonymous" />
+<!-- bootstrap icons -->
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+<!-- google fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+	href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400..900&display=swap"
+	rel="stylesheet" />
+<link rel="stylesheet" th:href="@{/css/common.css}" />
+
+
+
+
+<style>
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+}
+
+.feedback-title {
+	font-size: 28px;
+	font-weight: 1000;
+}
+
+.feedback-content {
+	font-size: 20px;
+	font-weight: 1000;
+}
+
+div.article {
+	/* min-height: 500px; */
+	height: 50vh;
+}
+
+textarea {
+	resize: none;
+	height: 100%;
+}
+
+.feedback-button {
+	/* border: 1px solid red; */
+	display: flex;
+	justify-content: center;
+	max-width: 100%;
+}
+
+.feedback-button-cancel, .feedback-button-submit {
+	margin: 0 2%;
+	width: 20%;
+	min-width: 100px;
+}
+
+span.hint {
+	color: red;
+	display: none;
+	font-size: 14px;
+}
+
+div.input-title.error span.hint {
+	display: block;
+}
+
+div.title-length.error span.hint {
+	display: block;
+}
+
+div.input-category.error span.hint {
+	display: block;
+	margin-bottom: 3%;
+}
+
+div.input-content.error span.hint {
+	display: block;
+}
+
+div.content-length.error span.hint {
+	display: block;
+}
+
+
+
+</style>
+
+
+</head>
+
+
+<body>
+	<div class="page-container">
+		<!-- 頁首導航欄 -->
+		<header th:replace="fragments/navbar :: navbar"></header>
+
+		<!-- 主頁內容 -->
+		<main class="container my-4 main">
+
+
+			<!-- 開啟話題 -->
+			<!-- 手動加入 <div style="padding:5%"> -->
+			<div style="padding: 5%">
+
+				<form th:action="@{/insert_Feedback_Form}" method="post" name="form1">
+
+					<div class="mb-3">
+						<!-- 手動加入 class=feedback-title -->
+						<input type="text" class="form-control feedback-title" id="exampleFormControlInput1" name="feedback-title"
+							placeholder="想反應什麼事呢...">
+							
+						<div class="input_group input-title">
+							<span class="hint">別忘記寫這唷&#128512!!</span>
+						</div>
+						<div class="input_group title-length">
+							<span class="hint">哎呀!純中文的字數上限為10字，純英文的字數上限為30字! </span>
+						</div>
+					</div>
+
+
+					<!-- 手動加入 class=feedback-category id="form-category" name="feedback-category" -->
+					<select class="mb-3 form-select feedback-category" aria-label="Default select example" id="form-category"
+						name="feedback-category">
+						<option class="topic" selected>請選擇類別</option>
+						<option class="topic" value="論壇">論壇</option>
+						<option class="topic" value="揪團">揪團</option>
+						<option class="topic" value="商城">商城</option>
+						<option class="topic" value="好友和聊天">好友和聊天</option>
+						<option class="topic" value="其他">其他</option>
+					</select>
+
+					<div class="input_group input-category">
+						<span class="hint">類別尚未選擇!!</span>
+					</div>
+
+
+					<!-- 手動加入 class=feedback-content -->
+					<div class="mb-5 article">
+						<textarea class="form-control feedback-content" id="exampleFormControlTextarea1" rows="3" name="feedback-content"
+							placeholder="請簡述欲反應事項~~" required></textarea>
+						<div class="input_group input-content">
+							<span class="hint">請記得簡述，問題才會被看到~&#128512!!</span>
+						</div>
+						<div class="input_group content-length">
+							<span class="hint">哎呀!純中文的字數上限為100字，純英文的字數上限為300! </span>
+						</div>
+					</div>
+
+
+
+					<div class="feedback-button">
+						<!-- 手動加入 class=feedback-button-cancel -->
+						<button type="button"
+							class="btn btn-secondary feedback-button-cancel">取消</button>
+
+						<input type="hidden" name="action" value="insert_Feedback_Form">
+						<input type="submit"
+							class="btn btn-primary feedback-button-submit" value="送出">
+
+					</div>
+				</form>
+			</div>
+
+		</main>
+
+
+
+
+		<!-- 確定取消編輯後，回到上一頁 -->
+		<script>
+			document.querySelector('.feedback-button-cancel').addEventListener(
+					'click', function() {
+						let r = confirm("真要捨棄剛剛寫的？");
+						if (r == true) {
+							history.go(-1);
+						}
+					});
+			
+			
+		</script>
+
+
+		<!-- =================== 標題/內容超過字數上限，會有提醒字 =================== -->
+		<script>
+			document
+					.querySelector(".feedback-title")
+					.addEventListener(
+							"keyup",
+							function(e) {
+								let title = document
+										.querySelector(".feedback-title").value;
+								var title_length = document
+										.querySelector(".feedback-title").value.length;
+								// console.log(title_length);
+
+								if (title_length > 30) {
+									document.querySelector('div.title-length').classList
+											.add('error');
+								} else {
+									document.querySelector('div.title-length').classList
+											.remove('error');
+								}
+							})
+
+			document
+					.querySelector(".feedback-content")
+					.addEventListener(
+							"keyup",
+							function(e) {
+								let content = document
+										.querySelector(".feedback-content").value;
+								var content_length = document
+										.querySelector(".feedback-content").value.length;
+								console.log(content_length);
+
+								if (content_length > 300) {
+									document
+											.querySelector('div.content-length').classList
+											.add('error');
+								} else {
+									document
+											.querySelector('div.content-length').classList
+											.remove('error');
+								}
+							})
+		</script>
+
+
+
+		<!-- =================== 沒有填寫標題/選類別/內容，會有提醒字(參考0826JQuery筆記p.27) =================== -->
+		<script>
+			document
+					.querySelector(".feedback-title")
+					.addEventListener(
+							"blur",
+							function(e) {
+								let title = document
+										.querySelector(".feedback-title").value;
+
+								if (title.trim() == "" || title.length == 0) {
+									document.querySelector('div.input-title').classList
+											.add('error');
+								} else {
+									document.querySelector('div.input-title').classList
+											.remove('error');
+								}
+							})
+
+			document
+					.querySelector(".feedback-category")
+					.addEventListener(
+							"mouseup",
+							function(e) {
+								let category = document
+										.querySelector(".feedback-category").value
+								if (category == "請選擇類別") {
+									document
+											.querySelector('div.input-category').classList
+											.add('error');
+								} else {
+									document
+											.querySelector('div.input-category').classList
+											.remove('error');
+								}
+							})
+
+			document
+					.querySelector(".feedback-content")
+					.addEventListener(
+							"blur",
+							function(e) {
+								let content = document
+										.querySelector(".feedback-content").value
+
+								if (content.trim() == "" || content.length == 0) {
+									document.querySelector('div.input-content').classList
+											.add('error');
+								} else {
+									document.querySelector('div.input-content').classList
+											.remove('error');
+								}
+							})
+
+			// =================== 點擊「送出」，檢查有無空值 ===================
+
+			document
+					.querySelector(".feedback-button-submit")
+					.addEventListener(
+							"click",
+							function(e) {
+
+								let title = document
+										.querySelector(".feedback-title").value
+								if (title.trim() == "" || title.length == 0) {
+									e.preventDefault();
+									document.querySelector('div.input-title').classList
+											.add('error');
+								} else {
+									document.querySelector('div.input-title').classList
+											.remove('error');
+								}
+
+								let category = document
+										.querySelector(".feedback-category").value
+								if (category == "請選擇類別") {
+									e.preventDefault();
+									document
+											.querySelector('div.input-category').classList
+											.add('error');
+								} else {
+									document
+											.querySelector('div.input-category').classList
+											.remove('error');
+								}
+
+								let content = document
+										.querySelector(".feedback-content").value
+								if (content.trim() == "" || content.length == 0) {
+									e.preventDefault();
+									document.querySelector('div.input-content').classList
+											.add('error');
+								} else {
+									document.querySelector('div.input-content').classList
+											.remove('error');
+								}
+
+							})
+
+			// =================== 若沒有錯誤提醒，傳送資料 ===================
+
+			var title_el = document.getElementById("exampleFormControlInput1");
+			var category_el = document.getElementById("form-category");
+			var content_el = document
+					.getElementById("exampleFormControlTextarea1");
+
+			document.querySelector(".feedback-button-submit").addEventListener(
+					"click",
+					function(e) {
+						if (document.querySelector('.error')) {
+							e.preventDefault();
+						} else {
+							var send_data = {};
+							send_data.title = title_el.value;
+							send_data.category = category_el.value;
+							send_data.content = content_el.value;
+							// console.log(send_data);
+
+							sessionStorage.setItem("form_data", JSON
+									.stringify(send_data));
+							//         location.href = "./feedback_submitted.jsp"
+
+						}
+					})
+
+		</script>
+
+		<!-- 頁尾 -->
+		<footer th:replace="fragments/footer :: footer"></footer>
+	</div>
+	<script th:src="@{/js/common.js}"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+		crossorigin="anonymous"></script>
+
+</body>
+</html>

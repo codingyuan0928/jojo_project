@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <title>新增文章 - addPost.jsp</title>
+    <title>Go Sport | 新增文章</title>
     <!-- favicon -->
     <link
             rel="icon"
@@ -217,7 +217,14 @@
 
                 <select class="mb-3 form-select" id="categorySelect"
                         name="post_category">
-                    <option selected th:value="${param.post_category}">話題類別</option>
+                    <div th:if="${param.post_category}">
+                        <option selected th:value="${param.post_category}" th:text="${param.post_category}"></option>
+                    </div>
+
+                    <div th:if="${param.post_category==null}">
+                        <option selected value="話題類別" th:text="話題類別"></option>
+                    </div>
+
                     <option value="桌球">桌球</option>
                     <option value="籃球">籃球</option>
                     <option value="排球">排球</option>
@@ -249,11 +256,30 @@
 
                 <br>
 
-                <tr>
-                    <td>文章內容</td>
-                    <td><input type="TEXT" name="post_content" th:value="${param.post_content}" size="45"
-                               id="contentTextarea"/></td>
-                </tr>
+<!--                <tr>-->
+<!--                    <td>文章內容</td>-->
+<!--                    <td><input type="TEXT" name="post_content" th:value="${param.post_content}" size="45"-->
+<!--                               id="contentTextarea"/></td>-->
+<!--                </tr>-->
+                <td>文章內容</td>
+                <td><textarea name="post_content" th:text="${param.post_content}" rows="5" id="contentTextarea" style="width: 100%; resize: none;"></textarea></td>
+
+                <script>
+                    // 自動換行功能
+                    document.getElementById("contentTextarea").addEventListener("input", function () {
+                        let content = this.value;
+                        const maxCharsPerLine = 40; // 每行字數限制
+                        let formattedContent = '';
+
+                        // 分割成 40 個字一段
+                        for (let i = 0; i < content.length; i += maxCharsPerLine) {
+                            formattedContent += content.slice(i, i + maxCharsPerLine) + '\n';
+                        }
+
+                        // 更新 textarea 的內容
+                        this.value = formattedContent.trim();
+                    });
+                </script>
 
 
                 <span class="error" id="error2"
@@ -279,7 +305,7 @@
             // 取消按鈕事件
             document.querySelector(".btn-danger").addEventListener("click", function () {
                 if (confirm("真要放棄嗎？ QwQ")) {
-                    window.history.go(-1);
+                    window.location="/forum_list_all_post";
                 }
             })
 

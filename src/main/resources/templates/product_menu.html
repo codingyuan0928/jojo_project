@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>商品管理</title>
+    <title>Go Sport | 商品管理</title>
     <!-- favicon -->
     <link
             rel="icon"
@@ -175,6 +175,34 @@
             font-size: 14px !important; /* 調整字體大小 */
             line-height: 1.5 !important; /* 調整行高 */
         }
+        /* 側邊欄設置 */
+        .custom-sidebar-bg {
+            width: 200px; /* 側邊欄固定寬度 */
+            color: #FFC107; /* 側邊欄文字顏色設為黃色 */
+            position: fixed; /* 固定側邊欄位置，讓它不隨頁面滾動 */
+            top: 0;
+            left: 0;
+            height: 100vh; /* 滿高，覆蓋整個頁面高度 */
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* 主要內容區域 */
+        .main-content {
+            margin-left: 220px; /* 為主內容區域留出側邊欄的寬度 */
+            padding: 20px;
+        }
+
+        /* Logo 設置 */
+        .sidebar-logo img {
+            width: 80px; /* logo 寬度 */
+            height: 80px; /* logo 高度 */
+            border-radius: 50%; /* 圓形邊框 */
+            border: 2px solid #FFC107; /* 邊框顏色設為黃色 */
+        }
+
 
 
 
@@ -193,15 +221,14 @@
 </head>
 <body>
 
-<main class="col-md-10 offset-md-2 p-3" style="margin-left: 250px;">
+<main class="col-md-10 offset-md-2 p-3 main-content" style="margin-left: 250px;">
     <h2 class="mb-3">商品總覽</h2>
 
-    <div class="flex-row">
-        <div style="">
+    <div class="lex-rowf">
+        <div class="">
             <!-- 左側選單 -->
             <aside class="col-md-2 p-3 custom-sidebar-bg">
                 <ul class="nav flex-column">
-
                     <li class="nav-item">
                         <a th:href="@{/vendors/product_menu}" class="nav-link custom-sidebar-link">
                             <i class="fa-solid fa-bars"></i> 商品總覽
@@ -220,6 +247,7 @@
                     <li class="nav-item">
                         <a th:href="@{/vendors/order_pending}" class="nav-link custom-sidebar-link">
                             <i class="fa-solid fa-bell"></i> 訊息通知
+                            <span th:if="${unreadV>0}" th:text="'●'" style="font-size:smaller; color: red;"></span>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -234,7 +262,7 @@
                     </li>
                 </ul>
                 <div class="sidebar-logo">
-                    <img th:src="@{/images/common/logo.svg}" alt="Logo" class="img-fluid logo">
+                    <img th:src="@{/images/common/logo.svg}" alt="Logo" class="img-fluid">
                 </div>
             </aside>
         </div>

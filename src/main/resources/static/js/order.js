@@ -237,34 +237,6 @@ async function deleteProduct(){
     $('#myTable1').DataTable().ajax.reload();
     $('#myTable2').DataTable().ajax.reload();
 }
-// let deleteList = []
-// const confirmDeleteModal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
-// function deleteItem(item){
-//     console.log(item + '準備被刪除');
-//     // 將要被刪除的項目加到 checkedList
-//     deleteList = [];
-//     deleteList.push(item);
-//     confirmDeleteModal.show();
-//     console.log('打開提醒視窗');
-// }
-//
-//
-// async function deleteProduct(){
-//     console.log('顯示提醒視窗確認');
-//     // 取得被勾選的項目
-//     console.log(deleteList);
-//     console.log('呼叫 API')
-//
-//     // 刪除商品 API
-//     await deleteProductAPI(deleteList);
-//
-//     console.log('關閉提醒視窗');
-//     confirmDeleteModal.hide();
-//
-//     // 重新載入兩張 table
-//     $('#myTable1').DataTable().ajax.reload();
-//     $('#myTable2').DataTable().ajax.reload();
-// }
 
 /**
  * 更改商品狀態 API
@@ -295,39 +267,6 @@ async function changeProductStatusAPI(productIds, status, isDelete){
             return response.json();
     });
 }
-
-async function deleteProductAPI(productIds) {
-    // 確保 productIds 是一個陣列
-    if (!Array.isArray(productIds)) {
-        productIds = [productIds];
-    }
-
-    const url = '/products';
-
-    try {
-        const response = await fetch(url, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(productIds)
-        });
-
-        // 確認 API 回應
-        if (!response.ok) {
-            throw new Error('Network response was not ok: ' + response.statusText);
-        }
-
-        // 解析回應數據
-        const data = await response.json();
-        console.log('產品刪除成功', data);
-        return data;
-    } catch (error) {
-        console.error('刪除產品時發生錯誤:', error);
-        throw error;
-    }
-}
-
 
 document.addEventListener('DOMContentLoaded', function () {
     initDataTable1();
