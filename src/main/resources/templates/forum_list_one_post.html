@@ -29,29 +29,26 @@
             rel="stylesheet"
     />
     <link rel="stylesheet" th:href="@{/css/common.css}"/>
+
     <style>
         /* 基本頁面樣式 */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            height: 100vh; /* 確保背景延伸到視窗高度 */
+            min-height: 100vh;
             background: linear-gradient(#C4E1FF, #FFD9EC, #DFFFDF);
-            background-attachment: fixed; /* 讓背景固定，隨著頁面內容捲動 */
-            overflow: hidden;
+            background-attachment: fixed;
         }
 
-        /* 主內容區域，避免被標題欄覆蓋 */
         main.main-content {
             padding: 20px;
             padding-top: 80px;
-            height: calc(100vh - 60px);
-            overflow-y: scroll;
-            overflow-x: hidden;
+            min-height: calc(100vh - 60px);
         }
 
         #articles-container{
-            border: 5px solid #e8e8e8;
+            border: 1px solid #38d6d6;
 
         }
         /* 文章區塊 */
@@ -73,13 +70,6 @@
             border: 1px solid green;
         }
 
-        /* 頭像樣式 */
-        .avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
 
         /* 文章標題和內容樣式 */
         .article-title {
@@ -91,7 +81,7 @@
 
         /* 留言卡片樣式 */
         .message-card {
-            border: 1px solid #ddd;
+            border: 1px solid #ff3aa9;
             border-radius: 10px;
             padding: 15px;
             margin-bottom: 0;
@@ -107,7 +97,7 @@
         /* 留言時間樣式 */
         .message-meta {
             font-size: 12px;
-            color: #666;
+            color: #818181;
         }
 
 
@@ -185,11 +175,18 @@
             box-shadow: 0 1px 5px rgba(34, 225, 174, 0.66);
         }
 
+        .name {
+
+            font-size: 20px;
+            color: #00a151;
+            margin: 0;
+            font-weight: bold;
+        }
 
         /* 用戶ID欄位 */
         .article h5 {
-            font-size: 25px;
-            color: #ff3aa9;
+            font-size: 20px;
+            color: #4cb2fa;
             margin: 0;
             font-weight: bold;
         }
@@ -237,6 +234,14 @@
                 font-size: 0.8em;
             }
         }
+
+        .abc{
+            display: flex;
+            align-items: center; /* 垂直置中 */
+            gap: 5px; /* 讓文字和愛心圖示之間有間距 */
+            font-weight: bold; /* 設定粗體 */
+            color: #888; /* 設定文字顏色 */
+        }
     </style>
 </head>
 <body>
@@ -256,16 +261,11 @@
             <div class="container content-container" id="articles-container">
 
 
-                <!--         <div class="article-header"> -->
-                <!--           <img src="https://via.placeholder.com/50" alt="avatar" class="avatar"> -->
-                <!--           <div> -->
-          <span class="name">[[${postVO.user_id}]]</span>
-            <div class="message-meta"><div th:text="${#dates.format(postVO.created_datetime,'yyyy-MM-dd HH:mm:ss')}"></div></div>
-                <!--           </div> -->
-                <!--         </div> -->
+          <span class="name" th:text="${postVO.username}+'(ID: '+${postVO.user_id}+')'"></span>
+            <div class="message-meta"><div th:text="${#dates.format(postVO.updated_datetime,'yyyy-MM-dd HH:mm:ss')}"></div></div>
 
                 <div class="article-title">[[${postVO.post_title}]]</div>
-                <div class="article-content">[[${postVO.post_content}]]------作者[[${postVO.user_id}]]</div>
+                <div class="article-content">[[${postVO.post_content}]]</div>
                 <div class="article-actions">
 
                     <br>
@@ -275,6 +275,7 @@
                         <FORM METHOD="post" th:action="@{/cancel_response}">
                             <input type="hidden" name="user_id" th:value="${userId}">
                             <input type="hidden"  name="post_id" th:value="${postVO.post_id}">
+
 
                             <div th:if="${responseVO.response_status==1}">
                                 <button type="submit" class="btn btn-like article-like-btn">
@@ -293,12 +294,15 @@
                                 <input type="hidden" name="post_id" th:value="${postVO.post_id}">
                             </div>
 
-                        </FORM>
 
+                        </FORM>
+                        <p class=" abc mb-1">點讚數：[[${getAllResponseAmount}]] | 回應數：[[${getAllReplyAmount}]]</p>
+                        <br>
 
 
                         <!-- 編輯文章 -->
                         <FORM METHOD="post" th:action="@{/getOne_For_Update}"
+
                               style="margin-bottom: 0px;">
                             <div th:if="${postVO.user_id == userId }">
 <!--                                <input type="hidden" name="user_id" value="3
@@ -350,7 +354,7 @@
 
                     <div th:each="replyVO : ${list}" class="article">
                         <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1" th:text="${replyVO.user_id}">
+                            <h5 class="mb-1" th:text="${replyVO.username}+'(ID: '+${replyVO.user_id}+')'">
 <!--                                <div th:href="@{'post.do?action=getOneReplyUpdate&reply_id=' + ${replyVO.reply_id}}">-->
                             </h5>
                         </div>

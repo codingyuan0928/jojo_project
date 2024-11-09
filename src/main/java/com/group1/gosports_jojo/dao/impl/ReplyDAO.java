@@ -27,10 +27,10 @@ public class ReplyDAO implements ReplyDAO_interface {
 	private static final String INSERT_REPLY = "INSERT INTO reply_details (user_id, post_id, reply_content) VALUES (?, ?, ?)";
 	
 	//單篇留言總數
-	private static final String GET_ALL_REPLY_AMOUNT = "SELECT count(reply_id) as count FROM reply_details WHERE post_id = ?";
+	private static final String GET_ALL_REPLY_AMOUNT = "SELECT count(reply_id) as count FROM reply_details WHERE post_id = ? and reply_status= 1";
 	
 	//取得單篇文章的所有留言
-	private static final String GET_ONE_POST_REPLY = "SELECT user_id, post_id, reply_content, reply_status, created_datetime, updated_datetime FROM reply_details WHERE post_id = ? and reply_status = 1 ORDER by created_datetime desc";
+	private static final String GET_ONE_POST_REPLY = "SELECT reply_details.user_id, username, post_id, reply_content, reply_status, created_datetime, updated_datetime FROM reply_details LEFT JOIN users ON reply_details.user_id = users.user_id WHERE post_id = ? and reply_status = 1 ORDER by created_datetime desc";
 	
 	//取得單筆留言
 	private static final String GET_ONE_REPLY_UPDATE = "SELECT user_id, post_id, reply_content, reply_status, created_datetime updated_datetime FROM reply_details WHERE reply_id = ?";
@@ -186,6 +186,7 @@ public class ReplyDAO implements ReplyDAO_interface {
 				replyVO = new ReplyVO();
 				replyVO.setUser_id(rs.getInt("user_id"));
 				replyVO.setPost_id(rs.getInt("post_id"));
+				replyVO.setUsername(rs.getString("username"));
 				replyVO.setReply_content(rs.getString("reply_content"));
 				replyVO.setReply_status(rs.getInt("reply_status"));
 				replyVO.setCreated_datetime(rs.getTimestamp("created_datetime"));

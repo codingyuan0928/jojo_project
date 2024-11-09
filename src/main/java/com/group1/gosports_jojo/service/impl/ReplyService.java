@@ -61,4 +61,8 @@ public class ReplyService {
     public List<ReplyVO> getOnePostReply(Integer post_id) {
         return dao.getOnePostReply(post_id);
     }
+
+    public Integer getAllReplyAmount(Integer post_id){
+        return dao.getAllReplyAmount(post_id);
+    }
 }

@@ -18,6 +18,9 @@ public class PostVO implements java.io.Serializable{
 	private String reply_content;
 	private Integer count; 
 	private Integer good;
+
+
+	private String 	username;
 	
 	public Integer getPost_id() {
 		return post_id;
@@ -106,6 +109,13 @@ public class PostVO implements java.io.Serializable{
 			this.good = good;
 		}
 
-	
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
 
 }

@@ -52,7 +52,7 @@ public class PostDAO implements PostDAO_interface {
 			+ "WHERE p.post_status = 1 "
 			+ "ORDER BY count DESC, good DESC, p.created_datetime DESC ";
 	// 查看單筆文章
-	private static final String GET_ONE_STMT = "SELECT post_id, user_id, post_title, post_category, post_content, created_datetime, updated_datetime FROM postS WHERE post_id = ?";
+	private static final String GET_ONE_STMT = "SELECT post_id, posts.user_id, username, post_title, post_category, post_content, created_datetime, updated_datetime FROM posts LEFT JOIN users ON posts.user_id = users.user_id WHERE post_id = ?";
 	// 隱藏文章
 	private static final String DELETE = "UPDATE postS SET post_status= 0 where post_id= ?;";
 	// 編輯文章
@@ -173,6 +173,7 @@ public class PostDAO implements PostDAO_interface {
 				postVO = new PostVO();
 				postVO.setPost_id(rs.getInt("post_id"));
 				postVO.setUser_id(rs.getInt("user_id"));
+				postVO.setUsername(rs.getString("username"));
 				postVO.setPost_title(rs.getString("post_title"));
 				postVO.setPost_category(rs.getString("post_category"));
 				postVO.setPost_content(rs.getString("post_content"));

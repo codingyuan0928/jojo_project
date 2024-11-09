@@ -13,7 +13,9 @@ public class ReplyVO implements java.io.Serializable{
 	private String reply_content;
 	private Timestamp created_datetime;
 	private Timestamp updated_datetime;
-	 private Integer count; 
+	 private Integer count;
+
+	private String 	username;
 	 
 	
 	public Integer getReply_id() {
@@ -65,4 +67,11 @@ public class ReplyVO implements java.io.Serializable{
 			this.count = count;
 		}
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 }

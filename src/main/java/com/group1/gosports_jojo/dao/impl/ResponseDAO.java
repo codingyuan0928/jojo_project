@@ -29,7 +29,7 @@ public class ResponseDAO implements ResponseDAO_interface {
 	//顯示單篇留言按讚
 	private static final String GET_ONE_RESPONSE = "SELECT post_id, reply_id, response_id, response_status, created_datetime, updated_datetime FROM reply_details WHERE reply_id = ?";
 	//顯示所有按讚數量
-	private static final String GET_ALL_RESPONSE_AMOUNT = "SELECT count(response_id) as count FROM response_details WHERE post_id = ?";
+	private static final String GET_ALL_RESPONSE_AMOUNT = "SELECT count(response_id) as count FROM response_details WHERE post_id = ? and response_status= 1";
 	//顯示單篇文章所有按讚(用戶是否在某篇文章點讚)
 	private static final String GET_POST_ALL_RESPONSE ="SELECT response_id, response_status FROM response_details WHERE  post_id = ? AND user_id =?";
 	
