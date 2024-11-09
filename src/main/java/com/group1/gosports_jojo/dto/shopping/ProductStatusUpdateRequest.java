@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.swing.text.BadLocationException;
 import java.util.List;
 
 @Data
@@ -12,4 +13,5 @@ import java.util.List;
 public class ProductStatusUpdateRequest {
     private List<Integer> productIds;
     private Integer status;
+    private Boolean isDelete;
 }

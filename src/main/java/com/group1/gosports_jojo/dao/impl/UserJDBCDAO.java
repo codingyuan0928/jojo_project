@@ -67,7 +67,7 @@ public class UserJDBCDAO implements UserDAO {
     }
 
     @Override
-    public void update(UserVO userVO) {
+    public boolean update(UserVO userVO) {
 
 
         try (Connection con = dataSource.getConnection();
@@ -90,11 +90,11 @@ public class UserJDBCDAO implements UserDAO {
             pstmt.setInt(14, userVO.getUserId());
 
             pstmt.executeUpdate();
-
+            return true;
 
         } catch (SQLException se) {
-            throw new RuntimeException("A database error occured. " + se.getMessage());
-
+            se.printStackTrace();
+            return false;
         }
 
     }

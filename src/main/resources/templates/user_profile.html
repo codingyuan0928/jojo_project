@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>個人頁面</title>
+    <title>Go Sport | 個人頁面</title>
     <!-- favicon -->
     <link
             rel="icon"
@@ -79,7 +79,8 @@
                 </div>
 
                 <div class="content-section notifications" style="display: none">
-                    <div class="border border-dark p-3">這裡是訊息通知的內容</div>
+<!--                    <div class="border border-dark p-3">這裡是訊息通知的內容</div>-->
+                    <div th:replace="~{notification}"></div>
                 </div>
             </div>
         </section>
@@ -87,7 +88,7 @@
     <!-- 頁尾 -->
     <footer th:replace="fragments/footer :: footer"></footer>
 </div>
-
+<div th:replace ="fragments/reset_password :: reset_password"></div>
 <script th:src="@{/js/common.js}"></script>
 <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"

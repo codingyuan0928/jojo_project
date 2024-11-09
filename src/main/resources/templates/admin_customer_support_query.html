@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-Hant">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>GoSports後台管理頁面 | 查詢系統</title>
+
+    <!-- favicon -->
+    <link
+            rel="icon"
+            th:href="@{/images/common/favicon.png}"
+            type="image/png"
+    />
+
+    <!-- bootstrap css -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+            crossorigin="anonymous"
+    />
+    <!-- bootstrap icons -->
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400..900&display=swap"
+            rel="stylesheet"
+    />
+    <link rel="stylesheet" th:href="@{/css/common.css}"/>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+            crossorigin="anonymous"
+    />
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        h3, h4 {
+            background-color: rgba(233, 233, 233, 0.61);
+            text-align: center;
+            margin-top: 2%;
+            margin-left: 5%;
+            margin-right: 5%;
+            margin-bottom: 0%;
+            padding-top: 1%;
+            padding-bottom: 1%;
+        }
+
+        h4 {
+            margin-top: 0%;
+        }
+
+        body {
+            margin: 0;
+        }
+
+        select.forum-overview-select {
+            width: 10%;
+            min-width: 100px;
+            height: 30px;
+        }
+
+        /* 頁籤區塊 */
+        div.tab_container div.tab_list_block {
+            padding-left: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* 頁籤列表 */
+        div.tab_container div.tab_list_block ul.tab_list {
+            list-style: none;
+            display: inline-block;
+            margin: 0;
+            padding: 0;
+        }
+
+        div.tab_container div.tab_list_block ul.tab_list > li {
+            display: inline-block;
+        }
+
+        div.tab_container div.tab_list_block ul.tab_list > li > a {
+            text-decoration: none;
+            display: inline-block;
+            padding: 2px 20px;
+            border-radius: 5px 5px 0 0;
+            cursor: pointer;
+            color: #ccc;
+            border: 1px solid #ccc;
+            background-color: lightgray;
+        }
+
+        /* 畫出底部黑線 */
+
+        div.tab_container div.tab_list_block ul.tab_list > li > a.-on {
+            /* border-top: 1px solid black; */
+            /* border-right: 1px solid black; */
+            /* border-left: 1px solid black; */
+            border-bottom: 3px solid white;
+            color: black;
+            background-color: black;
+        }
+
+        /* 頁籤內容區塊 */
+        div.tab_container div.tab_contents {
+            border: 1px solid black;
+            position: relative;
+            top: -1px;
+
+            z-index: 1;
+        }
+
+        div.tab_container div.tab_contents div.tab {
+            padding: 10px;
+            display: none;
+        }
+
+        div.tab_container div.tab_contents div.tab.-on {
+            display: block;
+        }
+
+
+        #h4_1, #h4_2{
+            background-color: black;
+        }
+
+    </style>
+</head>
+
+
+<body>
+<div th:replace ="fragments/admin_navbar ::admin_navbar"></div>
+
+<div calss="banner">
+    <h2 class="mb-3">查詢系統</h2>
+    <h5 class="mb-1"><a id="h4_1" th:href="@{/}" target="_blank">瀏覽平台</a></h5>
+    <h5 class="mb-2"><a id="h4_2" th:href="@{/admin/admin_customer_support}" style="text-decoration:none;">&#11148 客服表單審核</a></h5>
+</div>
+
+
+<!-- 手動加入 <div style="padding:5%"> -->
+<div style="padding:5%">
+
+    <div class="tab_container">
+
+        <!-- ↓↓↓ 頁籤 ↓↓↓ -->
+        <div class="tab_list_block">
+            <ul class="tab_list">
+
+                <!-- class加上「-on」，使該標籤內容可以被看到 -->
+                <li><a href="javascript.void(0)" data-target="tab1" class="query_tab tab -on">查詢揪團</a></li>
+                <li><a href="javascript.void(0)" data-target="tab2" class="query_tab tab">查詢文章</a></li>
+                <li><a href="javascript.void(0)" data-target="tab3" class="query_tab tab">查詢留言</a></li>
+                <li><a href="javascript.void(0)" data-target="tab4" class="query_tab tab">查詢商品</a></li>
+
+            </ul>
+        </div>
+
+
+        <!-- ↓↓↓ 頁籤裡的內容 ↓↓↓ -->
+        <div class="tab_contents">
+
+            <!--         class加上「-on」，使該標籤內容可以被看到 -->
+            <div class="tab tab1 -on">
+
+                <!--                 <div class="tab tab1"> -->
+
+                <div class="card">
+                    <div class="card-body table-responsive">
+
+                        <div class="input-group mb-5">
+                            <FORM METHOD="post" th:action="@{/admin/backend_search_group}" style="margin-bottom: 0px;">
+                                <input type="text" class="form-control" placeholder="請輸入欲搜尋團名"
+                                       aria-label="Recipient's username"
+                                       aria-describedby="button-addon1" name="keyword">
+                                <button class="btn btn-outline-secondary" type="submit" id="button-addon1">查詢揪團
+                                </button>
+                            </FORM>
+                        </div>
+
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th scope="col">揪團id</th>
+                                <th scope="col">團名</th>
+                                <th scope="col">備註</th>
+                                <th scope="col">狀態</th>
+                                <th scope="col">球類</th>
+                                <th scope="col">縣市</th>
+                                <th scope="col">地點</th>
+                                <th scope="col">開打時間</th>
+                                <th scope="col">報名截止</th>
+                                <th scope="col">是否顯示在總覽頁</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <div th:each="groupVO : ${listGroup}">
+                                <tr>
+                                    <th th:text="${groupVO.groupId}"></th>
+                                    <td th:text="${groupVO.groupName}"></td>
+                                    <td th:text="${groupVO.groupNote}"></td>
+                                    <td th:text="${groupVO.groupStatusDesc}"></td>
+                                    <td th:text="${groupVO.groupType}"></td>
+                                    <td th:text="${groupVO.groupCity}"></td>
+                                    <td th:text="${groupVO.groupAddress}"></td>
+                                    <td th:text="${#dates.format(groupVO.groupPlayingDatetime, 'yyyy-MM-dd HH:mm')}"></td>
+                                    <td th:text="${#dates.format(groupVO.groupJoinDeadline, 'yyyy-MM-dd HH:mm')}"></td>
+                                    <td th:text="${groupVO.groupShow}"></td>
+                                </tr>
+                            </div>
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="tab tab2">
+
+                <div class="card">
+                    <div class="card-body table-responsive">
+
+                        <div class="input-group mb-5">
+                            <FORM METHOD="post" th:action="@{/admin/backend_search_article}" style="margin-bottom: 0px;">
+                                <input type="text" class="form-control" placeholder="請輸入欲搜尋文章關鍵字"
+                                       aria-label="Recipient's username"
+                                       aria-describedby="button-addon2" name="keyword">
+                                <!-- 	            <input type="hidden" name="action" value="backend_Search_Article">  -->
+                                <button class="btn btn-outline-secondary" type="submit" id="button-addon2">查詢文章
+                                </button>
+                            </FORM>
+                        </div>
+
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th scope="col">文章id</th>
+                                <th scope="col">文章類別</th>
+                                <th scope="col">文章標題</th>
+                                <th scope="col">文章內容</th>
+                                <th scope="col">發文時間</th>
+                                <th scope="col">最後編輯時間</th>
+                                <th scope="col">是否顯示在總覽頁</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <div th:each="postVO : ${listArticle}">
+                                <tr>
+                                    <th th:text="${postVO.post_id}"></th>
+                                    <td th:text="${postVO.post_category}"></td>
+                                    <td th:text="${postVO.post_title}"></td>
+                                    <td th:text="${postVO.post_content}"></td>
+                                    <td th:text="${#dates.format(postVO.created_datetime, 'yyyy-MM-dd HH:mm')}"></td>
+                                    <td th:text="${#dates.format(postVO.updated_datetime, 'yyyy-MM-dd HH:mm')}"></td>
+                                    <td th:text="${postVO.post_status}"></td>
+                                </tr>
+                            </div>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="tab tab3">
+
+                <div class="card">
+                    <div class="card-body table-responsive">
+
+                        <div class="input-group mb-5">
+                            <FORM METHOD="post" th:action="@{/admin/backend_search_reply}" style="margin-bottom: 0px;">
+                                <input type="text" class="form-control" placeholder="請輸入欲搜尋留言關鍵字"
+                                       aria-label="Recipient's username"
+                                       aria-describedby="button-addon3" name="keyword">
+                                <!--                 <input type="hidden" name="action" value="backend_Search_Reply">  -->
+                                <button class="btn btn-outline-secondary" type="submit" id="button-addon3">查詢留言
+                                </button>
+                            </FORM>
+                        </div>
+
+
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th scope="col">留言id</th>
+                                <th scope="col">留言內容</th>
+                                <th scope="col">文章標題</th>
+                                <th scope="col">文章內容</th>
+                                <th scope="col">留言時間</th>
+                                <th scope="col">是否顯示在總覽頁</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <div th:each="replyVO : ${listReply}">
+                                <tr>
+                                    <th th:text="${replyVO.reply_id}"></th>
+                                    <td th:text="${replyVO.reply_content}"></td>
+                                    <td th:text="${replyVO.post_title}"></td>
+                                    <td th:text="${replyVO.post_content}"></td>
+                                    <td th:text="${#dates.format(replyVO.created_datetime, 'yyyy-MM-dd HH:mm')}"></td>
+                                    <td th:text="${replyVO.reply_status}"></td>
+                                </tr>
+                            </div>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="tab tab4">
+                <div class="card">
+                    <div class="card-body table-responsive">
+
+                        <div class="input-group mb-5">
+                            <FORM METHOD="post" th:action="@{/admin/backend_search_product}" style="margin-bottom: 0px;">
+                                <input type="text" class="form-control" placeholder="請輸入欲搜尋商品關鍵字"
+                                       aria-label="Recipient's username"
+                                       aria-describedby="button-addon4" name="keyword">
+                                <!--                 <input type="hidden" name="action" value="backend_Search_Product">  -->
+                                <button class="btn btn-outline-secondary" type="submit" id="button-addon4">查詢商品
+                                </button>
+                            </FORM>
+                        </div>
+
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th scope="col">商品id</th>
+                                <th scope="col">商品名稱</th>
+                                <th scope="col">描述</th>
+                                <th scope="col">廠商</th>
+                                <th scope="col">價錢</th>
+                                <th scope="col">庫存</th>
+                                <th scope="col">建立時間</th>
+                                <th scope="col">是否顯示在總覽頁</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <div th:each="proVO : ${listPro}">
+                                <tr>
+                                    <th th:text="${proVO.productId}"></th>
+                                    <td th:text="${proVO.productName}"></td>
+                                    <td th:text="${proVO.productContent}"></td>
+                                    <td th:text="${proVO.username}"></td>
+                                    <td th:text="${proVO.price}"></td>
+                                    <td th:text="${proVO.stock}"></td>
+                                    <td th:text="${#dates.format(proVO.created_datetime, 'yyyy-MM-dd HH:mm')}"></td>
+                                    <td th:text="${proVO.productStatus}"></td>
+                                </tr>
+                            </div>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+</div>
+
+
+<script th:inline="javascript">
+    // ↓↓↓ script第二步 ↓↓↓
+    // ↓↓↓↓ 從老師網頁貼來的!!!!! ↓↓↓↓
+    function tab_active() {
+        var activeVar = [[${activeTab}]];
+
+        let target_tab;
+        switch (location.hash) {    //
+            case "#tab1":
+                target_tab = "tab1";
+                break;
+            case "#tab2":
+                target_tab = "tab2";
+                break;
+            case "#tab3":
+                target_tab = "tab3";
+                break;
+            case "#tab4":
+                target_tab = "tab4";
+                break;
+//           default:
+//             target_tab = "tab1";
+            default:
+                target_tab = `tab${activeVar}`;
+                console.log(target_tab);
+        }
+
+        var all_a_tab = document.querySelectorAll("a.tab");
+        for (let i = 0; i < all_a_tab.length; i++) {
+            all_a_tab[i].classList.remove("-on");   //刪除三個a標籤的-on
+        }
+        document.querySelector("a.tab[data-target=" + target_tab + "]").classList.add("-on"); //用data-target決定要幫誰加上-on
+
+        var all_div = document.querySelectorAll("div.tab");
+        for (let i = 0; i < all_div.length; i++) {
+            all_div[i].classList.remove("-on");   //刪除三個a標籤的-on
+        }
+        document.querySelector("div.tab." + target_tab).classList.add("-on"); //幫某a標籤加上-on
+    }
+
+    // ↑↑↑↑ 從老師網頁貼來的!!!!! ↑↑↑↑
+    // ↑↑↑ script第二步 ↑↑↑
+
+
+    // ↓↓↓ script第一步 ↓↓↓
+    // console.log(this);          //此處this指的是「全域物件window」
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        // ↓↓↓ script第四步 ↓↓↓
+        // 第三步：連到外部網站，再按上一頁時，會觸發 DOMContentLoaded 事件，所以再執行：
+        tab_active();
+        // ↑↑↑ script第四步 ↑↑↑
+
+        let all_a = document.querySelectorAll("a.tab");
+        // console.log(all_a);  //NodeList(3) [a.tab.-on, a.tab, a.tab]
+        for (let i = 0; i < all_a.length; i++) {
+            // console.log(i);
+            all_a[i].addEventListener("click", function (r) {
+                // all_a[i].addEventListener("click", (r) => { //測：改用箭頭函式，不用#175的匿名函式，
+
+                console.log(r);
+                r.preventDefault();     //使用preventDefault把a標籤原本的行為關掉(點擊a標籤，不會跳頁到頁籤二或頁籤三)
+
+                all_a.forEach(function (item, j) {
+                    console.log(j);  //不管點頁籤一/二/三，都會印出跑出三個頁籤
+                    item.classList.remove("-on"); //目的：刪掉class的-on
+                });
+                // console.log(this);  //當使用#125匿名函式，this用於指物件，此處this指的是「當點擊頁籤一，會出現對應的標籤」；this限用於匿名函式!!!
+                //若#175匿名函式改用#176箭頭函式時，此處this指的是「document物件」
+                // console.log(e.target); //不管使用匿名函式還是箭頭函式，都會出現a標籤!!
+                this.classList.add("-on");  //點擊後會出現黑線外框
+
+                let content_div = this.closest("div.tab_container").querySelectorAll("div.tab");  //使用closet往父層找元素(div標籤，class為tab_container)，再往內層找
+                //console.log(content_div);
+
+
+                content_div.forEach(function (item, j) {
+                    // console.log(item);
+                    item.classList.remove("-on");
+                })
+
+
+                //使用querySelector找到某個內容的div，替它加上-on
+                // document.querySelector("div.tab.tab2").classList.add("-on");
+
+                //替每個a標籤，加上自訂屬性data-target=1/2/3，改寫上列語法#201如下
+                document.querySelector("div.tab." + this.getAttribute("data-target")).classList.add("-on");
+
+                // 點擊頁籤時，加進瀏覽歷程(點擊頁籤三時，再點上一頁/下一頁，網址會變，但內容不變)，故須搭配「加上自訂函式(在script最上半段)」
+//             history.pushState(null, null, "#" + this.getAttribute("data-target"));
+
+            });
+
+        }
+    });
+    // ↑↑↑ script第一步 ↑↑↑
+
+
+    // ↓↓↓ script第三步 ↓↓↓
+    // script最開始的自訂函式之後：popstate 事件觸發，執行 tab_active() 函式
+    window.addEventListener("popstate", function () {
+        // console.log("ttt");
+        tab_active();
+    });
+    // ↑↑↑ script第三步 ↑↑↑
+</script>
+
+<div th:replace="fragments/profile_update_modal :: profile_update_modal"></div>
+<div th:replace ="fragments/reset_password :: reset_password"></div>
+<script th:src="@{/js/common.js}"></script>
+
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+        crossorigin="anonymous"
+></script>
+
+<script>
+
+    // showContentFromSessionStorage();
+    document
+        .getElementById("vendor-verify-link")
+        .addEventListener("click", function () {
+            setActiveLink("vendor-verify-link");
+            showContent("vendor-verify-content");
+            // setActivePartToLocalStorage("vendor-verify");
+        });
+    document
+        .getElementById("customer-service-link")
+        .addEventListener("click", function () {
+            setActiveLink("customer-service-link");
+            showContent("customer-service-content");
+            // setActivePartToLocalStorage("customer-service");
+        });
+    document
+        .getElementById("user-data-link")
+        .addEventListener("click", function () {
+            setActiveLink("user-data-link");
+            showContent("user-data-content");
+            // setActivePartToLocalStorage("user-data");
+        });
+    document
+        .getElementById("vendor-data-link")
+        .addEventListener("click", function () {
+            setActiveLink("vendor-data-link");
+            showContent("vendor-data-content");
+            // setActivePartToLocalStorage("vendor-data");
+        });
+    document
+        .getElementById("administrator-data-link")
+        .addEventListener("click", function () {
+            setActiveLink("administrator-data-link");
+            showContent("administrator-data-content");
+            // setActivePartToLocalStorage("administrator-data");
+        });
+    document.getElementById("query-system-link")
+        .addEventListener("click",function(){
+            setActiveLink("query-system-link");
+            showContent("query-system-content");
+            // setActivePartToLocalStorage("query-system");
+        });
+    document.getElementById("paid-product-recommendation-management-link")
+        .addEventListener("click",function(){
+            setActiveLink("paid-product-recommendation-management-link");
+            showContent("paid-product-recommendation-management-content");
+            // setActivePartToLocalStorage("paid-product-recommendation-management");
+        });
+    function setActiveLink(activeLink) {
+        let links = document.querySelectorAll(".nav-link");
+        links.forEach((item) => {
+            item.classList.remove("active");
+        });
+        document.getElementById(activeLink).classList.add("active");
+    }
+    function showContent(contentId) {
+        let contents = document.querySelectorAll("main > div");
+        console.log("contents:" + contents);
+        contents.forEach((item) => {
+            item.style.display = "none";
+        });
+        document.getElementById(contentId).style.display = "block";
+    }
+
+
+</script>
+
+
+</body>
+</html>

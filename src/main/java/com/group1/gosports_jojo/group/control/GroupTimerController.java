@@ -21,7 +21,7 @@ public class GroupTimerController{
 	
 
 ///////////////////////////現在時間大於揪團截止時間時將group_status_desc 改成 '報名截止'//////////////////////////////////
-	@Scheduled(fixedRate = 30, timeUnit = TimeUnit.MINUTES)
+	@Scheduled(fixedRate = 1, timeUnit = TimeUnit.MINUTES)
 	public void changeDeadlineStatus() {
        
 		System.out.println("進行changeDeadlineStatus方法");
@@ -30,7 +30,7 @@ public class GroupTimerController{
 	}
 	
 ////////////////現在時間大於揪團截止時間時且無人參團,將 group_show 改成 'NO'///////////////////////////////
-	@Scheduled(fixedRate = 30, timeUnit = TimeUnit.MINUTES)
+	@Scheduled(fixedRate = 1, timeUnit = TimeUnit.MINUTES)
 	public void changeNobodyJoin() {
 		
 		System.out.println("進行changeNobodyJoin方法");

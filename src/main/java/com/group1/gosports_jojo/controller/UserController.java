@@ -4,6 +4,8 @@ package com.group1.gosports_jojo.controller;
 import com.group1.gosports_jojo.member.model.MemberService;
 import com.group1.gosports_jojo.member.model.MemberVO;
 import com.group1.gosports_jojo.model.UserVO;
+import com.group1.gosports_jojo.notification.model.NotificationService;
+import com.group1.gosports_jojo.notification.model.NotificationVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +22,10 @@ import java.util.List;
 public class UserController {
     @Autowired
     MemberService memberSv;
+
+    //書懿新增
+    @Autowired
+    NotificationService notificationSvc;
 
     @GetMapping("/test")
     public String test(){
@@ -119,6 +125,11 @@ public class UserController {
         req.setAttribute("countLeaderNo",countLeaderNo);
 
 
+        //書懿新增
+        notificationSvc.updateNotificationReadedC(userId);
+
+        List<NotificationVO> list = notificationSvc.getNotificationByUser(userId);
+        model.addAttribute("personalNotification",list);
 
 
 

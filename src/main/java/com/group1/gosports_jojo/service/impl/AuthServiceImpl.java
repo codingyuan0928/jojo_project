@@ -1,9 +1,13 @@
 package com.group1.gosports_jojo.service.impl;
 
 
+import com.group1.gosports_jojo.dao.AdministratorDAO;
+import com.group1.gosports_jojo.dao.UserDAO;
+import com.group1.gosports_jojo.dao.VendorDAO;
 import com.group1.gosports_jojo.dto.AuthLoginRequest;
 import com.group1.gosports_jojo.dto.UserRegisterRequest;
 import com.group1.gosports_jojo.dto.VendorRegisterRequest;
+import com.group1.gosports_jojo.entity.Administrator;
 import com.group1.gosports_jojo.entity.Vendor;
 import com.group1.gosports_jojo.model.UserVO;
 import com.group1.gosports_jojo.security.PasswordUtil;
@@ -15,6 +19,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.servlet.http.HttpSession;
+
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -24,6 +30,9 @@ public class AuthServiceImpl implements AuthService {
 
     @Autowired
     private VendorService vendorService;
+
+    @Autowired
+    private AdminService adminService;
 
     @Autowired
     private PasswordUtil passwordUtil;
@@ -37,17 +46,27 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     private RedisService redisService;
 
+    @Autowired
+    private UserDAO userDAO;
+
+    @Autowired
+    private VendorDAO vendorDAO;
+
+    @Autowired
+    private AdministratorDAO administratorDAO;
 
 
     public boolean accountExists(String email) {
-        return userService.findByEmail(email) != null || vendorService.findByEmail(email) != null;
+        return userService.findByEmail(email) != null
+                || vendorService.findByEmail(email) != null
+                || adminService.findByEmail(email) != null;
     }
 
-    public Integer registerUser(UserRegisterRequest userRegisterRequest){
-    return userService.register(userRegisterRequest);
+    public Integer registerUser(UserRegisterRequest userRegisterRequest) {
+        return userService.register(userRegisterRequest);
     }
 
-    public Integer registerVendor(VendorRegisterRequest vendorRegisterRequest){
+    public Integer registerVendor(VendorRegisterRequest vendorRegisterRequest) {
         return vendorService.register(vendorRegisterRequest);
     }
 
@@ -97,5 +116,49 @@ public class AuthServiceImpl implements AuthService {
     public boolean validateAuthCode(String email, String authCode) {
         String storedAuthCode = redisService.getAuthCode(email);
         return storedAuthCode != null && storedAuthCode.equals(authCode);
+    }
+
+    @Override
+    public Integer updatePasswordBasedOnRole(String newPassword, String email) {
+        String role = null;
+        if (adminService.findByEmail(email) != null) {
+            role = "admin";
+        } else if (userService.findByEmail(email) != null) {
+            role = "user";
+        } else if (vendorService.findByEmail(email) != null) {
+            role = "vendor";
+        } else {
+            return -1;//未註冊
+        }
+        if (newPassword == null || newPassword.isEmpty()) {
+            return 0;//密碼輸入為空值
+        }
+        String hashedPassword = passwordUtil.encode(newPassword);
+        switch (role) {
+            case "admin":
+                Administrator admin = adminService.findByEmail(email);
+                if (admin != null) {
+                    admin.setPassword(hashedPassword);
+                    return administratorDAO.update(admin) ? 1 : 0;
+                }
+                break;
+            case "user":
+                UserVO user = userService.findByEmail(email);
+                if (user != null) {
+                    user.setPassword(hashedPassword);
+                    return userDAO.update(user) ? 1 : 0;
+                }
+                break;
+            case "vendor":
+                Vendor vendor = vendorService.findByEmail(email);
+                if (vendor != null) {
+                    vendor.setPassword(hashedPassword);
+                    return vendorDAO.update(vendor) != null ? 1 : 0;
+                }
+                break;
+            default:
+                return 0;  // 未知錯誤
+        }
+        return 0;//更新失敗
     }
 }

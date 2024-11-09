@@ -41,6 +41,17 @@ public class ReplyDAO implements ReplyDAO_interface {
 	//編輯
 	private static final String UPDATE = "UPDATE reply_details SET reply_content = ? WHERE reply_id = ?";
 
+	private static final String GET_ONE_PSTMT = "SELECT reply_id, user_id, post_id, reply_content, reply_status, created_datetime, updated_datetime FROM reply_details WHERE reply_id = ?";
+
+	private static final String GET_REPLY_BY_KEYWORD = "SELECT reply_id, reply_content, post_title, post_content, reply_details.created_datetime as created_datetime, reply_status "
+			+ "FROM reply_details LEFT JOIN posts ON reply_details.post_id = posts.post_id "
+			+ "WHERE reply_content like '%' ? '%' ";
+
+	//隱藏留言(移除檢舉留言)
+	private static final String UPDATE_REPLY_HIDDEN = "UPDATE reply_details set reply_status='0', updated_datetime=curtime() where reply_id = ?";
+
+
+
 	@Override //新增留言
 	public void insert(ReplyVO replyVO) {
 
@@ -261,6 +272,162 @@ public class ReplyDAO implements ReplyDAO_interface {
 				e.printStackTrace(System.err);
 			}
 		}
+	}
+
+
+	@Override
+	public ReplyVO findByPrimaryKey(Integer userId) {
+
+		ReplyVO replyVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			con = ds.getConnection();
+
+			pstmt = con.prepareStatement(GET_ONE_PSTMT);
+
+			pstmt.setInt(1, userId);
+
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				replyVO = new ReplyVO();
+				replyVO.setReply_id(rs.getInt("reply_id"));
+				replyVO.setUser_id(rs.getInt("user_id"));
+				replyVO.setPost_id(rs.getInt("post_id"));
+				replyVO.setReply_content(rs.getString("reply_content"));
+				replyVO.setReply_status(rs.getInt("reply_status"));
+				replyVO.setCreated_datetime(rs.getTimestamp("created_datetime"));
+				replyVO.setUpdated_datetime(rs.getTimestamp("updated_datetime"));
+			}
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return replyVO;
+
+	}
+
+	@Override
+	public List<ReplyVO> getReplyByKeyWord(String keyword) {
+		List<ReplyVO> list = new ArrayList<ReplyVO>();
+		ReplyVO replyVO = null;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			con = ds.getConnection();
+
+			pstmt = con.prepareStatement(GET_REPLY_BY_KEYWORD);
+
+			pstmt.setString(1, keyword);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				replyVO = new ReplyVO();
+
+				replyVO.setReply_id(rs.getInt("reply_id"));
+				replyVO.setReply_content(rs.getString("reply_content"));
+				replyVO.setPost_title(rs.getString("post_title"));
+				replyVO.setPost_content(rs.getString("post_content"));
+				replyVO.setCreated_datetime(rs.getTimestamp("created_datetime"));
+				replyVO.setReply_status(rs.getInt("reply_status"));
+
+				list.add(replyVO);
+
+			}
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+
+	}
+
+	// 隱藏留言
+	@Override
+	public void updateHidden(Integer reply_id) {
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+
+			con = ds.getConnection();
+
+			pstmt = con.prepareStatement(UPDATE_REPLY_HIDDEN);
+
+			pstmt.setInt(1, reply_id);
+
+			pstmt.executeUpdate();
+
+			// Handle any driver errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+
 	}
 
 }

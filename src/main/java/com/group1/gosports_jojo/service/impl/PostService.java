@@ -76,6 +76,13 @@ public class PostService {
 		return dao.SEARCH_POST_BY_POP(keyword, keyword2);
 	}
 
+	public List<PostVO> getArticleByKeyWord(String keyword1, String keyword2) {
+		return dao.getArticleByKeyWord(keyword1, keyword2);
+	}
+
+	public void updateHidden(Integer post_id) {
+		dao.updateHidden(post_id);
+	}
 
 
 }

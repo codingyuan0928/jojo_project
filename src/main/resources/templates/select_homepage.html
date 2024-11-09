@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <title>運動啾啾_商城首頁</title>
+    <title>Go Sport | 商城首頁</title>
 
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <!-- favicon -->
@@ -259,7 +259,7 @@
                                 </div>
                                 <div class="action-container">
                                     <div class="product-details">
-                                        <a th:href="@{/product_detail}" class = "productName" th:text="${proVO.productName}">  </a>
+                                        <a th:href="@{/tocart(productId=${proVO.productId})}" class = "productName" th:text="${proVO.productName}">  </a>
                                         <div class="product-price" th:text="'$'+ ${proVO.price}"></div>
                                     </div>
                                     <div class="button-group">

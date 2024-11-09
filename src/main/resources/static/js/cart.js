@@ -212,7 +212,7 @@ async function getCheckoutItems(event) {
         return;
     }
 
-    const address = document.getElementById('delivery-address').innerText;
+    const address = document.getElementById('delivery-address').value;
     checkoutItems.length = 0; // 清空 checkoutItems 陣列
     selectedItems.forEach(item => {
         const cartItem = item.closest('.cart-item');

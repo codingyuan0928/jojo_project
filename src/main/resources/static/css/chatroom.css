@@ -173,16 +173,6 @@
 }
 
 
-#chatContent {
-    background-color: #f0f4ff; /* 淡藍色背景 */
-    padding: 20px;            /* 給內容區域添加內邊距 */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 增加輕微陰影提升立體感 */
-    color: #333;               /* 使用深色字體保證對比度 */
-    height: 70vh; /* 高度 */
-    overflow-y: auto;  /* 讓內容超出時出現垂直滾動條 */
-}
-
-
 /* 外層容器樣式 */
 .chat-list-container {
     max-width: 400px;
@@ -204,7 +194,7 @@
 
 /* 設置固定高度並讓內容超出時可以滾動 */
 #groupChatList, #chatList {
-    max-height: 400px; /* 高度 */
+    max-height: 68vh; /* 高度 */
     overflow-y: auto;  /* 讓內容超出時出現垂直滾動條 */
 }
 
@@ -517,20 +507,20 @@ small.text-muted {
 
 #customAlert {
     position: fixed;
-    bottom: 20px;
+    top: 100px;
     right: 20px;
     z-index: 1000; /* 保證它顯示在其他元素上面 */
     width: 300px; /* 設定 alert 寬度，可根據需求調整 */
 }
 
 #customAlert .alert {
-    background-color: #FFF0E1; /* 更改背景顏色 */
-    border-color: #FFAD5F; /* 更改邊框顏色 */
-    color: #FFAD5F; /* 更改文字顏色 */
+    background-color: #d5fdd5; /* 更改背景顏色 */
+    border-color: #155724; /* 更改邊框顏色 */
+    color: #155724; /* 更改文字顏色 */
 }
 
 #customAlert .alert .close {
-    color: #FFAD5F; /* 更改關閉按鈕顏色 */
+    color: #155724; /* 更改關閉按鈕顏色 */
 }
 
 .date-divider {
@@ -553,12 +543,38 @@ small.text-muted {
 }
 
 /* 使 #chatPlaceholder 內的內容垂直和水平居中 */
-#chatPlaceholder {
+#chatPlaceholder{
     display: flex;
     flex-direction: column; /* 元素垂直排列 */
     justify-content: center; /* 垂直居中 */
     align-items: center; /* 水平居中 */
-    height: 70vh; /* 占滿父容器高度，確保居中對齊有效 */
+    height: calc(68vh + 36px + 85px); /* 占滿父容器高度，確保居中對齊有效 */
+}
+
+#chatWindow {
+    display: flex;
+    flex-direction: column; /* 元素垂直排列 */
+    justify-content: center; /* 垂直居中 */
+    align-items: center; /* 水平居中 */
+    height: 68vh; /* 占滿父容器高度，確保居中對齊有效 */
+}
+
+#chatContent {
+    background-color: #f0f4ff; /* 淡藍色背景 */
+    padding: 20px;            /* 給內容區域添加內邊距 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 增加輕微陰影提升立體感 */
+    color: #333;               /* 使用深色字體保證對比度 */
+    height: 68vh; /* 高度 */
+    /*flex-grow: 1; !* 自動填滿剩餘空間 *!*/
+    overflow-y: auto;  /* 讓內容超出時出現垂直滾動條 */
+}
+
+#friend-request-list{
+    height: 68vh; /* 高度 */
+}
+#myInvitationList {
+    max-height: 300px; /* 設定固定的最大高度，例如 300px */
+    overflow-y: auto; /* 讓內容超出時出現垂直滾動條 */
 }
 
 /* 調整聊天圖標的樣式 */
@@ -573,9 +589,9 @@ small.text-muted {
     color: #333; /* 文字顏色 */
 }
 /* 定義隱藏類 */
-.d-none {
-    display: none !important;
-}
+/*.d-none {*/
+/*    display: none ;*/
+/*}*/
 
 
 .hide-dot::after {

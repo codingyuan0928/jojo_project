@@ -11,6 +11,7 @@ import com.group1.gosports_jojo.repository.OrderItemRepository;
 import com.group1.gosports_jojo.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.sql.Timestamp;
 import java.util.HashMap;
@@ -25,6 +26,7 @@ public class OrderItemService {
     @Autowired
     private OrderItemRepository orderItemRepository;
 
+    @PostMapping
     public void saveOrder(CheckoutRequest checkoutRequest) {
         Integer userId = checkoutRequest.getUserId();
         List<CheckoutItem> checkoutRequestItems = checkoutRequest.getItems();
@@ -81,7 +83,9 @@ public class OrderItemService {
             orderitem.setProductId(item.getProductId());
             orderitem.setQuantity(item.getQuantity());
             orderitem.setPrice(item.getPrice());
-            orderitem.setPickAddress("待補"); //TODO
+            orderitem.setPickAddress(checkoutRequest.getAddress()); //TODO
+
+
 
             // 購買的商品 存到資料庫
             orderItemRepository.save(orderitem);

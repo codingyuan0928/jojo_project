@@ -65,4 +65,17 @@ public class ReplyService {
     public Integer getAllReplyAmount(Integer post_id){
         return dao.getAllReplyAmount(post_id);
     }
+
+
+    public ReplyVO getOne(Integer reply_id) {
+        return dao.findByPrimaryKey(reply_id);
+    }
+
+    public List<ReplyVO> getReplyByKeyWord(String keyword) {
+        return dao.getReplyByKeyWord(keyword);
+    }
+
+    public void updateHidden(Integer reply_id) {
+        dao.updateHidden(reply_id);
+    }
 }

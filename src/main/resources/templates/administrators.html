@@ -4,245 +4,284 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>GoSports後台管理頁面</title>
-
+    <title>GoSports後台管理頁面 |廠商資料審核</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link
-      rel="canonical"
-      href="https://getbootstrap.com/docs/5.1/examples/dashboard/"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+            crossorigin="anonymous"
     />
 
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
-      crossorigin="anonymous"
-    />
+<style>
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+  }
+
+  /* 頁籤區塊 */
+  div.tab_container div.tab_list_block {
+    padding-left: 20px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* 頁籤列表 */
+  div.tab_container div.tab_list_block ul.tab_list {
+    list-style: none;
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+  }
+
+  div.tab_container div.tab_list_block ul.tab_list>li {
+    display: inline-block;
+  }
+
+  div.tab_container div.tab_list_block ul.tab_list>li>a {
+    text-decoration: none;
+    display: inline-block;
+    padding: 2px 20px;
+    cursor: pointer;
+    color: #ccc;
+    border: 2px solid #c3c3c3;
+    border-radius: 10px;
+    background-color: #c3c3c3;
+  }
+
+  /* 畫出底部黑線 */
+  div.tab_container div.tab_list_block ul.tab_list>li>a.-on {
+    color: black;
+    background-color: darkcyan;
+    border: 3px solid darkcyan;
+    border-radius: 10px;
+  }
+
+  /* 頁籤內容區塊 */
+  div.tab_container div.tab_contents {
+    position: relative;
+    margin-top: 0%;
+    /*margin:0;*/
+  }
+
+  div.tab_container div.tab_contents div.tab {
+    padding: 10px;
+    display: none;
+  }
+
+  div.tab_container div.tab_contents div.tab.-on {
+    display: block;
+  }
+
+  /* 表格 */
+  #table-1 {
+    background-color: rgba(173, 216, 230, 0.682);
+    text-align: center;
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 3%;
+  }
+
+  #table-1 h4 {
+    color: red;
+    display: block;
+    /*margin-bottom: 1px;*/
+  }
+
+  h4 {
+    color: blue;
+    display: inline;
+  }
+
+  table {
+    width: 96%;
+    /*background-color: white;*/
+    margin-bottom: 5px;
+    margin-left: 2%;
+    border-collapse: collapse;
+  }
 
 
-    <!-- Custom styles for this template -->
-    <link th:href="@{/css/dashboard.css}" rel="stylesheet" />
+  #table-2, #table-3 {
+    /*margin-top: 1%;*/
+  }
+
+  #table-2 th, #table-3 th {
+    border-bottom: 1px solid black;
+  }
+
+  #table-2 tr, #table-3 tr {
+    vertical-align: top;
+  }
+
+  #table-2 td, #table-3 td {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid white;
+    background-color: rgba(211, 211, 211, 0.201);
+  }
+
+  td.vendorId{
+    width: 3%;
+    padding-right: 1%;
+  }
+
+
+  td.username {
+    word-break: break-all;
+    width: 8%;
+    padding-right: 1%;
+  }
+
+  td.avatar {
+    word-break: break-all;
+    width: 5%;
+    padding-right: 1%;
+  }
+
+  td.email {
+    word-break: break-all;
+    width: 12%;
+    padding: 1%;
+
+  }
+
+  td.companyName {
+    word-break: break-all;
+    width: 8%;
+  }
+
+  td.companyAddress {
+    word-break: break-all;
+    width: 10%;
+    padding: 1%;
+  }
+
+  td.companyPhone {
+    width: 6%;
+    padding: 1%;
+
+  }
+
+  td.companyEmail {
+    width: 12%;
+    word-break: break-all;
+    padding: 1%;
+
+  }
+
+  td.registrationDocument {
+    width: 5%;
+    word-break: break-all;
+  }
+
+  td.unifiedBusinessNumber {
+    width: 6%;
+    word-break: break-all;
+  }
+
+  td.shopName {
+    width: 5%;
+    word-break: break-all;
+  }
+
+  .status {
+    width: 6%;
+    word-break: break-all;
+  }
+
+  .updated_status{
+    width: 6%;
+    word-break: break-all;
+  }
+
+  .updatedAt{
+    width: 5%;
+    word-break: break-all;
+  }
+
+  .select-status {
+    width: 90%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-left: 2%;
+    margin-right: 2%;
+  }
+
+
+  .btn-submit {
+    margin-left: 2%;
+    margin-right: 2%;
+  }
+
+
+  .display-result{
+    text-align: center;
+  }
+
+
+  .lightbox{
+    /*   border: 1px solid red; */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: hsla(0, 0%, 0%, .5);
+
+    display: none;
+    z-index: 3;
+  }
+
+  /* 元素 article 置中及基本樣式 */
+  .lightbox > article{
+    background-color: white;
+    width: 90%;
+    max-width: 800px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #ddd;
+    padding: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .modal_img{
+    display: block;
+
+  }
+
+  .btn_modal, .btn_modal_close{
+    cursor: pointer;
+  }
+
+  #h5_a{
+    background-color: black;
+  }
+
+</style>
+
   </head>
   <body>
-  <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="javascript:void(0)">Go Sports 後台管理</a>
-    <div class="d-flex ms-auto">
-      <div class="nav-item text-nowrap">
-        <a class="nav-link px-3" href="javascript:void(0)" style="font-size: 1rem; color: white;" th:text="${username}" data-bs-toggle="modal" data-bs-target="#profileUpdateStaticBackdrop"></a>
-      </div>
-      <div class="nav-item text-nowrap">
-        <a class="nav-link px-3" href="javascript:void(0)" style="font-size: 1rem; color: white;" onclick="adminLogout()">登出</a>
-      </div>
-    </div>
-    <button
-            class="navbar-toggler d-md-none collapsed"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#sidebarMenu"
-            aria-controls="sidebarMenu"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
+  <header class="">
+    <div th:replace ="fragments/admin_navbar ::admin_navbar"></div>
   </header>
 
-    <div class="container-fluid">
+    <div class="container-fluid mt-5">
       <div class="row">
-        <nav
-          id="sidebarMenu"
-          class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse"
-        >
-          <div class="position-sticky pt-3">
-            <ul class="nav flex-column">
-              <li class="nav-item">
-                <a
-                  class="nav-link active"
-                  id="vendor-verify-link"
-                  aria-current="page"
-                  href="#"
-                >
-                  <span data-feather="user-check"></span>
-                  廠商資料審核
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" id="customer-service-link" href="#">
-                  <span data-feather="file-text"></span>
-                  客服表單審核
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" id="user-data-link" href="#">
-                  <span data-feather="users"></span>
-                  一般用戶資料修改
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" id="vendor-data-link" href="#">
-                  <span data-feather="users"></span>
-                  廠商用戶資料修改
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" id="administrator-data-link" href="#">
-                  <span data-feather="user-plus"></span>
-                  後台管理員資料修改
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" id="query-system-link" href="#">
-                  <span data-feather="bar-chart-2"></span>
-                  查詢系統
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" id="paid-product-recommendation-management-link" href="#">
-                  <span data-feather="bar-chart-2"></span>
-                  付費商品推薦管理
-                </a>
-              </li>
-            </ul>
-          </div>
-        </nav>
 
-        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 pt-4">
+        <main class="px-md-4 pt-4">
 
           <!-- 右邊顯示畫面 -->
 
-          <div id="vendor-verify-content">
-            <h2>廠商資料審核</h2>
-            <div class="table-responsive">
-              <table class="table table-striped table-sm">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Header</th>
-                    <th scope="col">Header</th>
-                    <th scope="col">Header</th>
-                    <th scope="col">Header</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>1,001</td>
-                    <td>random</td>
-                    <td>data</td>
-                    <td>placeholder</td>
-                    <td>text</td>
-                  </tr>
-                  <tr>
-                    <td>1,002</td>
-                    <td>placeholder</td>
-                    <td>irrelevant</td>
-                    <td>visual</td>
-                    <td>layout</td>
-                  </tr>
-                  <tr>
-                    <td>1,003</td>
-                    <td>data</td>
-                    <td>rich</td>
-                    <td>dashboard</td>
-                    <td>tabular</td>
-                  </tr>
-                  <tr>
-                    <td>1,003</td>
-                    <td>information</td>
-                    <td>placeholder</td>
-                    <td>illustrative</td>
-                    <td>data</td>
-                  </tr>
-                  <tr>
-                    <td>1,004</td>
-                    <td>text</td>
-                    <td>random</td>
-                    <td>layout</td>
-                    <td>dashboard</td>
-                  </tr>
-                  <tr>
-                    <td>1,005</td>
-                    <td>dashboard</td>
-                    <td>irrelevant</td>
-                    <td>text</td>
-                    <td>placeholder</td>
-                  </tr>
-                  <tr>
-                    <td>1,006</td>
-                    <td>dashboard</td>
-                    <td>illustrative</td>
-                    <td>rich</td>
-                    <td>data</td>
-                  </tr>
-                  <tr>
-                    <td>1,007</td>
-                    <td>placeholder</td>
-                    <td>tabular</td>
-                    <td>information</td>
-                    <td>irrelevant</td>
-                  </tr>
-                  <tr>
-                    <td>1,008</td>
-                    <td>random</td>
-                    <td>data</td>
-                    <td>placeholder</td>
-                    <td>text</td>
-                  </tr>
-                  <tr>
-                    <td>1,009</td>
-                    <td>placeholder</td>
-                    <td>irrelevant</td>
-                    <td>visual</td>
-                    <td>layout</td>
-                  </tr>
-                  <tr>
-                    <td>1,010</td>
-                    <td>data</td>
-                    <td>rich</td>
-                    <td>dashboard</td>
-                    <td>tabular</td>
-                  </tr>
-                  <tr>
-                    <td>1,011</td>
-                    <td>information</td>
-                    <td>placeholder</td>
-                    <td>illustrative</td>
-                    <td>data</td>
-                  </tr>
-                  <tr>
-                    <td>1,012</td>
-                    <td>text</td>
-                    <td>placeholder</td>
-                    <td>layout</td>
-                    <td>dashboard</td>
-                  </tr>
-                  <tr>
-                    <td>1,013</td>
-                    <td>dashboard</td>
-                    <td>irrelevant</td>
-                    <td>text</td>
-                    <td>visual</td>
-                  </tr>
-                  <tr>
-                    <td>1,014</td>
-                    <td>dashboard</td>
-                    <td>illustrative</td>
-                    <td>rich</td>
-                    <td>data</td>
-                  </tr>
-                  <tr>
-                    <td>1,015</td>
-                    <td>random</td>
-                    <td>tabular</td>
-                    <td>information</td>
-                    <td>text</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <div id="customer-service-content" style="display: none">
-            <h2>客服表單標題</h2>
-            <div>客服表單內容</div>
-          </div>
+
           <div id="user-data-content" style="display: none">
             <h2>一般用戶資料修改</h2>
             <div class="table-responsive" style="overflow-x: auto!important;">
@@ -294,69 +333,406 @@
             <h2>用戶行為分析標題</h2>
             <div>用戶行為分析內容</div>
           </div>
+          <div id="vendor-verify-content">
+            <h2 class="mb-3">廠商資料審核</h2>
+            <h5 class="mb-2" ><a id="h5_a" th:href="@{/}" target="_blank">瀏覽平台 → </a></h5>
+
+            <div style="padding: 4%">
+
+              <div class="tab_container">
+
+                <!-- ↓↓↓ 頁籤 ↓↓↓ -->
+                <div class="tab_list_block">
+                  <ul class="tab_list">
+
+                    <!-- class加上「-on」，使該標籤內容可以被看到 -->
+                    <li><a href="#" data-target="tab1" class="tab -on">待審核</a></li>
+                    <li><a href="#" data-target="tab2" class="tab">所有廠商審核清單</a></li>
+                    <!-- <li><a href="#" data-target="tab3" class="tab">我發起的話題</a></li> -->
+                  </ul>
+                </div>
+
+
+                <!-- ↓↓↓ 頁籤裡的內容 ↓↓↓ -->
+                <div class="tab_contents">
+
+                  <!-- class加上「-on」，使該標籤內容可以被看到 -->
+                  <div class="tab tab1 -on">
+                    <table id="table-2">
+                      <tr class="tr-display-title">
+                        <th>廠商id</th>
+                        <th>使用者名稱</th>
+                        <th>公司名稱</th>
+                        <th class="unifiedBusinessNumber">商城名稱</th>
+                        <th>公司信箱</th>
+                        <!-- 							<th>聯絡人信箱</th> -->
+                        <th>地址</th>
+                        <th>電話</th>
+                        <th>營業登記</th>
+                        <th>統編</th>
+                        <th class="status">目前狀態</th>
+                        <th class="updatedAt">更新日</th>
+                        <th class="updated_status">更新審核狀態</th>
+                        <th></th>
+                      </tr>
+
+                      <div th:each="VendorVO1, vStat: ${vendorlist1}">
+                        <FORM METHOD="post" th:action="@{/admin/update_vendor_status}" style="margin-bottom: 0px;" th:id="'form'+${vStat.count}">
+
+                          <tr class="display-result">
+                            <td class="vendorId" th:text="${VendorVO1.vendorId}"></td>
+                            <td class="username" th:text="${VendorVO1.username}"></td>
+                            <td class="companyName" th:text="${VendorVO1.companyName}"></td>
+                            <td class="shopName" th:text="${VendorVO1.shopName}"></td>
+                            <td class="companyEmail" th:text="${VendorVO1.companyEmail}"></td>
+                            <!-- 									<td class="email" th:text="${VendorVO1.email}"></td> -->
+                            <td class="companyAddress" th:text="${VendorVO1.companyAddress}"></td>
+                            <td class="companyPhone" th:text="${VendorVO1.companyPhone}"></td>
+
+                            <!-- trigger modal -->
+                            <td class="registrationDocument">
+                            <img th:src="@{/images/customer_support/file-image-regular.svg}" width="20px" class="btn_modal" th:id="'btn_modal'+${vStat.count}">
+                            </td>
+
+
+                            <td class="unifiedBusinessNumber" th:text="${VendorVO1.unifiedBusinessNumber}"></td>
+
+                            <p th:if="${0==VendorVO1.status}">
+                              <td class="status">未審核</td>
+                            </p>
+
+                            <p th:if="${1==VendorVO1.status}">
+                              <td class="status">審核通過</td>
+                            </p>
+
+                            <p th:if="${2==VendorVO1.status}">
+                              <td class="status">審核未通過(待補件)</td>
+                            </p>
+
+                            <td class="updatedAt" th:text="${#dates.format(VendorVO1.updatedAt, 'yyyy-MM-dd HH:mm')}"></td>
+
+                            <td th:class="'updated_status'+${vStat.count}">
+                              <select th:class="'select-status'+${vStat.count}" size="1" name="status">
+                                <option value=1>審核通過
+                                <option value=2>審核未通過(待補件)
+                              </select>
+                            </td>
+
+                            <td th:class="'btn-submit'+${vStat.count}">
+                              <input type="submit" value="送出" th:class="'submit'+${vStat.count}">
+                              <input type="hidden" name="vendorId" th:value="${VendorVO1.vendorId}" th:id="'vendorId'+${vStat.count}">
+                              <input type="hidden" name="action" value="update_vendor_status">
+                            </td>
+                          </tr>
+
+                          <!-- 								 	Modal燈箱 -->
+                          <div class="lightbox" th:id="'lightbox'+${vStat.count}">
+                            <article class="article_lightbox" th:id="'article_lightbox'+${vStat.count}">
+                                <img th:src="@{/images/customer_support/xmark-solid.svg}" width="3%" class="btn_modal_close" style="margin-left: 96%;" th:id="'btn_modal_close'+${vStat.count}">
+<!--                                <img th:src="@{/admin/getOneVendorImage} + '?vendorId=' + ${VendorVO1.vendorId}" width="100%" class="modal_img" th:id="'modal_img'+${vStat.count}">-->
+                                <embed th:src="@{/admin/getOneVendorImage} + '?vendorId=' + ${VendorVO1.vendorId}" width= "500" height= "550">
+                            </article>
+                          </div>
+                          <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+                          <script th:inline="javascript">
+                            /* Modal燈箱操作 */
+                            $("#btn_modal" + /*[[${vStat.count}]]*/ "").on("click", function() {
+                              $("#lightbox" + /*[[${vStat.count}]]*/ "").fadeIn(500);
+                            });
+
+                            $("img.btn_modal_close, #lightbox" + /*[[${vStat.count}]]*/ "").on("click", function() {
+                              $("#lightbox" + /*[[${vStat.count}]]*/ "").fadeOut(500);
+                            });
+
+                            $("#lightbox" + /*[[${vStat.count}]]*/ "> article").on("click", function(e) {
+                              e.stopPropagation();
+                            });
+                          </script>
+
+                        </FORM>
+                      </div>
+                    </table>
+                  </div>
+
+
+                  <div class="tab tab2">
+                    <table id="table-3">
+                      <tr class="tr-display-title">
+                        <th>廠商id</th>
+                        <th>使用者名稱</th>
+                        <th>公司名稱</th>
+                        <th class="unifiedBusinessNumber">商城名稱</th>
+                        <th>公司信箱</th>
+                        <!-- 							<th>聯絡人信箱</th> -->
+                        <th>地址</th>
+                        <th>電話</th>
+                        <th>營業登記</th>
+                        <th>統編</th>
+                        <th class="status">目前狀態</th>
+                        <th class="updatedAt">更新日</th>
+                      </tr>
+
+
+                      <div th:each="VendorVO2, vStat2: ${vendorlist2}">
+                        <tr class="display-result">
+                          <td class="vendorId" th:text="${VendorVO2.vendorId}"></td>
+                          <td class="username" th:text="${VendorVO2.username}"></td>
+                          <td class="companyName" th:text="${VendorVO2.companyName}"></td>
+                          <td class="shopName" th:text="${VendorVO2.shopName}"></td>
+                          <td class="companyEmail" th:text="${VendorVO2.companyEmail}"></td>
+                          <!-- 									<td class="email" th:text="${VendorVO2.email}"></td> -->
+                          <td class="companyAddress" th:text="${VendorVO2.companyAddress}"></td>
+                          <td class="companyPhone" th:text="${VendorVO2.companyPhone}"></td>
+
+                          <!-- trigger modal -->
+                          <td class="registrationDocument">
+                            <img th:src="@{/images/customer_support/file-image-regular.svg}" width="20px" class="btn_modal" th:id="'btn_modal2'+${vStat2.count}">
+                          </td>
+
+                          <td class="unifiedBusinessNumber" th:text="${VendorVO2.unifiedBusinessNumber}"></td>
+
+                          <p th:if="${0==VendorVO2.status}">
+                            <td class="status">未審核</td>
+                          </p>
+
+                          <p th:if="${1==VendorVO2.status}">
+                            <td class="status">審核通過</td>
+                          </p>
+
+                          <p th:if="${2==VendorVO2.status}">
+                            <td class="status">審核未通過(待補件)</td>
+                          </p>
+
+                          <td class="updatedAt" th:text="${#dates.format(VendorVO2.updatedAt, 'yyyy-MM-dd HH:mm')}"></td>
+
+                        </tr>
+
+                        <!-- 							Modal燈箱 -->
+                        <div class="lightbox" th:id="'lightbox2'+${vStat2.count}">
+                          <article th:id="'article_lightbox'+${vStat2.count}">
+                              <img th:src="@{/images/customer_support/xmark-solid.svg}" width="3%" class="btn_modal_close" style="margin-left: 96%;" th:id="'btn_modal_close2'+${vStat2.count}">
+<!--                              <img th:src="@{/admin/getOneVendorImage} + '?vendorId=' + ${VendorVO2.vendorId}" width="100%" class="modal_img" th:id="'modal_img'+${vStat2.count}">-->
+                            <embed th:src="@{/admin/getOneVendorImage} + '?vendorId=' + ${VendorVO2.vendorId}" width= "500" height= "550">
+
+                          </article>
+                        </div>
+
+
+                        <script th:inline="javascript">
+                          /* Modal燈箱操作 */
+                          $("#btn_modal2" + /*[[${vStat2.count}]]*/ "").on("click", function() {
+                            $("#lightbox2" + /*[[${vStat2.count}]]*/ "").fadeIn(500);
+                          });
+
+                          $("img.btn_modal_close2, #lightbox2" + /*[[${vStat2.count}]]*/ "").on("click", function() {
+                            $("#lightbox2" + /*[[${vStat2.count}]]*/ "").fadeOut(500);
+                          });
+
+                          $("#lightbox2" + /*[[${vStat2.count}]]*/ " > article").on("click", function(e) {
+                            e.stopPropagation();
+                          });
+                        </script>
+
+
+                      </div>
+                    </table>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <script>
+              // ↓↓↓ script第二步 ↓↓↓
+              // ↓↓↓↓ 從老師網頁貼來的!!!!! ↓↓↓↓
+              function tab_active() {
+// 			console.log(location); //觀察location，Location是網址的各部位資訊
+
+                let target_tab;
+                switch (location.hash) { //
+                  case "#tab1":
+                    target_tab = "tab1";
+                    break;
+                  case "#tab2":
+                    target_tab = "tab2";
+                    break;
+                  case "#tab3":
+                    target_tab = "tab3";
+                    break;
+                  default:
+                    target_tab = "tab1";
+                }
+
+                var all_a_tab = document.querySelectorAll("a.tab");
+                for (let i = 0; i < all_a_tab.length; i++) {
+                  all_a_tab[i].classList.remove("-on"); //刪除三個a標籤的-on
+                }
+                document.querySelector("a.tab[data-target=" + target_tab + "]").classList
+                        .add("-on"); //用data-target決定要幫誰加上-on
+
+                var all_div = document.querySelectorAll("div.tab");
+                for (let i = 0; i < all_div.length; i++) {
+                  all_div[i].classList.remove("-on"); //刪除三個a標籤的-on
+                }
+                document.querySelector("div.tab." + target_tab).classList
+                        .add("-on"); //幫某a標籤加上-on
+              }
+              // ↑↑↑↑ 從老師網頁貼來的!!!!! ↑↑↑↑
+              // ↑↑↑ script第二步 ↑↑↑
+
+              // ↓↓↓ script第一步 ↓↓↓
+              // console.log(this);          //此處this指的是「全域物件window」
+
+              document.addEventListener("DOMContentLoaded", function() {
+
+                // ↓↓↓ script第四步 ↓↓↓
+                // 第三步：連到外部網站，再按上一頁時，會觸發 DOMContentLoaded 事件，所以再執行：
+                tab_active();
+                // ↑↑↑ script第四步 ↑↑↑
+
+                let all_a = document.querySelectorAll("a.tab");
+                // console.log(all_a);  //NodeList(3) [a.tab.-on, a.tab, a.tab]
+                for (let i = 0; i < all_a.length; i++) {
+                  // console.log(i);
+                  all_a[i].addEventListener("click", function(r) {
+                    // all_a[i].addEventListener("click", (r) => { //測：改用箭頭函式，不用#175的匿名函式，
+
+                    console.log(r);
+                    r.preventDefault(); //使用preventDefault把a標籤原本的行為關掉(點擊a標籤，不會跳頁到頁籤二或頁籤三)
+
+                    all_a.forEach(function(item, j) {
+                      console.log(j); //不管點頁籤一/二/三，都會印出跑出三個頁籤
+                      item.classList.remove("-on"); //目的：刪掉class的-on
+                    });
+                    // console.log(this);  //當使用#125匿名函式，this用於指物件，此處this指的是「當點擊頁籤一，會出現對應的標籤」；this限用於匿名函式!!!
+                    //若#175匿名函式改用#176箭頭函式時，此處this指的是「document物件」
+                    // console.log(e.target); //不管使用匿名函式還是箭頭函式，都會出現a標籤!!
+                    this.classList.add("-on"); //點擊後會出現黑線外框
+
+                    let content_div = this.closest("div.tab_container")
+                            .querySelectorAll("div.tab"); //使用closet往父層找元素(div標籤，class為tab_container)，再往內層找
+                    //console.log(content_div);
+
+                    content_div.forEach(function(item, j) {
+                      // console.log(item);
+                      item.classList.remove("-on");
+                    })
+
+                    //使用querySelector找到某個內容的div，替它加上-on
+                    // document.querySelector("div.tab.tab2").classList.add("-on");
+
+                    //替每個a標籤，加上自訂屬性data-target=1/2/3，改寫上列語法#201如下
+                    document.querySelector("div.tab."
+                            + this.getAttribute("data-target")).classList
+                            .add("-on");
+
+                    // 點擊頁籤時，加進瀏覽歷程(點擊頁籤三時，再點上一頁/下一頁，網址會變，但內容不變)，故須搭配「加上自訂函式(在script最上半段)」
+// 					history.pushState(null, null, "#"
+// 							+ this.getAttribute("data-target"));
+
+                  });
+
+                }
+              });
+              // ↑↑↑ script第一步 ↑↑↑
+
+              // ↓↓↓ script第三步 ↓↓↓
+              // script最開始的自訂函式之後：popstate 事件觸發，執行 tab_active() 函式
+              window.addEventListener("popstate", function() {
+                // console.log("ttt");
+                tab_active();
+              });
+              // ↑↑↑ script第三步 ↑↑↑
+            </script>
+
+
+
+
+
+          </div>
+          <div id="customer-service-content" style="display: none">
+            <h2>客服表單審核</h2>
+            <!--            <div>客服表單內容</div>-->
+            <h5><a th:href="@{/}" target="_blank">瀏覽平台</a></h5>
+<!--            <h5><a th:href="@{/admin/customer_support_query}" target="_blank">後臺管理查詢</a></h5>-->
+<!--            <div th:replace="~{/customer_support}"></div>-->
+          </div>
+
           <div id="query-system-content" style="display: none">
             <h2>查詢系統標題</h2>
-            <div>查詢系統內容</div>
+            <!--            <div>查詢系統內容</div>-->
+            <h5><a th:href="@{/}" target="_blank">瀏覽平台</a></h5>
+<!--            <h5><a th:href="@{/admin/customer_support}" style="text-decoration:none;">&#11148 客服表單審核</a></h5>-->
+<!--            <div th:replace="~{/customer_support_query}"></div>-->
           </div>
+
           <div id="paid-product-recommendation-management-content" style="display: none">
             <h2>付費商品推薦管理標題</h2>
-            <div>付費商品推薦管理內容</div>
+<!--            <div>付費商品推薦管理內容</div>-->
+<!--            <div th:replace="~{/ad_platform}"></div>-->
           </div>
         </main>
       </div>
     </div>
   <div th:replace="fragments/profile_update_modal :: profile_update_modal"></div>
+  <div th:replace ="fragments/reset_password :: reset_password"></div>
   <script th:src="@{/js/common.js}"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
       crossorigin="anonymous"
     ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"
-      integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE"
-      crossorigin="anonymous"
-    ></script>
+
     <script>
+
+        // showContentFromSessionStorage();
       document
         .getElementById("vendor-verify-link")
         .addEventListener("click", function () {
           setActiveLink("vendor-verify-link");
           showContent("vendor-verify-content");
+          // setActivePartToLocalStorage("vendor-verify");
         });
       document
         .getElementById("customer-service-link")
         .addEventListener("click", function () {
           setActiveLink("customer-service-link");
           showContent("customer-service-content");
+          // setActivePartToLocalStorage("customer-service");
         });
       document
         .getElementById("user-data-link")
         .addEventListener("click", function () {
           setActiveLink("user-data-link");
           showContent("user-data-content");
+          // setActivePartToLocalStorage("user-data");
         });
       document
         .getElementById("vendor-data-link")
         .addEventListener("click", function () {
           setActiveLink("vendor-data-link");
           showContent("vendor-data-content");
+          // setActivePartToLocalStorage("vendor-data");
         });
       document
         .getElementById("administrator-data-link")
         .addEventListener("click", function () {
           setActiveLink("administrator-data-link");
           showContent("administrator-data-content");
+          // setActivePartToLocalStorage("administrator-data");
         });
       document.getElementById("query-system-link")
               .addEventListener("click",function(){
                 setActiveLink("query-system-link");
-                showContent("query-system-content")
+                showContent("query-system-content");
+                // setActivePartToLocalStorage("query-system");
               });
       document.getElementById("paid-product-recommendation-management-link")
               .addEventListener("click",function(){
                 setActiveLink("paid-product-recommendation-management-link");
-                showContent("paid-product-recommendation-management-content")
+                showContent("paid-product-recommendation-management-content");
+                // setActivePartToLocalStorage("paid-product-recommendation-management");
               });
       function setActiveLink(activeLink) {
         let links = document.querySelectorAll(".nav-link");
@@ -373,6 +749,18 @@
         });
         document.getElementById(contentId).style.display = "block";
       }
+      // function setActivePartToLocalStorage(activePart){
+      //   localStorage.setItem('activePart',activePart);
+      // }
+      //   function showContentFromSessionStorage(){
+      //     const activePart = localStorage.getItem('activePart');
+      //
+      //     if (activePart) {
+      //       setActiveLink(`${activePart}-link`);
+      //       showContent(`${activePart}-content`);
+      //     }
+      //   }
+
     </script>
     <script>
 

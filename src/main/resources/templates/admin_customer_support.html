@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-Hant">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>GoSports後台管理頁面 | 客服表單審核</title>
+    
+    <!-- favicon -->
+    <link
+            rel="icon"
+            th:href="@{/images/common/favicon.png}"
+            type="image/png"
+    />
+
+    <!-- bootstrap css -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+            crossorigin="anonymous"
+    />
+    <!-- bootstrap icons -->
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400..900&display=swap"
+            rel="stylesheet"
+    />
+    <link rel="stylesheet" th:href="@{/css/common.css}"/>
+
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+	<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+			crossorigin="anonymous"
+	/>
+
+
+
+	<style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+        }
+
+
+        /* 頁籤區塊 */
+        div.tab_container div.tab_list_block {
+            padding-left: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* 頁籤列表 */
+        div.tab_container div.tab_list_block ul.tab_list {
+            list-style: none;
+            display: inline-block;
+            margin: 0;
+            padding: 0;
+        }
+
+        div.tab_container div.tab_list_block ul.tab_list>li {
+            display: inline-block;
+        }
+
+        div.tab_container div.tab_list_block ul.tab_list>li>a {
+            text-decoration: none;
+            display: inline-block;
+            padding: 2px 20px;
+            border-radius: 5px 5px 0 0;
+            cursor: pointer;
+            color: #ccc;
+            border: 2px solid #c3c3c3;
+            border-radius: 10px;
+			background-color: #c3c3c3;
+        }
+
+
+        /* 畫出底部黑線 */
+
+        div.tab_container div.tab_list_block ul.tab_list>li>a.-on {
+            color: black;
+            background-color: darkcyan;
+            border: 3px solid darkcyan;
+            border-radius: 10px;
+        }
+
+        /* 頁籤內容區塊 */
+        div.tab_container div.tab_contents {
+            position: relative;
+            margin-top: 1%;
+        }
+
+        div.tab_container div.tab_contents div.tab {
+            padding: 10px;
+            display: none;
+
+        }
+
+        div.tab_container div.tab_contents div.tab.-on {
+            display: block;
+
+        }
+
+        /* 表格 */
+        #table-1 {
+            background-color: lightgray;
+            text-align: center;
+            width: 90%;
+            margin-left: 5%;
+            margin-right: 5%;
+            margin-top: 3%;
+        }
+
+        #table-1 h4 {
+            color: red;
+            display: block;
+            margin-bottom: 1px;
+        }
+
+        h4 {
+            color: blue;
+            display: inline;
+        }
+
+        table {
+            width: 96%;
+            background-color: white;
+            margin-bottom: 5px;
+            margin-left: 2%;
+            border-collapse: collapse;
+        }
+
+        #table-2, #table-3 {
+            margin-top: 1%;
+
+        }
+
+        #table-2 th, #table-3 th {
+            border-bottom: 1px solid black;
+            text-align: center;
+            
+        }
+
+        #table-2 tr, #table-3 tr {
+            vertical-align: top;
+
+        }
+
+        #table-2 td, #table-3 td {
+            padding: 12px;
+            border-bottom: 2px solid white;
+            background-color: rgba(211, 211, 211, 0.201);
+        }
+
+        td.date {
+            word-break: break-all;
+            width: 10%;
+            padding-right: 1%;
+			min-width: 15px;
+        }
+
+        td.reply-date {
+            word-break: break-all;
+            width: 10%;
+            padding-right: 1%;
+        }
+
+        td.category {
+            word-break: break-all;
+            width: 6%;
+        }
+
+        td.title {
+            word-break: break-all;
+            width: 10%;
+        }
+
+        td.desc {
+            word-break: break-all;
+            width: 20%;
+        }
+
+        td.status {
+            width: 8%;
+            word-wrap: normal;
+            overflow: hidden;
+        }
+        
+        
+        td.status2 {
+            width:  10%;
+            
+        }
+
+        td.userid,
+        td.notified-referenceid {
+            width: 10%;
+            word-break: break-all;
+        }
+
+        td.notification {
+            width: 20%;
+            word-break: break-all;
+        }
+
+        .select-status {
+            width: 50%;
+            overflow: hidden;
+            margin-left: 2%;
+            margin-right: 2%;
+        }
+
+        .input-notified-referenceid {
+            width: 90%;
+            margin-left: 2%;
+            margin-right: 2%;
+        }
+
+        .select-notification {
+            width: 96%;
+            margin-left: 2%;
+            margin-right: 2%;
+        }
+
+        .btn-submit {
+            margin-left: 2%;
+            margin-right: 2%;
+        }
+
+        .select-status,
+        .input-notified-referenceid,
+        .select-notification {
+            margin-top: 1%;
+        }
+
+        span.hint {
+            /*color: red;*/
+            display: none;
+            font-size: 14px;
+        }
+
+        div.error span.hint, div.error span.hint  {
+            display: block;
+            margin-bottom: 3%;
+        }
+
+		#h4_1, #h4_2{
+			background-color: black;
+		}
+
+    </style>
+    
+</head>
+
+
+<body>
+<div th:replace ="fragments/admin_navbar ::admin_navbar"></div>
+
+<div class="page-container">
+
+	<table id="table-1">
+	    <tr class="banner">
+	        <td>
+	            <h3 class="mb-3">客服表單審核</h3>
+	            <h5 class="mb-1"><a id="h4_1" th:href="@{/}" target="_blank">瀏覽平台</a></h5>
+	            <h5 class="mb-2"><a id="h4_2" th:href="@{/admin/admin_customer_support_query}" target="_blank">後臺管理查詢</a></h5>
+	        </td>
+	    </tr>
+	</table>
+	
+	<!-- 手動加入 <div style="padding:5%"> -->
+	<div style="padding:4%">
+
+	    <div class="tab_container">
+	
+	<!--         ↓↓↓ 頁籤 ↓↓↓ -->
+	        <div class="tab_list_block">
+	            <ul class="tab_list">
+	                <!-- class加上「-on」，使該標籤內容可以被看到 -->
+	                <li><a id="tab_1" href="javascript.void(0)" data-target="tab1" class="tab -on">未處理/待處理</a></li>
+	                <li><a id="tab_2" href="javascript.void(0)" data-target="tab2" class="tab">所有客服表單</a></li>
+	            </ul>
+	        </div>
+	
+	
+	        <!-- ↓↓↓ 頁籤裡的內容 ↓↓↓ -->
+	        <div class="tab_contents">
+	
+<!--             class加上「-on」，使該標籤內容可以被看到 -->
+            <div class="tab tab1 -on">
+<!--                 &nbsp&nbsp<%@ include file="page0.file" %> -->
+
+               <table id="table-2">
+                   <tr class="tr-display-title">
+                       <th>提交時間</th>
+                       <th>提單會員</th>
+                       <th>種類</th>
+                       <th>標題</th>
+                       <th>問題描述</th>
+                       <th>處理狀態</th>
+                       <th>通知內容</th>
+                       <th>通知揪團id/文章id/留言id/商品id</th>
+                       <th></th>
+                   </tr>
+	
+	
+	
+	
+				<div th:each="customerSupportVO1, cStat : ${customerSupportList1}">
+                        <form method="post" th:action="@{/admin/update_customer_support_feedback}"  th:id="'form' + ${cStat.count}" >
+							 <tr class="display-result">
+	                                <td class="date" th:text="${#dates.format(customerSupportVO1.submissionDatetime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+	                                <td class="userid" th:text="${customerSupportVO1.userId}"></td>
+	                                <td class="category" th:text="${customerSupportVO1.category}"></td>
+	                                <td class="title" th:text="${customerSupportVO1.title}"></td>
+	                                <td class="desc" th:text="${customerSupportVO1.issueDescription}"></td>
+	
+	
+	                                <td class="status">
+	                                    <select class="select-status" th:class="select-status + ${cStat.count}" id="'status' + ${cStat.count}" size="1" name="status" >
+	                                        <option class="option-status" th:class="option_status + ${cStat.count}" value="1: 未處理" th:selected="('1: 未處理'==${param.status})">1: 未處理
+	                                        <option class="option-status" th:class="option_status + ${cStat.count}" value="2: 結案_毋須處理" th:selected="('2: 結案_毋須處理'==${param.status})">2: 結案_毋須處理
+	                                        <option class="option-status" th:class="option_status + ${cStat.count}" value="3: 結案_發送通知信件" th:selected="('3: 結案_發送通知信件'==${param.status})">3: 結案_發送通知信件
+<!--	                                        <option class="option-status" th:class="option_status + ${cStat.count}" value="4: 發送通知信件(待處理)" th:selected="('4: 發送通知信件(待處理)'==${param.status})">4: 發送通知信件(待處理)-->
+	                                    </select>
+	                                </td>
+	
+	
+	                                <td th:class="'notification' + ${cStat.count}">
+	                                    <select th:class="'select-notification' + ${cStat.count}" name="notificationContent" size="1">
+	                                        <option th:each="notiVO : ${customerSupportList}" th:value="${notiVO.notificationItem}" th:text="${notiVO.notificationItem}">
+	                                    </select>
+	                                </td>
+	
+	
+	                                <td th:class="'notified-referenceid' + ${cStat.count}">
+	                                    <input type="text" name="notifiedReferenceId" th:class="'input-notified-referenceid'+ ${cStat.count}">
+<!-- 										<div style="color:red" th:if="${errMap != null}" > -->
+										<div style="color:red" th:if="${customerSupportDTO != null && customerSupportVO1.formId.equals(customerSupportDTO.formId)}" >
+										<p th:text="${customerSupportDTO.errorMsgs}"></p> 
+										</div>
+
+	                                </td>
+	
+	
+	                                <td th:class="'btn-submit' + ${cStat.count}">
+	                                    <input type="hidden" name="formId" th:value="${customerSupportVO1.formId}">
+	                                    <input th:class="'submit' + ${cStat.count}" type="submit" value="送出">
+	                                </td>
+	                        </tr>
+                        </form>
+				</div>
+              </table>
+          </div>
+	
+	
+	            <div class="tab tab2">
+	                <table id="table-3">
+	                    <tr class="tr-display-title tr-display-title2">
+	                        <th>提交時間</th>
+	                        <th>處理日</th>
+	                        <th>提單會員</th>
+	                        <th>種類</th>
+	                        <th>標題</th>
+	                        <th>問題描述</th>
+	                        <th>處理狀態</th>
+	                        <th>通知揪團id/文章id/留言id/商品id</th>
+	                        <th>通知內容</th>
+	                        <th></th>
+	                    </tr>
+	
+					<div th:each="customerSupportVO2, cStat : ${customerSupportList2}">
+	                        <tr class="display-result display-result2">
+	                            <td class="date date2" th:text="${#dates.format(customerSupportVO2.submissionDatetime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+	                            <td class="reply-date reply-date2" th:text="${#dates.format(customerSupportVO2.submissionDatetime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+	                            <td class="userid userid2" th:text="${customerSupportVO2.userId}"></td>
+	                            <td class="category category2" th:text="${customerSupportVO2.category}"></td>
+	                            <td class="title title2"  th:text="${customerSupportVO2.title}"></td>
+	                            <td class="desc desc2" th:text="${customerSupportVO2.issueDescription}"></td>
+	                            <td class="status status2" th:text="${customerSupportVO2.status}"></td>
+	                            <td class="notified-referenceid notified-referenceid2" th:text="${customerSupportVO2.referenceId}"></td>
+	                            <td class="notification notification2" th:text="${customerSupportVO2.notificationContent}"></td>
+	                        </tr>
+	            	</div>
+	            	
+	                </table>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+
+
+
+	<script >
+	    // ↓↓↓ script第二步 ↓↓↓
+	    // ↓↓↓↓ 從老師網頁貼來的!!!!! ↓↓↓↓
+	    function tab_active() {
+	//                     console.log(location);  //觀察location，Location是網址的各部位資訊
+	
+	        let target_tab;
+	        switch (location.hash) {    //
+	            case "#tab1":
+	                target_tab = "tab1";
+	                break;
+	            case "#tab2":
+	                target_tab = "tab2";
+	                break;
+	            case "#tab3":
+	                target_tab = "tab3";
+	                break;
+	            default:
+	                target_tab = "tab1";
+	        }
+	
+	        var all_a_tab = document.querySelectorAll("a.tab");
+	        for (let i = 0; i < all_a_tab.length; i++) {
+	            all_a_tab[i].classList.remove("-on");   //刪除三個a標籤的-on
+	        }
+	        document.querySelector("a.tab[data-target=" + target_tab + "]").classList.add("-on"); //用data-target決定要幫誰加上-on
+	
+	        var all_div = document.querySelectorAll("div.tab");
+	        for (let i = 0; i < all_div.length; i++) {
+	            all_div[i].classList.remove("-on");   //刪除三個a標籤的-on
+	        }
+	        document.querySelector("div.tab." + target_tab).classList.add("-on"); //幫某a標籤加上-on
+	    }
+	    // ↑↑↑↑ 從老師網頁貼來的!!!!! ↑↑↑↑
+	    // ↑↑↑ script第二步 ↑↑↑
+	
+	
+	    // ↓↓↓ script第一步 ↓↓↓
+	    // console.log(this);          //此處this指的是「全域物件window」
+	
+	    document.addEventListener("DOMContentLoaded", function () {
+	
+	        // ↓↓↓ script第四步 ↓↓↓
+	        // 第三步：連到外部網站，再按上一頁時，會觸發 DOMContentLoaded 事件，所以再執行：
+	        tab_active();
+	        // ↑↑↑ script第四步 ↑↑↑
+	
+	        let all_a = document.querySelectorAll("a.tab");
+	        for (let i = 0; i < all_a.length; i++) {
+	            all_a[i].addEventListener("click", function (r) {
+	
+	                r.preventDefault();     //使用preventDefault把a標籤原本的行為關掉(點擊a標籤，不會跳頁到頁籤二或頁籤三)
+	
+	                all_a.forEach(function (item, j) {
+	                    console.log(j);  //不管點頁籤一/二/三，都會印出跑出三個頁籤
+	                    item.classList.remove("-on"); //目的：刪掉class的-on
+	                });
+	                this.classList.add("-on");  //點擊後會出現黑線外框
+	
+	                let content_div = this.closest("div.tab_container").querySelectorAll("div.tab");  //使用closet往父層找元素(div標籤，class為tab_container)，再往內層找
+	
+	                content_div.forEach(function (item, j) {
+	                    item.classList.remove("-on");
+	                })
+	
+	
+	                //使用querySelector找到某個內容的div，替它加上-on
+	                //替每個a標籤，加上自訂屬性data-target=1/2/3，改寫上列語法#201如下
+	                document.querySelector("div.tab." + this.getAttribute("data-target")).classList.add("-on");
+	            });
+	        }
+	    });
+	    // ↑↑↑ script第一步 ↑↑↑
+	
+	
+	    // ↓↓↓ script第三步 ↓↓↓
+	    // script最開始的自訂函式之後：popstate 事件觸發，執行 tab_active() 函式
+	    window.addEventListener("popstate", function () {
+	        tab_active();
+	    });
+	    // ↑↑↑ script第三步 ↑↑↑
+	
+	</script>
+
+</div>
+
+<script th:src="@{/js/common.js}"></script>
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+        crossorigin="anonymous"
+></script>
+
+<div th:replace="fragments/profile_update_modal :: profile_update_modal"></div>
+<div th:replace ="fragments/reset_password :: reset_password"></div>
+<script th:src="@{/js/common.js}"></script>
+
+<script>
+
+	// showContentFromSessionStorage();
+	document
+			.getElementById("vendor-verify-link")
+			.addEventListener("click", function () {
+				setActiveLink("vendor-verify-link");
+				showContent("vendor-verify-content");
+				// setActivePartToLocalStorage("vendor-verify");
+			});
+	document
+			.getElementById("customer-service-link")
+			.addEventListener("click", function () {
+				setActiveLink("customer-service-link");
+				showContent("customer-service-content");
+				// setActivePartToLocalStorage("customer-service");
+			});
+	document
+			.getElementById("user-data-link")
+			.addEventListener("click", function () {
+				setActiveLink("user-data-link");
+				showContent("user-data-content");
+				// setActivePartToLocalStorage("user-data");
+			});
+	document
+			.getElementById("vendor-data-link")
+			.addEventListener("click", function () {
+				setActiveLink("vendor-data-link");
+				showContent("vendor-data-content");
+				// setActivePartToLocalStorage("vendor-data");
+			});
+	document
+			.getElementById("administrator-data-link")
+			.addEventListener("click", function () {
+				setActiveLink("administrator-data-link");
+				showContent("administrator-data-content");
+				// setActivePartToLocalStorage("administrator-data");
+			});
+	document.getElementById("query-system-link")
+			.addEventListener("click",function(){
+				setActiveLink("query-system-link");
+				showContent("query-system-content");
+				// setActivePartToLocalStorage("query-system");
+			});
+	document.getElementById("paid-product-recommendation-management-link")
+			.addEventListener("click",function(){
+				setActiveLink("paid-product-recommendation-management-link");
+				showContent("paid-product-recommendation-management-content");
+				// setActivePartToLocalStorage("paid-product-recommendation-management");
+			});
+	function setActiveLink(activeLink) {
+		let links = document.querySelectorAll(".nav-link");
+		links.forEach((item) => {
+			item.classList.remove("active");
+		});
+		document.getElementById(activeLink).classList.add("active");
+	}
+	function showContent(contentId) {
+		let contents = document.querySelectorAll("main > div");
+		console.log("contents:" + contents);
+		contents.forEach((item) => {
+			item.style.display = "none";
+		});
+		document.getElementById(contentId).style.display = "block";
+	}
+
+
+</script>
+
+
+</body>
+</html>
