@@ -305,7 +305,7 @@
             
             <label th:if="${session.userId == groupVO.groupLeaderId && '報名' == memberVO.memberRole && memberVO.rankNo <= groupVO.groupPrimaryMember  }">
             
-            <input type="radio" th:name="'presentLog' + ${gStat.count}" value="YES" th:checked="${memberVO.presentLog == 'YES'}" th:text="'出席' + ${memberVO.presentLog}">
+            <input type="radio" th:name="'presentLog' + ${gStat.count}" value="YES" th:checked="${memberVO.presentLog == 'YES'}" th:text="'出席'">
             
 <!--             <input type="radio" name="presentLog${s.count}"  value="YES" ${("YES"==memberVO.presentLog)? 'checked':'' } > -->
  <!--             出席${memberVO.presentLog}
