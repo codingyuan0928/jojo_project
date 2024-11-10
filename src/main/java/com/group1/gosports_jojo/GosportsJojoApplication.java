@@ -1,6 +1,7 @@
 package com.group1.gosports_jojo;
 
 import com.group1.gosports_jojo.security.PasswordUtil;
+import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -19,6 +20,8 @@ public class GosportsJojoApplication implements CommandLineRunner {
     private PasswordUtil passwordUtil; // 注入加密工具
 
     public static void main(String[] args) {
+        Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
+        dotenv.entries().forEach(entry -> System.setProperty(entry.getKey(), entry.getValue()));
         SpringApplication.run(GosportsJojoApplication.class, args);
     }
 

@@ -8,7 +8,7 @@ target/
 mvnw
 mvnw.cmd
 bin/
-
+.env
 
 
 ### STS ###
@@ -38,3 +38,4 @@ build/
 
 ### VS Code ###
 .vscode/
+.env
