@@ -2,10 +2,68 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="zh-Hant">
 <head>
   <title>帳戶已停權</title>
+  <style>
+    /* 背景漸層顏色 */
+    body {
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(135deg, #d16ba5, #614385); /* 深一點的漸層色 */
+      font-family: Arial, sans-serif;
+    }
+
+    /* 卡片樣式 */
+    .card {
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
+    }
+
+    /* 標題樣式 */
+    .card h1 {
+      font-size: 1.8em;
+      margin: 0;
+      color: #333333;
+    }
+
+    /* 文字樣式 */
+    .card p {
+      font-size: 1em;
+      color: #555555;
+      margin: 15px 0;
+    }
+
+    /* 連結樣式 */
+    .card a {
+      font-size: 1em;
+      color: #a64ca6; /* 偏粉紫色的文字 */
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .card a:hover {
+      text-decoration: underline;
+    }
+
+    /* 圖片樣式 */
+    .card img {
+      width: 80px;
+      margin-top: 15px;
+    }
+  </style>
 </head>
 <body>
-<h1>您的帳戶已停權</h1>
-<p>如有疑問，請聯絡客服進行查詢。</p>
-<a href="/feedback_form">聯絡客服</a>
+<div class="card">
+  <h1>您的帳戶已停權，如有疑問，請聯絡客服進行查詢。</h1>
+  <p>聯絡電話:02-2712-0589</p>
+  <img th:src="@{/images/custom_feedback/custom_feedback.png}" alt="客服表單圖片" />
+  <a href="/feedback_form">聯絡客服</a>
+</div>
 </body>
 </html>
