@@ -9,7 +9,7 @@ class PhotoWriteAvatar {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		InputStream fin = null;
-		String url = "jdbc:mysql://localhost:3307/go_sports?serverTimezone=Asia/Taipei";
+		String url = "jdbc:mysql://localhost:3306/go_sports?serverTimezone=Asia/Taipei";
 		String userid = "root";
 		String passwd = "123456";
 		String photos = "src/main/resources/static/images/avatar"; //測試用圖片已置於【專案錄徑】底下的【resources/DB_photos1】目錄內
