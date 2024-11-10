@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-Hant">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>運動揪揪 | 後臺管理-廠商資格審核</title>
+    
+    <!-- favicon -->
+    <link
+            rel="icon"
+            th:href="@{/images/common/favicon.png}"
+            type="image/png"
+    />
+
+    <!-- bootstrap css -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+            crossorigin="anonymous"
+    />
+    <!-- bootstrap icons -->
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400..900&display=swap"
+            rel="stylesheet"
+    />
+    <link rel="stylesheet" th:href="@{/css/common.css}"/>
+    
+<style>
+	* {
+		box-sizing: border-box;
+	}
+	
+	body {
+		margin: 0;
+	}
+	
+	/* 頁籤區塊 */
+	div.tab_container div.tab_list_block {
+		padding-left: 20px;
+		position: relative;
+		z-index: 2;
+	}
+	
+	/* 頁籤列表 */
+	div.tab_container div.tab_list_block ul.tab_list {
+		list-style: none;
+		display: inline-block;
+		margin: 0;
+		padding: 0;
+	}
+	
+	div.tab_container div.tab_list_block ul.tab_list>li {
+		display: inline-block;
+	}
+	
+	div.tab_container div.tab_list_block ul.tab_list>li>a {
+		text-decoration: none;
+		display: inline-block;
+		padding: 2px 20px;
+		cursor: pointer;
+		color: #ccc;
+		border-top: 2px solid lightgray;
+		border-radius: 10px;
+	}
+	
+	/* 畫出底部黑線 */
+	div.tab_container div.tab_list_block ul.tab_list>li>a.-on {
+		color: black;
+		background-color: lightgreen;
+		border: 3px solid darkcyan;
+		border-radius: 10px;
+	}
+	
+	/* 頁籤內容區塊 */
+	div.tab_container div.tab_contents {
+		position: relative;
+		margin-top: 0%;
+		/*margin:0;*/
+	}
+	
+	div.tab_container div.tab_contents div.tab {
+		padding: 10px;
+		display: none;
+	}
+	
+	div.tab_container div.tab_contents div.tab.-on {
+		display: block;
+	}
+	
+	/* 表格 */
+	#table-1 {
+		background-color: rgba(173, 216, 230, 0.682);
+		text-align: center;
+		width: 90%;
+		margin-left: 5%;
+		margin-right: 5%;
+		margin-top: 3%;
+	}
+	
+	#table-1 h4 {
+		color: red;
+		display: block;
+		/*margin-bottom: 1px;*/
+	}
+	
+	h4 {
+		color: blue;
+		display: inline;
+	}
+	
+	table {
+		width: 96%;
+		/*background-color: white;*/
+		margin-bottom: 5px;
+		margin-left: 2%;
+		border-collapse: collapse;
+	}
+	
+	
+	#table-2, #table-3 {
+		/*margin-top: 1%;*/
+	}
+	
+	#table-2 th, #table-3 th {
+		border-bottom: 1px solid black;
+	}
+	
+	#table-2 tr, #table-3 tr {
+		vertical-align: top;
+	}
+	
+	#table-2 td, #table-3 td {
+		padding-top: 12px;
+		padding-bottom: 12px;
+		border-bottom: 2px solid white;
+		background-color: rgba(211, 211, 211, 0.201);
+	}
+	
+	td.vendorId{
+		width: 3%;
+		padding-right: 1%;
+	}
+	
+	
+	td.username {
+		word-break: break-all;
+		width: 8%;
+		padding-right: 1%;
+	}
+	
+	td.avatar {
+		word-break: break-all;
+		width: 5%;
+		padding-right: 1%;
+	}
+	
+	td.email {
+		word-break: break-all;
+		width: 12%;
+		padding: 1%;
+		
+	}
+	
+	td.companyName {
+		word-break: break-all;
+		width: 8%;
+	}
+	
+	td.companyAddress {
+		word-break: break-all;
+		width: 10%;
+		padding: 1%;
+	}
+	
+	td.companyPhone {
+		width: 6%;
+		padding: 1%;
+		
+	}
+	
+	td.companyEmail {
+		width: 12%;
+		word-break: break-all;
+		padding: 1%;
+		
+	}
+	
+	td.registrationDocument {
+		width: 5%;
+		word-break: break-all;
+	}
+	
+	td.unifiedBusinessNumber {
+		width: 6%;
+		word-break: break-all;
+	}
+	
+	td.shopName {
+		width: 5%;
+		word-break: break-all;
+	}
+	
+	.status {
+		width: 6%;
+		word-break: break-all;
+	}
+	
+	.updated_status{
+		width: 6%;
+		word-break: break-all;
+	}
+	
+	.updatedAt{
+		width: 5%;
+		word-break: break-all;
+	}
+	
+	.select-status {
+		width: 90%;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	 	margin-left: 2%; 
+		margin-right: 2%;
+	}
+	
+	
+	.btn-submit {
+		margin-left: 2%;
+		margin-right: 2%;
+	}
+	
+	
+	.display-result{
+	text-align: center;
+	}
+
+
+      .lightbox{
+      /*   border: 1px solid red; */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background-color: hsla(0, 0%, 0%, .5);
+        
+        display: none;
+        z-index: 3;
+      }
+      
+      /* 元素 article 置中及基本樣式 */
+      .lightbox > article{
+        background-color: white;
+        width: 90%;
+        max-width: 800px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px #ddd;
+        padding: 10px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .modal_img{
+        display: block;
+        
+      }
+
+      .btn_modal, .btn_modal_close{
+        cursor: pointer;
+      }
+
+
+</style>
+    
+</head>
+
+
+<body>
+<div class="page-container">
+
+<!--	<table id="table-1">-->
+<!--		<tr class="banner">-->
+<!--			<td>-->
+<!--				<h3>後臺管理-廠商資格審核-->
+<!--				-->
+<!--				<h4>-->
+<!--					<a th:href="@{/}" target="_blank">瀏覽平台</a>-->
+<!--				</h4>-->
+<!--				</h3>-->
+<!--			</td>-->
+<!--		</tr>-->
+<!--	</table>-->
+
+	<!-- 手動加入 <div style="padding:5%"> -->
+	<div style="padding: 4%">
+
+		<div class="tab_container">
+
+			<!-- ↓↓↓ 頁籤 ↓↓↓ -->
+			<div class="tab_list_block">
+				<ul class="tab_list">
+
+					<!-- class加上「-on」，使該標籤內容可以被看到 -->
+					<li><a href="#" data-target="tab1" class="tab -on">待審核</a></li>
+					<li><a href="#" data-target="tab2" class="tab">所有廠商審核清單</a></li>
+					<!-- <li><a href="#" data-target="tab3" class="tab">我發起的話題</a></li> -->
+				</ul>
+			</div>
+
+
+			<!-- ↓↓↓ 頁籤裡的內容 ↓↓↓ -->
+			<div class="tab_contents">
+
+				<!-- class加上「-on」，使該標籤內容可以被看到 -->
+				<div class="tab tab1 -on">
+					<table id="table-2">
+						<tr class="tr-display-title">
+							<th>廠商id</th>
+							<th>使用者名稱</th>
+							<th>公司名稱</th>
+							<th class="unifiedBusinessNumber">商城名稱</th>
+							<th>公司信箱</th>
+<!-- 							<th>聯絡人信箱</th> -->
+							<th>地址</th>
+							<th>電話</th>
+							<th>營業登記</th>
+							<th>統編</th>
+							<th class="status">目前狀態</th>
+							<th class="updatedAt">更新日</th>
+							<th class="updated_status">更新審核狀態</th>
+							<th></th>
+						</tr>
+
+						<div th:each="VendorVO1, vStat: ${vendorlist1}">
+							<FORM METHOD="post" th:action="@{update_vendor_status}" style="margin-bottom: 0px;" th:id="'form'+${vStat.count}">
+
+								<tr class="display-result">
+									<td class="vendorId" th:text="${VendorVO1.vendorId}"></td>
+									<td class="username" th:text="${VendorVO1.username}"></td>
+									<td class="companyName" th:text="${VendorVO1.companyName}"></td>
+									<td class="shopName" th:text="${VendorVO1.shopName}"></td>
+									<td class="companyEmail" th:text="${VendorVO1.companyEmail}"></td>
+<!-- 									<td class="email" th:text="${VendorVO1.email}"></td> -->
+									<td class="companyAddress" th:text="${VendorVO1.companyAddress}"></td>
+									<td class="companyPhone" th:text="${VendorVO1.companyPhone}"></td>
+																		
+									<!-- trigger modal -->
+	 								<td class="registrationDocument">
+<!--									<img th:src="@{/images/customer_support/file-image-regular.svg}" width="20px" class="btn_modal" th:id="'btn_modal'+${vStat.count}">-->
+									</td>
+									
+									
+									<td class="unifiedBusinessNumber" th:text="${VendorVO1.unifiedBusinessNumber}"></td>
+
+									<p th:if="${0==VendorVO1.status}">
+										<td class="status">未審核</td>
+									</p>
+
+									<p th:if="${1==VendorVO1.status}">
+										<td class="status">審核通過</td>
+									</p>
+									
+									<p th:if="${2==VendorVO1.status}">
+										<td class="status">審核未通過(待補件)</td>
+									</p>
+									
+									<td class="updatedAt" th:text="${#dates.format(VendorVO1.updatedAt, 'yyyy-MM-dd HH:mm')}"></td>
+									
+									<td th:class="'updated_status'+${vStat.count}">
+									<select th:class="'select-status'+${vStat.count}" size="1" name="status">
+											<option value=1>審核通過
+											<option value=2>審核未通過(待補件)
+									</select>
+									</td>
+
+									<td th:class="'btn-submit'+${vStat.count}">
+										<input type="submit" value="送出" th:class="'submit'+${vStat.count}">
+										<input type="hidden" name="vendorId" th:value="${VendorVO1.vendorId}" th:id="'vendorId'+${vStat.count}"> 
+										<input type="hidden" name="action" value="update_vendor_status">
+									</td>
+								</tr>
+								
+<!-- 								 	Modal燈箱 -->
+								<div class="lightbox" th:id="'lightbox'+${vStat.count}">
+							      <article class="article_lightbox" th:id="'article_lightbox'+${vStat.count}">
+<!--							        <img th:src="@{/images/customer_support/xmark-solid.svg}" width="3%" class="btn_modal_close" style="margin-left: 96%;" th:id="'btn_modal_close'+${vStat.count}">-->
+<!--							        <img th:src="@{/getOneVendorImage} + '?vendorId=' + ${VendorVO1.vendorId}" width="100%" class="modal_img" th:id="'modal_img'+${vStat.count}">-->
+							      </article>
+							    </div>
+							          <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+							      
+<script th:inline="javascript">
+    /* Modal燈箱操作 */
+    $("#btn_modal" + /*[[${vStat.count}]]*/ "").on("click", function() {
+        $("#lightbox" + /*[[${vStat.count}]]*/ "").fadeIn(500);
+    });
+
+    $("img.btn_modal_close, #lightbox" + /*[[${vStat.count}]]*/ "").on("click", function() {
+        $("#lightbox" + /*[[${vStat.count}]]*/ "").fadeOut(500);
+    });
+
+    $("#lightbox" + /*[[${vStat.count}]]*/ "> article").on("click", function(e) {
+        e.stopPropagation();
+    });
+</script>
+
+						     </FORM>								
+						</div>
+					</table>			
+				</div>
+
+
+				<div class="tab tab2">
+					<table id="table-3">
+						<tr class="tr-display-title">
+							<th>廠商id</th>
+							<th>使用者名稱</th>
+							<th>公司名稱</th>
+							<th class="unifiedBusinessNumber">商城名稱</th>
+							<th>公司信箱</th>
+<!-- 							<th>聯絡人信箱</th> -->
+							<th>地址</th>
+							<th>電話</th>
+							<th>營業登記</th>
+							<th>統編</th>
+							<th class="status">目前狀態</th>
+							<th class="updatedAt">更新日</th>
+						</tr>
+
+
+						<div th:each="VendorVO2, vStat2: ${vendorlist2}">
+							<tr class="display-result">
+								<td class="vendorId" th:text="${VendorVO2.vendorId}"></td>
+									<td class="username" th:text="${VendorVO2.username}"></td>
+									<td class="companyName" th:text="${VendorVO2.companyName}"></td>
+									<td class="shopName" th:text="${VendorVO2.shopName}"></td>
+									<td class="companyEmail" th:text="${VendorVO2.companyEmail}"></td>
+<!-- 									<td class="email" th:text="${VendorVO2.email}"></td> -->
+									<td class="companyAddress" th:text="${VendorVO2.companyAddress}"></td>
+									<td class="companyPhone" th:text="${VendorVO2.companyPhone}"></td>
+
+									<!-- trigger modal -->
+									<td class="registrationDocument">
+<!--									<img th:src="@{images/customer_support/file-image-regular.svg}" width="20px" class="btn_modal" th:id="'btn_modal2'+${vStat2.count}">-->
+									</td>
+									
+									<td class="unifiedBusinessNumber" th:text="${VendorVO2.unifiedBusinessNumber}"></td>
+
+									<p th:if="${0==VendorVO2.status}">
+										<td class="status">未審核</td>
+									</p>
+
+									<p th:if="${1==VendorVO2.status}">
+										<td class="status">審核通過</td>
+									</p>
+									
+									<p th:if="${2==VendorVO2.status}">
+										<td class="status">審核未通過(待補件)</td>
+									</p>
+									
+									<td class="updatedAt" th:text="${#dates.format(VendorVO2.updatedAt, 'yyyy-MM-dd HH:mm')}"></td>
+									
+							</tr>
+							
+<!-- 							Modal燈箱 -->
+								<div class="lightbox" th:id="'lightbox2'+${vStat2.count}">
+							      <article th:id="'article_lightbox'+${vStat2.count}">
+<!--							        <img th:src="@{images/customer_support/xmark-solid.svg}" width="3%" class="btn_modal_close" style="margin-left: 96%;" th:id="'btn_modal_close2'+${vStat2.count}">-->
+<!--							        <img th:src="@{/getOneVendorImage} + '?vendorId=' + ${VendorVO2.vendorId}" width="100%" class="modal_img" th:id="'modal_img'+${vStat2.count}">-->
+							      </article>
+							    </div>
+    
+							      
+<script th:inline="javascript">
+    /* Modal燈箱操作 */
+    $("#btn_modal2" + /*[[${vStat2.count}]]*/ "").on("click", function() {
+        $("#lightbox2" + /*[[${vStat2.count}]]*/ "").fadeIn(500);
+    });
+
+    $("img.btn_modal_close2, #lightbox2" + /*[[${vStat2.count}]]*/ "").on("click", function() {
+        $("#lightbox2" + /*[[${vStat2.count}]]*/ "").fadeOut(500);
+    });
+
+    $("#lightbox2" + /*[[${vStat2.count}]]*/ " > article").on("click", function(e) {
+        e.stopPropagation();
+    });
+</script>
+
+							
+						</div>
+					</table>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<script>
+		// ↓↓↓ script第二步 ↓↓↓
+		// ↓↓↓↓ 從老師網頁貼來的!!!!! ↓↓↓↓ 
+		function tab_active() {
+// 			console.log(location); //觀察location，Location是網址的各部位資訊
+
+			let target_tab;
+			switch (location.hash) { //
+			case "#tab1":
+				target_tab = "tab1";
+				break;
+			case "#tab2":
+				target_tab = "tab2";
+				break;
+			case "#tab3":
+				target_tab = "tab3";
+				break;
+			default:
+				target_tab = "tab1";
+			}
+
+			var all_a_tab = document.querySelectorAll("a.tab");
+			for (let i = 0; i < all_a_tab.length; i++) {
+				all_a_tab[i].classList.remove("-on"); //刪除三個a標籤的-on
+			}
+			document.querySelector("a.tab[data-target=" + target_tab + "]").classList
+					.add("-on"); //用data-target決定要幫誰加上-on
+
+			var all_div = document.querySelectorAll("div.tab");
+			for (let i = 0; i < all_div.length; i++) {
+				all_div[i].classList.remove("-on"); //刪除三個a標籤的-on
+			}
+			document.querySelector("div.tab." + target_tab).classList
+					.add("-on"); //幫某a標籤加上-on
+		}
+		// ↑↑↑↑ 從老師網頁貼來的!!!!! ↑↑↑↑
+		// ↑↑↑ script第二步 ↑↑↑
+
+		// ↓↓↓ script第一步 ↓↓↓
+		// console.log(this);          //此處this指的是「全域物件window」
+
+		document.addEventListener("DOMContentLoaded", function() {
+
+			// ↓↓↓ script第四步 ↓↓↓
+			// 第三步：連到外部網站，再按上一頁時，會觸發 DOMContentLoaded 事件，所以再執行：
+			tab_active();
+			// ↑↑↑ script第四步 ↑↑↑
+
+			let all_a = document.querySelectorAll("a.tab");
+			// console.log(all_a);  //NodeList(3) [a.tab.-on, a.tab, a.tab]
+			for (let i = 0; i < all_a.length; i++) {
+				// console.log(i);
+				all_a[i].addEventListener("click", function(r) {
+					// all_a[i].addEventListener("click", (r) => { //測：改用箭頭函式，不用#175的匿名函式，
+
+					console.log(r);
+					r.preventDefault(); //使用preventDefault把a標籤原本的行為關掉(點擊a標籤，不會跳頁到頁籤二或頁籤三)
+
+					all_a.forEach(function(item, j) {
+						console.log(j); //不管點頁籤一/二/三，都會印出跑出三個頁籤
+						item.classList.remove("-on"); //目的：刪掉class的-on
+					});
+					// console.log(this);  //當使用#125匿名函式，this用於指物件，此處this指的是「當點擊頁籤一，會出現對應的標籤」；this限用於匿名函式!!!
+					//若#175匿名函式改用#176箭頭函式時，此處this指的是「document物件」
+					// console.log(e.target); //不管使用匿名函式還是箭頭函式，都會出現a標籤!!
+					this.classList.add("-on"); //點擊後會出現黑線外框
+
+					let content_div = this.closest("div.tab_container")
+							.querySelectorAll("div.tab"); //使用closet往父層找元素(div標籤，class為tab_container)，再往內層找
+					//console.log(content_div);
+
+					content_div.forEach(function(item, j) {
+						// console.log(item);
+						item.classList.remove("-on");
+					})
+
+					//使用querySelector找到某個內容的div，替它加上-on
+					// document.querySelector("div.tab.tab2").classList.add("-on");
+
+					//替每個a標籤，加上自訂屬性data-target=1/2/3，改寫上列語法#201如下
+					document.querySelector("div.tab."
+							+ this.getAttribute("data-target")).classList
+							.add("-on");
+
+					// 點擊頁籤時，加進瀏覽歷程(點擊頁籤三時，再點上一頁/下一頁，網址會變，但內容不變)，故須搭配「加上自訂函式(在script最上半段)」
+// 					history.pushState(null, null, "#"
+// 							+ this.getAttribute("data-target"));
+
+				});
+
+			}
+		});
+		// ↑↑↑ script第一步 ↑↑↑
+
+		// ↓↓↓ script第三步 ↓↓↓
+		// script最開始的自訂函式之後：popstate 事件觸發，執行 tab_active() 函式
+		window.addEventListener("popstate", function() {
+			// console.log("ttt");
+			tab_active();
+		});
+		// ↑↑↑ script第三步 ↑↑↑
+	</script>
+
+</div>
+
+<script th:src="@{/js/common.js}"></script>
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+        crossorigin="anonymous"
+></script>
+
+</body>
+</html>

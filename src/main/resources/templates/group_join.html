@@ -10,7 +10,7 @@
   <!-- Bootstrap CSS -->
 <!--   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" -->
 <!--     integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous"> -->
-    <title>Group_join</title>
+    <title>Go Sport | 瀏覽揪團資訊</title>
     
      
 
@@ -283,7 +283,7 @@
         </div>
 
         <div class="group_join_member_list_left">
-          <div class="item11" th:text="${memberVO.username} + '(ID:' + ${memberVO.userId} + ')'"></div>
+          <div class="item11" th:text="${memberVO.username}"></div>
 <!--           <div class="item11" th:text="${memberVO.userVO.username} + '(ID:' + ${memberVO.userId} + ')'"></div> -->
 
 
@@ -299,7 +299,7 @@
         </div>
 
         <div class="group_join_member_right">
-            <a  class="btn btn-primary" th:href="@{/chatroom}" >加好友</a>
+            <a  class="btn btn-primary" th:href="@{/chatroom}" >來聊天吧</a>
 <!--             <label><input type="radio" name="show1" value="1">出席</label> -->
 <!--             <label><input type="radio" name="show1">缺席</label> -->
         </div>

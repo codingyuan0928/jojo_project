@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>個人頁面</title>
+    <title>Go Sport | 個人頁面</title>
     <!-- favicon -->
     <link
             rel="icon"
@@ -75,11 +75,12 @@
                 </div>
 
                 <div class="content-section order-record" style="display: none">
-                    <div class="border border-dark p-3">這裡是訂單紀錄的內容</div>
+                    <div th:replace="fragments/order_history :: order_history"></div>
                 </div>
 
                 <div class="content-section notifications" style="display: none">
-                    <div class="border border-dark p-3">這裡是訊息通知的內容</div>
+<!--                    <div class="border border-dark p-3">這裡是訊息通知的內容</div>-->
+                    <div th:replace="~{notification}"></div>
                 </div>
             </div>
         </section>

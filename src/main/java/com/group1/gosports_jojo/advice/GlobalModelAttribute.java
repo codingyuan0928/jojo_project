@@ -4,6 +4,8 @@ package com.group1.gosports_jojo.advice;
 import com.group1.gosports_jojo.entity.Administrator;
 import com.group1.gosports_jojo.entity.Vendor;
 import com.group1.gosports_jojo.model.UserVO;
+import com.group1.gosports_jojo.notification.model.NotificationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,6 +18,11 @@ import java.util.Base64;
 
 @ControllerAdvice
 public class GlobalModelAttribute {
+
+    //書懿新增
+    @Autowired
+    NotificationService notiSvc;
+
 
     @ModelAttribute
     public void addUserInfoToModel(HttpServletRequest request, Model model) {
@@ -43,7 +50,12 @@ public class GlobalModelAttribute {
                 model.addAttribute("avatar", "data:image/png;base64," + base64Avatar);
                 model.addAttribute("userId", user.getUserId());
 
-            } else if (vendor != null) {
+            //書懿新增
+            model.addAttribute("unreadNotificationIdC", notiSvc.getUnreadNotificationC(user.getUserId()));
+            model.addAttribute("unreadC", notiSvc.getCountUnreadNotificationC(user.getUserId()).getCount());
+
+
+        } else if (vendor != null) {
                 model.addAttribute("isAuthenticated", true);
                 model.addAttribute("role", "VENDOR");
                 model.addAttribute("vendorId", vendor.getVendorId());

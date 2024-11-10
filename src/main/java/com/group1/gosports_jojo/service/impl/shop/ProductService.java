@@ -84,13 +84,22 @@ public class ProductService {
         return productDTO;
     }
 
-    public void updateProductsStatus(List<Integer> productIds, Integer status) {
+    public void updateProductsStatus(List<Integer> productIds, Integer status, Boolean isDelete) {
         List<Product> products = productRepository.findAllById(productIds);
-        if (status == 1) {
+        if(isDelete == null){
+            isDelete = false;
+        }
+        if (status == 1 && !isDelete) {
             // 上架 -> 下架
             products.forEach(product -> product.setProductStatus(0));
             productRepository.saveAll(products);
-        } else {
+
+        } else if (status == 1) {
+            // 上架 -> 刪除
+            products.forEach(product -> product.setProductStatus(2));
+            productRepository.saveAll(products);
+        }
+        else {
             // 下架 -> 上架
             products.forEach(product -> product.setProductStatus(1));
             productRepository.saveAll(products);

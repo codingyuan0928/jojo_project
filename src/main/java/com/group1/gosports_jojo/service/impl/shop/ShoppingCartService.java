@@ -97,7 +97,7 @@ public class ShoppingCartService {
 
     }
 
-    public List<ProductVO> testviewCart(Integer userId) {
+    public List<ProductVO> viewCart(Integer userId) {
         String cartKey = "cart:" + userId;
 
         // 從 Redis 中獲取購物車所有產品購買數量並轉換為 Integer Map
@@ -136,6 +136,7 @@ public class ShoppingCartService {
                         entry.getKey().getShopName(),
                         entry.getValue()
                 ))
+                .sorted(Comparator.comparing(ProductVO::getSupplierId)) // 依照 vendorId 排序
                 .collect(Collectors.toList());
     }
 

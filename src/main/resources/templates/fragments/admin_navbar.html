@@ -1,0 +1,116 @@
+<div th:fragment="admin_navbar">
+    <style>
+
+        a {
+            list-style: none;
+            color: white !important;
+        }
+
+        /* 增加navbar-toggler的顯眼樣式 */
+        .navbar-toggler {
+            width: 60px;
+            height: 60px;
+            border: 3px solid white; /* 使用更鮮明的橙色邊框 */
+            background-color: black; /* 使用明亮的橙色背景 */
+            border-radius: 8px; /* 可以加點圓角效果 */
+        }
+
+        /* 增加圖示的對比度，使其更顯眼 */
+        .navbar-toggler i {
+            color: white; /* 設定圖示顏色為白色，與背景形成對比 */
+            font-size: 30px; /* 增加圖示大小 */
+        }
+
+        /* 懸停效果，讓按鈕顯得更有反應 */
+        .navbar-toggler:hover {
+            background-color: #FF3300; /* 懸停時變成紅色 */
+            border-color: #FF6600; /* 邊框保持橙色 */
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: 0 0 0 0.25rem rgba(255, 102, 0, 0.25); /* Focus時的邊框陰影 */
+        }
+    </style>
+
+    <nav th:fragment="navbar" class="navbar" style="background-color: black;">
+        <div class="container-fluid">
+            <!-- 品牌名稱 -->
+            <a class="navbar-brand" href="javascript:void(0)">Go Sports 後台管理</a>
+
+            <button
+                    class="navbar-toggler px-1"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarNav"
+                    aria-controls="navbarNav"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+            >
+                <div>
+                    <i class="bi bi-list"></i>  <!-- 使用更大且顯眼的圖示 -->
+                </div>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="javascript:void(0)" style="font-size: 1rem; color: white;" th:text="${username}"
+                           data-bs-toggle="modal" data-bs-target="#profileUpdateStaticBackdrop"></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/}" id="logout-md" onclick="adminLogout()"
+                           >
+                            登出
+                        </a>
+                    </li>
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" id="user-data-link" href="#">-->
+<!--                            <span data-feather="users"></span>-->
+<!--                            一般用戶資料修改-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" id="vendor-data-link" href="#">-->
+<!--                            <span data-feather="users"></span>-->
+<!--                            廠商用戶資料修改-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" id="administrator-data-link" href="#">-->
+<!--                            <span data-feather="user-plus"></span>-->
+<!--                            後台管理員資料修改-->
+<!--                        </a>-->
+<!--                    </li>-->
+                    <li class="nav-item">
+                        <a
+                                class="nav-link active"
+                                id="vendor-verify-link"
+                                aria-current="page"
+                                th:href="@{/admin/administrators}"
+                        >
+                            <span data-feather="user-check"></span>
+                            廠商資料審核
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="customer-service-link" th:href="@{/admin/admin_customer_support}">
+                            <span data-feather="file-text"></span>
+                            客服表單審核
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="query-system-link" th:href="@{/admin/admin_customer_support_query}">
+                            <span data-feather="bar-chart-2"></span>
+                            查詢系統
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="paid-product-recommendation-management-link" th:href="@{/admin/admin_ad_platform}">
+                            <span data-feather="bar-chart-2"></span>
+                            付費商品推薦管理
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>

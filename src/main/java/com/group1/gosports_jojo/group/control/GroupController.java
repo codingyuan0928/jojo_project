@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -132,7 +133,7 @@ public class GroupController {
 //		}
 		
 		/*************************** 2.開始查詢資料 ****************************************/
-		List<GroupVO> listGroup = groupSv.serchGroupName(serchGroupName);
+		List<GroupVO> listGroup = groupSv.serchGroupName(serchGroupName, serchGroupName, serchGroupName);
 
 		/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
 		req.setAttribute("listGroup", listGroup); // 資料庫update成功後,正確的的empVO物件,存入req
@@ -185,7 +186,7 @@ public class GroupController {
 		if (groupName == null || groupName.trim().length() == 0) {
 			errorMsgs.put("groupName", "請勿空白");
 		} else if (!groupName.trim().matches(groupNameReg)) { // 以下練習正則(規)表示式(regular-expression)
-			errorMsgs.put("groupName", "不能特殊符號,長度必需在1到10之間");
+			errorMsgs.put("groupName", "長度必需在1到10之間");
 		}
 
 		String groupType = req.getParameter("groupType");
@@ -246,11 +247,15 @@ public class GroupController {
 //			groupPlayingDatetime = Timestamp.valueOf(req.getParameter("groupPlayingDatetime").trim() + ":00");
 			groupJoinDeadline = Timestamp.valueOf(req.getParameter("groupJoinDeadline").replace("T"," ")+ ":00");
 			groupPlayingDatetime = Timestamp.valueOf(req.getParameter("groupPlayingDatetime").replace("T"," ")+ ":00");
-			
-			
+
+			long nowTime = System.currentTimeMillis();
+
 			int i = 12 * 60 * 60 * 1000;
 			if ((groupJoinDeadline.getTime() + i) > groupPlayingDatetime.getTime()) {
 				errorMsgs.put("groupJoinDeadline", "截止時間要比開打時間早 12 小時");
+			}
+			if ((nowTime > groupPlayingDatetime.getTime() + i) || (nowTime >groupJoinDeadline.getTime()) ) {
+				errorMsgs.put("groupJoinDeadline", "開打時間要選未來12小時後,及報名時間要是未來式喔~");
 			}
 		} catch (IllegalArgumentException e) {
 			errorMsgs.put("groupJoinDeadline", "請輸入時間及日期");
@@ -664,10 +669,14 @@ public class GroupController {
 			
 			groupJoinDeadline = Timestamp.valueOf(req.getParameter("groupJoinDeadline").replace("T"," ")+ ":00");
 			groupPlayingDatetime = Timestamp.valueOf(req.getParameter("groupPlayingDatetime").replace("T"," ")+ ":00");
-			
+			long nowTime = System.currentTimeMillis();
+
 			int i = 12 * 60 * 60 * 1000;
 			if ((groupJoinDeadline.getTime() + i) > groupPlayingDatetime.getTime()) {
 				errorMsgs.put("groupJoinDeadline", "截止時間要比開打時間早 12 小時");
+			}
+			if ((nowTime > groupPlayingDatetime.getTime() + i) || (nowTime >groupJoinDeadline.getTime()) ) {
+				errorMsgs.put("groupJoinDeadline", "開打時間要選未來12小時後,及報名時間要是未來式喔~");
 			}
 		} catch (IllegalArgumentException e) {
 			errorMsgs.put("groupJoinDeadline", "請輸入時間及日期");

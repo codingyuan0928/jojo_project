@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>購物車</title>
+    <title>Go Sport | 購物車</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- favicon -->
     <link
@@ -92,27 +92,33 @@
 
         .sidebar {
             background-color: #f8f9fa;
-            /* padding: 15px; */
-            position: sticky;
-            top: 0; /* 讓側邊欄固定在頂部 */
-            height: 100vh; /* 側邊欄佔滿整個視窗高度 */
+            margin-left: 0!important;
+            height: 100vh;
+            width: 15vw;
         }
 
         .sidebar a {
             display: block;
-            padding: 10px 10px;
-            margin-top: 20px;
-            margin-bottom: 10px;
-            font-size: 14px;
-            color: #333;
+            color: #000;
+            padding: 10px;
             text-decoration: none;
+            text-align: left;
+            font-size: 14px;
         }
 
         .sidebar a:hover {
             background-color: #e9ecef;
-            border-radius: 5px;
         }
 
+
+        @media (max-width: 992px) {
+
+            .sidebar{
+                width: 94vw;
+                height: fit-content;
+            }
+
+        }
         .select-all-btn {
             margin-bottom: 20px;
             display: flex;
@@ -138,9 +144,6 @@
 
         /* 小於992px時隱藏側邊欄 */
         @media (max-width: 992px) {
-            .sidebar {
-                display: none;
-            }
 
             .content-area {
                 margin-left: 0;
@@ -180,9 +183,6 @@
 
         /* 小於576px時進一步調整顯示 */
         @media (max-width: 576px) {
-            .sidebar {
-                display: none;
-            }
 
             .content-area {
                 margin-left: 0;
@@ -205,6 +205,7 @@
                 font-size: 7px;
                 margin-left: 5px;
             }
+
         }
     </style>
 </head>
@@ -213,23 +214,17 @@
     <!-- 頁首導航欄 -->
     <header th:replace="fragments/navbar :: navbar"></header>
 
-    <main class="container my-4 main">
+    <main class="mb-4 main">
+            <div class="container-fluid w-90 px-0">
+            <div class="d-flex flex-lg-row flex-lg-nowrap flex-column w-90 px-2">
+                <div th:replace="fragments/shopping_sidebar :: shopping_sidebar"></div>
 
-            <div class="row">
-                <div class="col-md-1 sidebar">
-                    <a th:href="@{/shop_homepage}">購物商城</a>
-                    <a th:href="@{/order_history}">訂單紀錄</a>
-                    <a th:href="@{/shoppingcart}">購物車</a>
+                <!-- 購物車 -->  <div class="d-flex justify-content-center w-100 flex-column px-2 py-3">
 
-                </div>
-
-                <div class="container mt-5">
-<!--                    <form METHOD="post" th:action="@{/go_to_pay}" >-->
                         <!-- 步驟 1 -->
 
 
 
-                            <div class="col-md-10 my-5">
                                 <h2 class="mb-4">購物車</h2>
                                 <div id="allSchedule">
                                 </div>
@@ -242,12 +237,12 @@
                                     </div>
                                 </div>
 
-                            </div>
+
 
 
                             <!-- 新增付款方式與宅配地址 -->
                             <div class="row my-3">
-                                <div class="col-md-3">
+                                <div class="col-md-6">
                                     <label for="payment-method" class="form-label">付款方式：</label>
                                     <select id="payment-method" class="form-select">
                                         <option value="cash">現金</option>
@@ -257,7 +252,7 @@
 
                             <div class="row my-3">
                                 <form id="orderForm" novalidate>
-                                    <div class="mb-3">
+                                    <div class="col-md-6">
                                         <label for="delivery-address" class="form-label">送貨地址</label>
                                         <input type="text" id="delivery-address" class="form-control" placeholder="請輸入地址" required>
                                         <div class="invalid-feedback">
@@ -265,7 +260,9 @@
                                         </div>
                                     </div>
                                 </form>
+
                             </div>
+
 <!--                    </form>-->
 
                             <!-- 總計金額與前往結帳 -->
@@ -275,6 +272,8 @@
                             </div>
 
                 </div>
+
+            </div>
             </div>
 
     </main>
@@ -295,7 +294,7 @@
                 <p>購物成功，請前往訂單紀錄查看。</p>
             </div>
             <div class="modal-footer">
-                <a href="/order_history.html" class="btn btn-primary">查看訂單紀錄</a>
+                <a href="orderhistory" class="btn btn-primary">查看訂單紀錄</a>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
             </div>
         </div>

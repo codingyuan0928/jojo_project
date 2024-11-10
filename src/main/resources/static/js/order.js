@@ -220,30 +220,19 @@ function changeProductStatus(item,id){
 /**
  * 單一商品刪除
  */
-let deleteList = []
 const confirmDeleteModal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
-function deleteItem(item){
-    console.log(item + '準備被刪除');
-    // 將要被刪除的項目加到 checkedList
-    deleteList = [];
-    deleteList.push(item);
-    confirmDeleteModal.show();
-    console.log('打開提醒視窗');
+async function deleteItem(id){
+    console.log(id + '準備刪除');
+
+        // 將被勾選的商品加到 checkedList
+        checkedList = [];
+        checkedList.push(id);
+        confirmDeleteModal.show();
 }
 
-
 async function deleteProduct(){
-    console.log('顯示提醒視窗確認');
-    // 取得被勾選的項目
-    console.log(deleteList);
-    console.log('呼叫 API')
-
-    // 刪除商品 API
-    await deleteProductAPI(deleteList);
-
-    console.log('關閉提醒視窗');
+    await changeProductStatusAPI(checkedList,1,true) // 刪除狀態:2
     confirmDeleteModal.hide();
-
     // 重新載入兩張 table
     $('#myTable1').DataTable().ajax.reload();
     $('#myTable2').DataTable().ajax.reload();
@@ -255,12 +244,13 @@ async function deleteProduct(){
  * @param status
  * @returns {Promise<any>}
  */
-async function changeProductStatusAPI(productIds, status){
+async function changeProductStatusAPI(productIds, status, isDelete){
     const url = '/products';
 
     const requestBody = {
         productIds: productIds,
-        status: status
+        status: status,
+        isDelete: isDelete
     };
     return fetch(url, {
         method: 'PUT', // 指定 HTTP 方法為 PUT
@@ -277,39 +267,6 @@ async function changeProductStatusAPI(productIds, status){
             return response.json();
     });
 }
-
-async function deleteProductAPI(productIds) {
-    // 確保 productIds 是一個陣列
-    if (!Array.isArray(productIds)) {
-        productIds = [productIds];
-    }
-
-    const url = '/products';
-
-    try {
-        const response = await fetch(url, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(productIds)
-        });
-
-        // 確認 API 回應
-        if (!response.ok) {
-            throw new Error('Network response was not ok: ' + response.statusText);
-        }
-
-        // 解析回應數據
-        const data = await response.json();
-        console.log('產品刪除成功', data);
-        return data;
-    } catch (error) {
-        console.error('刪除產品時發生錯誤:', error);
-        throw error;
-    }
-}
-
 
 document.addEventListener('DOMContentLoaded', function () {
     initDataTable1();

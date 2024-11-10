@@ -110,10 +110,58 @@ public class GroupService {
     	dao.changeNobodyJoin();
     }
     
-    public List<GroupVO> serchGroupName(String serchGroupName){
-    	return dao.serchGroupName(serchGroupName);
+    public List<GroupVO> serchGroupName(String serchGroupName1, String serchGroupName2, String serchGroupName3){
+    	return dao.serchGroupName(serchGroupName1, serchGroupName2, serchGroupName3);
     }
-	
-	
-	
+
+
+	//////////////////////////////////    成團通知    //////////////////////////////////
+
+	//	查詢近30分鐘，狀態為成團的group_id
+	public List<GroupVO> getGroupSuccessMemberlist() {
+		return dao.getGroupSuccessMemberlist();
+	}
+
+//////////////////////////////////    流團(取消揪團)通知    //////////////////////////////////
+
+	//查詢近30分鐘，group_show為No的group_id
+	public List<GroupVO> getGroupCancelMemberlist() {
+		return dao.getGroupCancelMemberlist();
+	}
+
+
+//////////////////////////////////    活動提醒通知    //////////////////////////////////
+
+	//查詢狀態為成團，且now() + 6hour <= group_playing_datetime < now() + 6.5hour 的group_id，查詢member_list
+	public List<GroupVO> getGroupStartMemberlist() {
+		return dao.getGroupStartMemberlist();
+	}
+
+
+//////////////////////////////////    候補失敗通知    //////////////////////////////////
+
+	//查詢狀態為成團，且now() + 6hour <= group_playing_datetime < now() + 6.5hour 的group_id，查詢member_list
+	public List<GroupVO> getGroupSecondaryList() {
+		return dao.getGroupSecondaryList();
+	}
+
+
+//////////////////////////////////    提醒團長回覆團員出缺席通知    //////////////////////////////////
+
+	//查詢狀態為成團，且now() - 30 minute <= group_playing_datetime < now() 的group_id，查詢團長名單
+	public List<GroupVO> getGroupPresentReplyLeader() {
+		return dao.getGroupPresentReplyLeader();
+	}
+
+
+//////////////////////////////////    查證檢舉揪團    //////////////////////////////////
+
+	//查證檢舉揪團
+	public List<GroupVO> getGroupByKeyWord(String keyword1, String keyword2, String keyword3) {
+		return dao.getGroupByKeyWord(keyword1, keyword2, keyword3);
+	}
+
+
+
+
 }

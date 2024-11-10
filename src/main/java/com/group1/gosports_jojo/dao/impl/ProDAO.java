@@ -55,7 +55,7 @@ public class ProDAO implements ProDAO_interface {
 
 		//搜尋欄：關鍵字查詢
 		private static final String getSearchnam =
-			"SELECT product_id,vendor_id,product_name,product_content,price,product_spec,stock,created_datetime,removed_datetime,product_status,product_updated_datetime FROM products where product_name LIKE concat ('%',?,'%') ";
+			"SELECT product_id,vendor_id,product_name,product_content,price,product_spec,stock,created_datetime,removed_datetime,product_status,product_updated_datetime, ads FROM products where product_name LIKE concat ('%',?,'%') ";
 
 		//獲取商品圖片
 		private static final String getPicture =
@@ -63,10 +63,33 @@ public class ProDAO implements ProDAO_interface {
 
 		//獲取廣告商品圖片：其他推薦商品
 		private static final String getads =
-			"SELECT product_id,product_name FROM products WHERE ads = 1";
+			"SELECT product_id,vendor_id,product_name,product_content,price FROM products WHERE ads = 1";
 
 
-		//新增商品資訊
+	//查證檢舉商品
+	private static final String GET_PRODUCT_BY_KEYWORD = "SELECT DISTINCT product_id, product_name, product_content, username, price, stock, "
+			+ "products.created_datetime as created_datetime, product_status FROM products JOIN vendors ON products.vendor_id = vendors.vendor_id "
+			+ "WHERE product_name LIKE '%' ? '%'  OR product_content LIKE '%' ? '%' ";
+
+	//查詢近1分鐘成立訂單(buyer&seller)
+	private static final String GET_ORDER_CREATED_LIST = "SELECT order_id, user_id, vendor_id FROM orders WHERE DATE_SUB(now(),INTERVAL 2 minute) <= created_datetime AND created_datetime < now()";
+
+	//查詢近1分鐘完成訂單(buyer)，order_status為1
+	private static final String GET_ORDER_COMPLETED_LIST = "SELECT order_id, user_id FROM orders WHERE order_status = 1 AND DATE_SUB(now(),INTERVAL 2 minute) <= updated_datetime AND updated_datetime < now()";
+
+	//隱藏商品(下架檢舉商品)
+	private static final String UPDATE_PRODUCT_HIDDEN = "UPDATE products set product_status='0', product_updated_datetime=curtime() where product_id = ?";
+
+
+	//新增推薦商品
+	private static final String CHANGE_AD_ON = "update products set ads = 1 where product_id  = ?";
+
+	//移除推薦商品
+	private static final String CHANGE_AD_OFF = "update products set ads = 0 where product_id  = ?";
+
+
+
+	//新增商品資訊
 		@Override
 		public void insert(ProVO proVO) {
 			Connection con = null;
@@ -403,6 +426,9 @@ public class ProDAO implements ProDAO_interface {
 					proVO = new ProVO();
 					proVO.setProductId(rs.getInt("product_id"));
 					proVO.setProductName(rs.getString("product_name"));
+					proVO.setVendorId(rs.getInt("vendor_id"));
+					proVO.setProductContent(rs.getString("product_content"));
+					proVO.setPrice(rs.getInt("price"));
 
 					list.add(proVO);// Store the row in the list
 
@@ -664,6 +690,7 @@ public class ProDAO implements ProDAO_interface {
 				proVO.setRemoved_datetime(rs.getTimestamp("removed_datetime"));
 				proVO.setProductStatus(rs.getInt("product_status"));
 				proVO.setProduct_updated_datetime(rs.getTimestamp("product_updated_datetime"));
+				proVO.setAds(rs.getInt("ads"));
 //				proVO.setPicture(rs.getBytes("picture"));
 				list.add(proVO);
 			}
@@ -696,6 +723,317 @@ public class ProDAO implements ProDAO_interface {
 			}
 			return list;
 		}
+
+
+	//查證檢舉商品
+	@Override
+	public List<ProVO> getProductByKeyWord(String keyword1, String keyword2) {
+		List<ProVO> list = new ArrayList<ProVO>();
+		ProVO proVO = null;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_PRODUCT_BY_KEYWORD);
+
+			pstmt.setString(1,keyword1);
+			pstmt.setString(2,keyword2);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				proVO = new ProVO();
+
+				proVO.setProductId(rs.getInt("product_id"));
+				proVO.setProductName(rs.getString("product_name"));
+				proVO.setProductContent(rs.getString("product_content"));
+				proVO.setUsername(rs.getString("username"));
+				proVO.setPrice(rs.getInt("price"));
+				proVO.setStock(rs.getInt("stock"));
+				proVO.setCreated_datetime(rs.getTimestamp("created_datetime"));
+				proVO.setProductStatus(rs.getInt("product_status"));
+
+				list.add(proVO);
+			}
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
+
+	//查詢近1分鐘成立訂單(buyer&seller)
+	public List<ProVO> getOrderCreatedList(){
+		List<ProVO> list = new ArrayList<ProVO>();
+		ProVO proVO = null;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_ORDER_CREATED_LIST);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				proVO = new ProVO();
+
+				proVO.setOrderId(rs.getInt("order_id"));
+				proVO.setUserId(rs.getInt("user_id"));
+				proVO.setVendorId(rs.getInt("vendor_id"));
+
+				list.add(proVO);
+			}
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
+
+
+	//查詢近1分鐘完成訂單(buyer)，order_status為1
+	public List<ProVO> getOrderCompletedList(){
+		List<ProVO> list = new ArrayList<ProVO>();
+		ProVO proVO = null;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_ORDER_COMPLETED_LIST);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				proVO = new ProVO();
+
+				proVO.setOrderId(rs.getInt("order_id"));
+				proVO.setUserId(rs.getInt("user_id"));
+
+				list.add(proVO);
+			}
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
+
+
+	//隱藏商品(下架檢舉商品)
+//      		private static final String UPDATE_PRODUCT_HIDDEN = "UPDATE products set product_status='0', product_updated_datetime=curtime() where product_id = ?";
+
+	@Override
+	public void updateHidden(Integer product_id) {
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(UPDATE_PRODUCT_HIDDEN);
+
+			pstmt.setInt(1, product_id);
+
+			pstmt.executeUpdate();
+
+			// Handle any driver errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+
+	}
+
+
+
+	public void changeAdOn(Integer productId) {
+		List<ProVO> list = new ArrayList<ProVO>();
+		ProVO proVO = null;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(CHANGE_AD_ON);
+			pstmt.setInt(1,productId);  // �ҽk�d��
+			pstmt.executeUpdate();
+
+
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+
+	}
+
+
+	public void changeAdOff(Integer productId) {
+		List<ProVO> list = new ArrayList<ProVO>();
+		ProVO proVO = null;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(CHANGE_AD_OFF);
+			pstmt.setInt(1,productId);  // �ҽk�d��
+			pstmt.executeUpdate();
+
+
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+
+	}
+
 }
 
 

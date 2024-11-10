@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>商品管理</title>
+    <title>Go Sport | 商品管理</title>
     <!-- favicon -->
     <link
             rel="icon"
@@ -44,17 +44,7 @@
             height: 100vh; /* 占滿頁面的高度 */
 
         }
-        .custom-sidebar-bg {
-            background-color: #f8f8f8;
-            background-color: rgba(255, 254, 210, 0.75) !important;
-            width: 250px; /* 設置左側 sidebar 的寬度 */
-            height: 100vh; /* 占滿頁面的高度 */
-            position: fixed; /* 固定位置，防止滾動時影響布局 */
-            left: 0;
-            top: 0;
-            padding: 20px; /* 增加一些內邊距讓內容顯示得更舒適 */
-            box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1); /* 添加陰影讓 sidebar 更加顯眼 */
-        }
+
         .custom-sidebar-link {
             color: #0D6EFD!important;
             font-family: "Noto Sans TC", system-ui;
@@ -106,6 +96,116 @@
             text-decoration: none; /* 移除懸停時可能的下劃線 */
         }
 
+        /* 側邊欄背景設置為黑色 */
+        .custom-sidebar-bg {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 200px;
+            height: 100%;
+            background-color: #333 !important; /* 黑色背景 */
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background-repeat: no-repeat;
+            background-position: center bottom; /* 將 logo 放置在側邊欄底部中央 */
+            background-size: 80px auto; /* 控制 logo 大小，可根據需要調整 */
+        }
+
+
+        /* 側邊欄中的鏈接樣式 */
+        .custom-sidebar-link {
+            color: #FFC107; /* 黃色文字 */
+            font-family: "Noto Sans TC", sans-serif;
+            font-style: normal;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 5px; /* 輕微圓角 */
+            transition: background-color 0.3s; /* 增加懸停時的過渡效果 */
+        }
+
+
+        /* 側邊欄中的圖標樣式 */
+        .custom-sidebar-link i {
+            width: 30px;
+            text-align: center;
+            margin-right: 10px;
+            color: #FFC107; /* 黃色圖標 */
+        }
+
+        /* 側邊欄鏈接的懸停效果 */
+        .custom-sidebar-link:hover {
+            background-color: #444; /* 深灰色懸停背景 */
+            color: #FFF; /* 懸停時文字變為白色 */
+            text-decoration: none;
+        }
+
+        .custom-sidebar-link:hover i {
+            color: #FFF; /* 懸停時圖標變為白色 */
+        }
+        .logo {
+            width: 80px; /* 設置寬度，根據需要調整大小 */
+            height: 80px; /* 設置高度，保持寬高相同 */
+            border-radius: 50%; /* 讓圖片變為圓形 */
+            overflow: hidden; /* 確保圖片內容不會超出圓形範圍 */
+            object-fit: cover; /* 確保圖片充滿圓形，且不變形 */
+            border: 2px solid #FFC107; /* 可選，設置圖片的外邊框顏色 */
+            margin-bottom: 22px !important; /* 如果還需要向上，可以進一步增加負的 margin-bottom */
+        }
+
+        /* 包含 logo 的容器，使其在側邊欄底部 */
+        .sidebar-logo {
+            text-align: center;
+            margin-top: auto; /* 確保 logo 放在側邊欄底部 */
+            padding-bottom: 20px;
+            padding-right: 10px; /* 向右偏移一些距離 */
+        }
+        .custom-sidebar-link {
+            color: #FFC107 !important;
+            font-family: "Noto Sans TC", sans-serif !important;
+            font-style: normal !important;
+            display: flex !important;
+            align-items: center !important;
+            padding: 10px 15px !important;
+            border-radius: 5px !important;
+            transition: background-color 0.3s !important;
+            text-align: left !important;
+            font-size: 14px !important; /* 調整字體大小 */
+            line-height: 1.5 !important; /* 調整行高 */
+        }
+        /* 側邊欄設置 */
+        .custom-sidebar-bg {
+            width: 200px; /* 側邊欄固定寬度 */
+            color: #FFC107; /* 側邊欄文字顏色設為黃色 */
+            position: fixed; /* 固定側邊欄位置，讓它不隨頁面滾動 */
+            top: 0;
+            left: 0;
+            height: 100vh; /* 滿高，覆蓋整個頁面高度 */
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* 主要內容區域 */
+        .main-content {
+            margin-left: 220px; /* 為主內容區域留出側邊欄的寬度 */
+            padding: 20px;
+        }
+
+        /* Logo 設置 */
+        .sidebar-logo img {
+            width: 80px; /* logo 寬度 */
+            height: 80px; /* logo 高度 */
+            border-radius: 50%; /* 圓形邊框 */
+            border: 2px solid #FFC107; /* 邊框顏色設為黃色 */
+        }
+
+
+
+
     </style>
     <!--  CSS -->
 
@@ -121,15 +221,14 @@
 </head>
 <body>
 
-<main class="col-md-10 offset-md-2 p-3" style="margin-left: 250px;">
+<main class="col-md-10 offset-md-2 p-3 main-content" style="margin-left: 250px;">
     <h2 class="mb-3">商品總覽</h2>
 
-    <div class="flex-row">
-        <div>
+    <div class="lex-rowf">
+        <div class="">
             <!-- 左側選單 -->
             <aside class="col-md-2 p-3 custom-sidebar-bg">
                 <ul class="nav flex-column">
-
                     <li class="nav-item">
                         <a th:href="@{/vendors/product_menu}" class="nav-link custom-sidebar-link">
                             <i class="fa-solid fa-bars"></i> 商品總覽
@@ -148,6 +247,7 @@
                     <li class="nav-item">
                         <a th:href="@{/vendors/order_pending}" class="nav-link custom-sidebar-link">
                             <i class="fa-solid fa-bell"></i> 訊息通知
+                            <span th:if="${unreadV>0}" th:text="'●'" style="font-size:smaller; color: red;"></span>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -161,6 +261,9 @@
                         </a>
                     </li>
                 </ul>
+                <div class="sidebar-logo">
+                    <img th:src="@{/images/common/logo.svg}" alt="Logo" class="img-fluid">
+                </div>
             </aside>
         </div>
         <div class="container ">

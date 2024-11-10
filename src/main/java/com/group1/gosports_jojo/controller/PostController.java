@@ -58,6 +58,12 @@ public class PostController {
 
         List<ReplyVO> list = replySvc.getOnePostReply(postId);
         req.setAttribute("list", list);
+        Integer getAllReplyAmount = replySvc.getAllReplyAmount(postId);
+        Integer getAllResponseAmount = responseSvc.getAllResponseAmount(postId);
+
+        req.setAttribute("getAllReplyAmount", getAllReplyAmount);
+        req.setAttribute("getAllResponseAmount",getAllResponseAmount);
+
         //確認用戶是否在某篇文章讚過讚
         ResponseVO responseVO = responseSvc.getPostAllResponse(postId, userId);
         if (responseVO == null) { // 檢查 responseVO 是否為 null
@@ -97,9 +103,9 @@ public class PostController {
         /***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
         String keyword = req.getParameter("keyword");
 
-        if (keyword.isEmpty()) {
-            errorMsgs.put("empty2","查無資料");
-        }
+//        if (keyword.isEmpty()) {
+//            errorMsgs.put("empty2","查無資料");
+//        }
 
         if (!errorMsgs.isEmpty()) {
             List<PostVO> list = postSvc.getAll();
@@ -140,6 +146,12 @@ public class PostController {
         Integer post_id = Integer.valueOf(req.getParameter("post_id"));
         System.out.println("============" + post_id);
 
+        Integer getAllReplyAmount = replySvc.getAllReplyAmount(post_id);
+        Integer getAllResponseAmount = responseSvc.getAllResponseAmount(user_id);
+
+        req.setAttribute("getAllReplyAmount", getAllReplyAmount);
+        req.setAttribute("getAllResponseAmount",getAllResponseAmount);
+
         String reply_content = req.getParameter("reply_content");
 
         if (reply_content == null || reply_content.trim().length() == 0) {
@@ -153,6 +165,9 @@ public class PostController {
 
             List<ReplyVO> list = replySvc.getOnePostReply(post_id);
             req.setAttribute("list", list);
+
+
+
             //確認用戶是否在某篇文章讚過讚
             ResponseVO responseVO = responseSvc.getPostAllResponse(post_id, user_id);
             if (responseVO == null) { // 檢查 responseVO 是否為 null
@@ -162,6 +177,9 @@ public class PostController {
                 responseVO.setResponse_status(0); // 如果狀態為 null，也設定為 0
             }
             req.setAttribute("responseVO", responseVO);
+
+
+
 
             /*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
             return "forum_list_one_post";
@@ -206,7 +224,12 @@ public class PostController {
         Integer user_id = userVO.getUserId();
 
         String post_category = req.getParameter("post_category").trim();
+
+
         if (post_category == null || post_category.trim().length() == 0) {
+            errorMsgs.put("post_category", "請選擇文章類別");
+        }
+        if (post_category.equals("話題類別") ) {
             errorMsgs.put("post_category", "請選擇文章類別");
         }
 
@@ -390,7 +413,11 @@ public class PostController {
         responseSvc.updateResponse(response_id);
         /*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
 
+        Integer getAllReplyAmount = replySvc.getAllReplyAmount(postId);
+        Integer getAllResponseAmount = responseSvc.getAllResponseAmount(postId);
 
+        req.setAttribute("getAllReplyAmount", getAllReplyAmount);
+        req.setAttribute("getAllResponseAmount",getAllResponseAmount);
 
         PostVO postVO = postSvc.getOnePost(postId);
         req.setAttribute("postVO", postVO);
@@ -435,7 +462,11 @@ public class PostController {
 
         responseSvc.insert(postId,user_id );
         /*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
+        Integer getAllReplyAmount = replySvc.getAllReplyAmount(postId);
+        Integer getAllResponseAmount = responseSvc.getAllResponseAmount(postId);
 
+        req.setAttribute("getAllReplyAmount", getAllReplyAmount);
+        req.setAttribute("getAllResponseAmount",getAllResponseAmount);
 
         PostVO postVO = postSvc.getOnePost(postId);
         req.setAttribute("postVO", postVO);
