@@ -5,14 +5,20 @@ function logout() {
     })
         .then(response => {
             if (response.ok) {
-                return response.text(); // 取得後端回傳的純文字
+                return response.text();
             } else {
                 throw new Error('登出失敗，請稍後再試');
             }
         })
         .then(message => {
             window.alert(message);
-            window.location.href = '/login';
+
+            const r = window.confirm("是否登出 Google?");
+            if (r) {
+                window.location.href = 'https://accounts.google.com/Logout';
+            } else {
+                window.location.href = '/login';
+            }
         })
         .catch(err => {
             console.error('登出失敗:', err);

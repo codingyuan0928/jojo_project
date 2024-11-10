@@ -150,45 +150,45 @@
 <div class="container-fluid">
     <div class="row">
         <!-- 左側選單 -->
-                <aside class="col-md-2 p-3 custom-sidebar-bg">
-                    <ul class="nav flex-column">
+        <aside class="col-md-2 p-3 custom-sidebar-bg">
+            <ul class="nav flex-column">
 
-                        <li class="nav-item">
-                            <a th:href="@{/vendors/product_menu}" class="nav-link custom-sidebar-link">
-                                <i class="fa-solid fa-bars"></i> 商品總覽
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link custom-sidebar-link">
-                                <i class="fas fa-upload"></i> 商品上架
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a th:href="@{/vendors/order_pending}" class="nav-link custom-sidebar-link">
-                                <i class="fa-solid fa-gears"></i> 訂單管理
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a th:href="@{/vendors/order_pending}" class="nav-link custom-sidebar-link">
-                                <i class="fa-solid fa-bell"></i> 訊息通知
-                                <span th:if="${unreadV>0}" th:text="'●'" style="font-size:smaller; color: red;"></span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a th:href="@{/vendors/order_pending}" class="nav-link custom-sidebar-link" data-bs-target="#profileUpdateStaticBackdrop"  data-bs-toggle="modal">
-                                <img th:src="${avatar}" style="width: 30px;height: 30px;border-radius: 180px;margin-right: 10px;border: #0D6EFD solid 0.5px" >編輯資料
-                            </a>
-                        </li>
-                        <li class="nav-item" >
-                            <a href="javascript:void(0)" class="nav-link custom-sidebar-link" onclick="vendorLogout()">
-                                <i class="fa-solid fa-right-from-bracket"></i>    登出
-                            </a>
-                        </li>
-                    </ul>
-                    <div class="sidebar-logo">
-                        <img th:src="@{/images/common/logo.svg}" alt="Logo" class="img-fluid logo">
-                    </div>
-                </aside>
+                <li class="nav-item">
+                    <a th:href="@{/vendors/product_menu}" class="nav-link custom-sidebar-link">
+                        <i class="fa-solid fa-bars"></i> 商品總覽
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/vendors/add_product}" class="nav-link custom-sidebar-link">
+                        <i class="fas fa-upload"></i> 商品上架
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/vendors/order_pending}" class="nav-link custom-sidebar-link">
+                        <i class="fa-solid fa-gears"></i> 訂單管理
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/vendors/notification_vendor}" class="nav-link custom-sidebar-link">
+                        <i class="fa-solid fa-bell"></i> 訊息通知
+                        <span th:if="${unreadV>0}" th:text="'●'" style="font-size:smaller; color: red;"></span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/vendors/order_pending}" class="nav-link custom-sidebar-link" data-bs-target="#profileUpdateStaticBackdrop"  data-bs-toggle="modal">
+                        <img th:src="${avatar}" style="width: 30px;height: 30px;border-radius: 180px;margin-right: 10px;border: #0D6EFD solid 0.5px" >編輯資料
+                    </a>
+                </li>
+                <li class="nav-item" >
+                    <a href="javascript:void(0)" class="nav-link custom-sidebar-link" onclick="vendorLogout()">
+                        <i class="fa-solid fa-right-from-bracket"></i>    登出
+                    </a>
+                </li>
+            </ul>
+            <div class="sidebar-logo">
+                <img th:src="@{/images/common/logo.svg}" alt="Logo" class="img-fluid logo">
+            </div>
+        </aside>
 
 
 
@@ -321,3 +321,4 @@
 
 </body>
 </html>
+

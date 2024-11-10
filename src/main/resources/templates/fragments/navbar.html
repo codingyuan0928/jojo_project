@@ -48,7 +48,7 @@
                 >
                     <a th:href="@{/user_profile(section='notifications')}"> <img th:src="@{/images/common/navbar-bell.svg}" alt="小鈴鐺"/></a>
                     <a th:href="@{/user_profile(section='notifications')}">
-                        <span class="position-absolute top-1 end-0 translate-middle badge rounded-pill bg-danger" th:if="${unreadC>0}" th:text="${unreadC}">
+                        <span class="position-absolute top-1 start-50 translate-middle badge rounded-pill bg-danger" th:if="${unreadC>0}" th:text="${unreadC}">
                         </span>
                     </a>
 

@@ -94,6 +94,16 @@ public class UserController {
                 break;
             case "notifications":
                 // 執行通知相關邏輯
+                //書懿新增
+                HttpSession session = req.getSession();
+
+                UserVO userVO = (UserVO)session.getAttribute("userAccount");
+                Integer userId = userVO.getUserId();
+
+                session.setAttribute("userId", userId);
+                notificationSvc.updateNotificationReadedC(userId);
+
+
                 break;
             default:
                 // 預設邏輯（如 section 參數為空，同profile）
@@ -124,9 +134,6 @@ public class UserController {
         req.setAttribute("countLeaderTimes",countLeaderTimes);
         req.setAttribute("countLeaderNo",countLeaderNo);
 
-
-        //書懿新增
-        notificationSvc.updateNotificationReadedC(userId);
 
         List<NotificationVO> list = notificationSvc.getNotificationByUser(userId);
         model.addAttribute("personalNotification",list);

@@ -139,6 +139,12 @@
             .heart.filled::before {
                 content: '♥';
             }
+            .noproduct{
+                font-size: 2rem;
+                color:red;
+                font-weight: 900;
+                margin:0 auto;
+            }
 
         </style>
 
@@ -278,6 +284,7 @@
                             </div>
                         </div>
                     </div>
+                    <p class="noproduct" th:if="${list.isEmpty}" th:text="找不到相關商品"></p>
                 </div>
 
             </div>

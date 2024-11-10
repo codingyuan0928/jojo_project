@@ -21,6 +21,10 @@ public class WebConfig {
         registrationBean.addUrlPatterns("/group_join/*");
         registrationBean.addUrlPatterns("/group_join_close/*");
         registrationBean.addUrlPatterns("/chatroom/*");
+        registrationBean.addUrlPatterns("/shoppingcart/*");
+        registrationBean.addUrlPatterns("/forum_add_post/*");
+        registrationBean.addUrlPatterns("/forum_list_one/*");
+        registrationBean.addUrlPatterns("/forum_update_post/*");
         registrationBean.setOrder(1);
         System.out.println("會員頁面造訪");
         return registrationBean;

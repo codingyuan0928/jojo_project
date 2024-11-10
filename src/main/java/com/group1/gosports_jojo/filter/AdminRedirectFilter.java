@@ -16,7 +16,7 @@ public class AdminRedirectFilter implements Filter {
         HttpServletResponse res = (HttpServletResponse) response;
         HttpSession session = req.getSession();
 
-        Object adminAccount = (Administrator) session.getAttribute("administratorAccount");
+        Object adminAccount = (Administrator) session.getAttribute("adminAccount");
 
         if (adminAccount == null) {
             res.sendRedirect("/administrator_login");
@@ -27,10 +27,6 @@ public class AdminRedirectFilter implements Filter {
             res.sendRedirect(req.getContextPath() + "/account-suspended");
             return;
         }
-
-
-
-
 
         chain.doFilter(request, response);
     }

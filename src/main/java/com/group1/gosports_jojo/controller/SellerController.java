@@ -226,7 +226,7 @@ public String searchPendingOrderTime(HttpServletRequest req, Model model, HttpSe
     }
 
 
-@GetMapping("/insert_product")
+@PostMapping("/insert_product")
 public String insertProduct(HttpServletRequest req, Model model, HttpServletResponse res) throws
         IOException, ServletException {
 

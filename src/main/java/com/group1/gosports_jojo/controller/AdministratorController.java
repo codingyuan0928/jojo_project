@@ -35,7 +35,6 @@ import java.io.IOException;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin")
 public class AdministratorController {
 
     @Autowired
@@ -79,7 +78,7 @@ public class AdministratorController {
 
 
 
-    @GetMapping("/administrators")
+    @GetMapping("/admin/administrators")
     public String administrators(HttpServletRequest req, Model model) {
         HttpSession session = req.getSession();
         Administrator admin = (Administrator) session.getAttribute("adminAccount");
@@ -98,7 +97,7 @@ public class AdministratorController {
         return "administrators";
     }
 
-    @GetMapping("/getOneVendorImage")
+    @GetMapping("/admin/getOneVendorImage")
     public void getOneVendorImage(HttpServletRequest req, HttpServletResponse res, Model model) throws IOException {
         res.setContentType("application/pdf");
         ServletOutputStream out = res.getOutputStream();
@@ -120,7 +119,7 @@ public class AdministratorController {
     }
 
 
-    @PostMapping("/update_vendor_status")
+    @PostMapping("/admin/update_vendor_status")
     public String updateVendorStatus(HttpServletRequest req, Model model) {
         HttpSession session = req.getSession();
         Administrator admin = (Administrator) session.getAttribute("adminAccount");
@@ -151,7 +150,7 @@ public class AdministratorController {
 
 
 
-    @GetMapping("/admin_customer_support")
+    @GetMapping("/admin/admin_customer_support")
     public String GetCustomerSupportFeedback(HttpServletRequest req, Model model) {
         HttpSession session = req.getSession();
         Administrator admin = (Administrator) session.getAttribute("adminAccount");
@@ -170,7 +169,7 @@ public class AdministratorController {
     }
 
 
-    @PostMapping("/update_customer_support_feedback") // 來自customer_support.jsp的請求
+    @PostMapping("/admin/update_customer_support_feedback") // 來自customer_support.jsp的請求
     public String updateCustomerSupportFeedback(HttpServletRequest req, Model model) {
         HttpSession session = req.getSession();
         Administrator admin = (Administrator) session.getAttribute("adminAccount");
@@ -454,7 +453,7 @@ public class AdministratorController {
 
 
 
-    @GetMapping("/admin_customer_support_query")
+    @GetMapping("/admin/admin_customer_support_query")
     public String customerSupportQuery(HttpServletRequest req, Model model) {
         HttpSession session = req.getSession();
         Administrator admin = (Administrator) session.getAttribute("adminAccount");
@@ -465,7 +464,7 @@ public class AdministratorController {
     }
 
 
-    @PostMapping("/backend_search_group")
+    @PostMapping("/admin/backend_search_group")
     public String backend_search_group(HttpServletRequest req, Model model) {
         HttpSession session = req.getSession();
         Administrator admin = (Administrator) session.getAttribute("adminAccount");
@@ -482,7 +481,7 @@ public class AdministratorController {
         return "admin_customer_support_query";
     }
 
-    @PostMapping("/backend_search_article")
+    @PostMapping("/admin/backend_search_article")
     public String backend_search_article(HttpServletRequest req, Model model) {
         HttpSession session = req.getSession();
         Administrator admin = (Administrator) session.getAttribute("adminAccount");
@@ -499,7 +498,7 @@ public class AdministratorController {
         return "admin_customer_support_query";
     }
 
-    @PostMapping("/backend_search_reply")
+    @PostMapping("/admin/backend_search_reply")
     public String backend_search_reply(HttpServletRequest req, Model model) {
         HttpSession session = req.getSession();
         Administrator admin = (Administrator) session.getAttribute("adminAccount");
@@ -516,7 +515,7 @@ public class AdministratorController {
         return "admin_customer_support_query";
     }
 
-    @PostMapping("/backend_search_product")
+    @PostMapping("/admin/backend_search_product")
     public String backend_search_product(HttpServletRequest req, Model model) {
         HttpSession session = req.getSession();
         Administrator admin = (Administrator) session.getAttribute("adminAccount");
@@ -537,7 +536,7 @@ public class AdministratorController {
 
 
 
-    @GetMapping("/admin_ad_platform")
+    @GetMapping("/admin/admin_ad_platform")
     public String adminAdPlatform(HttpServletRequest req, Model model) {
 
         HttpSession session = req.getSession();
@@ -552,7 +551,7 @@ public class AdministratorController {
     }
 
     //移除推薦商品
-    @PostMapping("/remove_ad")
+    @PostMapping("/admin/remove_ad")
     public String remove_ad(HttpServletRequest req, Model model) {
         HttpSession session = req.getSession();
         Administrator admin = (Administrator) session.getAttribute("adminAccount");
@@ -571,7 +570,7 @@ public class AdministratorController {
     }
 
     //新增推薦商品
-    @PostMapping("/insert_ad")
+    @PostMapping("/admin/insert_ad")
     public String insert_ad(HttpServletRequest req, Model model) {
         HttpSession session = req.getSession();
         Administrator admin = (Administrator) session.getAttribute("adminAccount");
@@ -595,7 +594,7 @@ public class AdministratorController {
     }
 
 
-    @PostMapping("/serchProductName")
+    @PostMapping("/admin/serchProductName")
     public String serchProductName(HttpServletRequest req, Model model) {
         HttpSession session = req.getSession();
         Administrator admin = (Administrator) session.getAttribute("adminAccount");

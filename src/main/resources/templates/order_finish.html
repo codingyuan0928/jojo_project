@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <title>Go Sport | 訂單管理</title>
+    <title>訂單管理</title>
 
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -31,181 +31,113 @@
             href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400..900&display=swap"
             rel="stylesheet"
     />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+
 
     <style>
-
-        /* 調整彈出視窗的大小 */
-        .popup {
-            display: none; /* 預設隱藏 */
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5); /* 半透明背景 */
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
+        /* Modern Popup Styling with Yellow and Black Theme */
+        .modern-popup {
+            border-radius: 10px;
+            box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
         }
 
-        .popup-content {
-            background-color: white;
-            padding: 15px;
-            border-radius: 8px;
-            max-width: 500px; /* 調整最大寬度 */
-            width: 90%; /* 設定寬度比例 */
+        /* Header Styling */
+        .modal-header {
+            background-color: #000000; /* 黑色背景 */
+            color: #FFD700; /* 黃色文字 */
+            padding: 1rem 1.5rem;
+            font-weight: bold;
         }
 
-        .popup-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
         }
 
-        .popup-header h2 {
-            margin: 0;
+        /* Body Styling */
+        .modal-body {
+            padding: 2rem;
+            font-family: "Noto Sans TC", sans-serif;
+            background-color: #FFD700; /* 黃色背景 */
+            color: #000000; /* 黑色文字 */
         }
 
-        .close-btn {
-            cursor: pointer;
-            font-size: 24px;
+        /* Section Title */
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #000000; /* 黑色文字 */
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #FFD700; /* 黃色下劃線 */
+            padding-bottom: 0.5rem;
         }
 
-        .order-details table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-
-        .order-details th {
-            width: 100px;
-        }
-
-        .order-details th, .order-details td {
-            border: 1px solid #ddd;
-            padding: 6px;
-            text-align: left;
-            font-size: 14px;
-        }
-
-        .order-details th {
-            background-color: #f2f2f2;
-        }
-
-        /* 商品明細滾動條 */
-        .product-details {
-            max-height: 150px; /* 設置最大高度 */
-            overflow-y: auto; /* 當超過高度時顯示滾動條 */
-            margin-top: 10px;
-            border: 1px solid #ddd;
-        }
-
-        /* 避免商品明細表格的滾動條 */
-        .product-details table {
+        /* Table Styling */
+        .modern-table {
             width: 100%;
             border-collapse: collapse;
+            font-size: 0.9rem;
+            color: #000000; /* 黑色文字 */
+            margin-top: 1rem;
         }
 
-        .product-details th, .product-details td {
-            padding: 6px;
-            text-align: left;
-            border: 1px solid #ddd;
-            font-size: 14px;
+        .modern-table th,
+        .modern-table td {
+            border: 1px solid #000000; /* 黑色邊框 */
+            padding: 10px 15px;
+            text-align: center;
+            vertical-align: middle;
         }
 
-        .product-details th {
-            background-color: #f2f2f2;
+        .modern-table th {
+            background-color: #FFD700; /* 黃色背景 */
+            color: #000000; /* 黑色文字 */
+            font-weight: bold;
         }
 
-        /*彈出視窗到此*/
-        /* 自定義 sidebar 的背景顏色 */
-        .table-bordered th, .table-bordered td {
-            text-align: center; /* 水平置中 */
-            vertical-align: middle; /* 垂直置中 */
-        }
-
-        /* 自定義 sidebar 的背景顏色 */
-        .custom-sidebar-bg {
-            position: fixed; /* 固定位置 */
-            left: 0; /* 固定在左側 */
-            top: 0; /* 從頂部開始 */
-            width: 200px; /* 設置 sidebar 的寬度 */
-            height: 100%; /* 使高度覆蓋整個屏幕 */
-            background-color: rgba(255, 254, 210, 0.75) !important; /* 使用半透明背景顏色 */
-            padding: 20px; /* 添加一些內邊距以增加內容的舒適度 */
-        }
-
-        .custom-sidebar-link {
-            color: #0D6EFD;
-            font-family: "Noto Sans TC", system-ui;
-            font-optical-sizing: auto;
-            font-style: normal;
-            display: flex;
-            align-items: center; /* 垂直居中圖標和文字 */
-            padding: 10px; /* 增加一些內邊距讓鏈接更顯眼 */
-        }
-
-        .custom-sidebar-link i {
-            width: 30px; /* 設置固定寬度，確保所有圖標占用的空間相同 */
-            text-align: center; /* 圖標水平居中 */
-            margin-right: 10px; /* 圖標和文字之間的間距 */
-        }
-
-        .custom-sidebar-link:hover {
-            background-color: #e9ecef; /* 增加懸停效果 */
-            text-decoration: none; /* 移除懸停時可能的下劃線 */
-        }
-
-        .status-button {
-            padding: 5px 10px;
-            border-radius: 5px;
-            color: white;
+        .table-borderless td {
             border: none;
-            cursor: pointer;
         }
 
-        .completed {
-            background-color: #7B61FF;
+        .table-borderless td:first-child {
+            font-weight: bold;
+            color: #000000; /* 黑色文字 */
         }
 
-        .cancel {
-            background-color: #FF3B3B;
+        /* Grid Item Styling */
+        #orderItemsTableBody tr td {
+            border-bottom: 1px solid #eaeaea;
         }
 
-        .me-2 {
-            width: 90pt;
-            padding-left: 20px;
-            text-align: right;
+        /* Row Hover Effect */
+        .modern-table tbody tr:hover {
+            background-color: #FFFACD; /* 淡黃色背景 */
         }
 
-        .form-control-1 {
-            width: fit-content!important;
+        /* Animation */
+        .modal.fade .modal-dialog {
+            transform: translateY(-30px);
+            opacity: 0;
+            transition: all 0.4s ease;
         }
 
-        .table-bordered {
-            width: 100%;
-            table-layout: fixed;
+        .modal.show .modal-dialog {
+            transform: translateY(0);
+            opacity: 1;
         }
 
-        .orderId {
-            background-color: transparent; /* 設定背景為透明 */
-            border: none; /* 可選，移除邊框 */
-            color: #333; /* 設定文字顏色 */
-            padding: 10px 20px; /* 設定按鈕內邊距 */
-            cursor: pointer; /* 設定滑鼠為指標樣式 */
+        /* Button Close Styling */
+        .btn-close {
+            font-size: 1.2rem;
+            color: #FFD700; /* 黃色文字 */
+            opacity: 1;
         }
-        /* 按鈕組容器設定 */
-        .button-group {
-            display: flex;
-            gap: 10px; /* 設置按鈕之間的間距 */
-            justify-content: center; /* 水平置中 */
-            align-items: center; /* 垂直置中 */
+        .btn-close:hover {
+            color: #ffcccc;
         }
-        .table th, .table td {
-            text-align: center; /* 水平置中 */
-            vertical-align: middle; /* 垂直置中 */
-        }
+
+
         /* 側邊欄背景設置為黑色 */
         .custom-sidebar-bg {
             position: fixed;
@@ -286,9 +218,58 @@
             line-height: 1.5 !important; /* 調整行高 */
         }
 
+        .status-button {
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .completed {
+            background-color: #7B61FF;
+        }
+
+        .cancel {
+            background-color: #FF3B3B;
+        }
+
+        .me-2 {
+            width: 90pt;
+            padding-left: 20px;
+            text-align: right;
+        }
+
+        .form-control {
+            width: 100pt;
+        }
+
+        .table-bordered {
+            width: 100%;
+            table-layout: fixed;
+        }
+
+        .orderId {
+            background-color: transparent; /* 設定背景為透明 */
+            border: none; /* 可選，移除邊框 */
+            color: #333; /* 設定文字顏色 */
+            padding: 10px 20px; /* 設定按鈕內邊距 */
+            cursor: pointer; /* 設定滑鼠為指標樣式 */
+        }
+        /* 按鈕組容器設定 */
+        .button-group {
+            display: flex;
+            gap: 10px; /* 設置按鈕之間的間距 */
+            justify-content: center; /* 水平置中 */
+            align-items: center; /* 垂直置中 */
+        }
+        .table th, .table td {
+            text-align: center; /* 水平置中 */
+            vertical-align: middle; /* 垂直置中 */
+        }
+
     </style>
-</head>
-<body>
+</head><body>
 <div class="container-fluid">
     <div class="row">
         <!-- 左側選單 -->
@@ -321,7 +302,7 @@
                         <img th:src="${avatar}" style="width: 30px;height: 30px;border-radius: 180px;margin-right: 10px;border: #0D6EFD solid 0.5px" >編輯資料
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" >
                     <a href="javascript:void(0)" class="nav-link custom-sidebar-link" onclick="vendorLogout()">
                         <i class="fa-solid fa-right-from-bracket"></i>    登出
                     </a>
@@ -348,10 +329,10 @@
 
                     <input type="hidden" name="action" value="search2">
                     <div class="d-flex align-items-center">
-                        <label for="start-date" class="me-2">訂購起日：</label> <input
-                            type="date" id="start-date" name="time1" class="form-control-1">
-                        <label for="end-date" class="me-2">訂購迄日：</label> <input
-                            type="date" id="end-date" name="time2" class="form-control-1">
+                        <label for="start-date" class="me-2">訂單起日：</label> <input
+                            type="date" id="start-date" name="time1" class="form-control">
+                        <label for="end-date" class="me-2">訂單訖日：</label> <input
+                            type="date" id="end-date" name="time2" class="form-control">
                         <button type="submit">查詢</button>
 
                     </div>
@@ -377,8 +358,8 @@
                             <span th:if="${order.orderStatus == 1}">
                             <tr>
                                 <td>
-                                    <button class="orderId" onclick="showPopup()" th:text=" ${order.orderId}">
-                                       </button>
+                                    <button class="orderId" th:onclick="'getOrderItems(' + ${order.orderId} + ')'" th:text="${order.orderId}">
+                                    </button>
                                 </td>
                                 <td th:text="${#dates.format(order.createdDatetime, 'yyyy-MM-dd')}"></td>
                                 <td th:text="${order.userId}"></td>
@@ -392,89 +373,75 @@
                 </table>
             </div>
             <!-- 訂單彈出視窗 -->
-            <div id="orderPopup" class="popup">
-                <div class="popup-content">
-                    <div class="popup-header">
-                        <h2>★商城AAA★</h2>
-                        <span class="close-btn" onclick="closePopup()">×</span>
-                    </div>
-                    <p>感謝您的支持和信任，這是您的訂單</p>
 
-                    <div class="order-details">
-                        <h3>訂單詳情</h3>
-                        <table>
-                            <tr>
-                                <th>訂購姓名</th>
-                                <td>m</td>
-                                <!-- 插入 SQL 資料 -->
-                            </tr>
-                            <tr>
-                                <th>E-mail</th>
-                                <td>email</td>
-                                <!-- 插入 SQL 資料 -->
-                            </tr>
-                            <tr>
-                                <th>訂單號碼</th>
-                                <td>123</td>
-                                <!-- 插入 SQL 資料 -->
-                            </tr>
-                            <tr>
-                                <th>訂購日期</th>
-                                <td>123</td>
-                                <!-- 插入 SQL 資料 -->
-                            </tr>
-                            <tr>
-                                <th>訂單金額</th>
-                                <td>123</td>
-                                <!-- 插入 SQL 資料 -->
-                            </tr>
-                            <tr>
-                                <th>預計取貨時間</th>
-                                <td>12345</td>
-                                <!-- 插入 SQL 資料 -->
-                            </tr>
-                            <tr>
-                                <th>付款方式</th>
-                                <td>現金</td>
-                                <!-- 插入 SQL 資料 -->
-                            </tr>
-                            <tr>
-                                <th>取貨地址</th>
-                                <td>1ewrew</td>
-                                <!-- 插入 SQL 資料 -->
-                            </tr>
-                        </table>
 
-                        <h3>訂購商品明細</h3>
-                        <div class="product-details">
-                            <table>
-                                <thead>
-                                <tr>
-                                    <th>商品名稱</th>
-                                    <th>數量</th>
-                                    <th>小計</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>d</td>
-                                    <!-- 插入 SQL 資料 -->
-                                    <td>d</td>
-                                    <!-- 插入 SQL 資料 -->
-                                    <td>a</td>
-                                    <!-- 小計: 商品價格 * 數量 -->
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </main>
     </div>
 </div>
-<div th:replace="fragments/profile_update_modal :: profile_update_modal"></div>
-<div th:replace ="fragments/reset_password :: reset_password"></div>
+<!-- popup-->
+<<div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <h5>感謝您的支持和信任，這是您的訂單</h5>
+            <h5>訂單詳情</h5>
+            <table class="table">
+                <tr>
+                    <td>訂購姓名</td>
+                    <td id="orderCustomerName"></td>
+                </tr>
+                <tr>
+                    <td>E-mail</td>
+                    <td id="orderEmail"></td>
+                </tr>
+                <tr>
+                    <td>訂單編碼</td>
+                    <td id="orderNumber"></td>
+                </tr>
+                <tr>
+                    <td>訂購日期</td>
+                    <td id="orderDate"></td>
+                </tr>
+                <tr>
+                    <td>訂單金額</td>
+                    <td id="orderAmount"></td>
+                </tr>
+                <tr>
+                    <td>預計取貨時間</td>
+                    <td id="pickupDate"></td>
+                </tr>
+                <tr>
+                    <td>付款方式</td>
+                    <td id="paymentMethod"></td>
+                </tr>
+                <tr>
+                    <td>取貨地址</td>
+                    <td id="pickupAddress"></td>
+                </tr>
+            </table>
+
+            <h5>訂購商品明細</h5>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>商品名稱</th>
+                    <th>數量</th>
+                    <th>小計</th>
+                </tr>
+                </thead>
+                <tbody id="orderItemsTableBody">
+                <!-- 商品項目會在這裡被追加 -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
 <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script
@@ -482,15 +449,131 @@
         integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
         crossorigin="anonymous"
 ></script>
-<script>
-    function showPopup() {
-        document.getElementById('orderPopup').style.display = 'flex';
-    }
 
+<script  th:src="@{/js/common.js}"></script>
+<script  th:src="@{/js/global.js}"></script>
+<script>
     function closePopup() {
         document.getElementById('orderPopup').style.display = 'none';
     }
+
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        if (isNaN(date.getTime())) {
+            console.error("Invalid date format:", dateString);
+            return dateString; // 無法解析時回傳原日期字串
+        }
+
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+
+        return `${year}-${month}-${day} ${hours}:${minutes}`;
+    }
+
+
+    // 訂單 Table API
+    function getOrder() {
+        const url = `${port}/order/${fakUserId}`;
+        return fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json();
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            })
+    }
+
+    // 顯示訂單資料的函數
+    async function displayOrders() {
+        const orders = await getOrder();
+        const orderTableBody = document.getElementById('orderTableBody');
+        orderTableBody.innerHTML = '';  // 清空列表
+        orders.forEach(order => {
+            const tr = document.createElement('tr');
+
+            // 取得訂單詳情並顯示在表格中
+            tr.innerHTML = `
+            <td>${order.id}</td>
+            <td>${formatDate(order.createdDatetime)}</td>
+            <td>${order.vendor.shopName}</td>
+            <td>${order.totalAmount}</td>
+            <td>${formatDate(order.pickupDate)}</td>
+            <td><button class="btn btn-primary" onclick='getOrderItems(${order.id})'>顯示訂單</button></td>
+        `;
+            orderTableBody.appendChild(tr); // 追加到表格
+
+        });
+    }
+
+    displayOrders();
+
+    // 我的訂單明細 popup API// 我的訂單明細 popup API
+    function fetchOrderItems(orderId){
+        const url = `${port}/order/findOrderDetailsByOrderId/${orderId}`;
+        return fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json();
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            })
+    }
+
+
+    // 我的訂單明細 popup 畫面渲染
+    async function getOrderItems(orderId) {
+        // 假設 fetchOrderItems 回傳訂單和訂單項目的詳細資料
+        const res = await fetchOrderItems(orderId);
+        const id = res[0].orderId; // 訂單編號
+        const username = res[0].username;
+        const email = res[0].email;
+        const orderDate = res[0].createdDatetime;
+        const pickupDate = res[0].pickupDate;
+        const amount = res[0].totalAmount;
+
+
+        const address = res[0].pickAddress;
+
+        // 填充訂單詳情
+        document.getElementById('orderNumber').textContent = id;
+        document.getElementById('orderCustomerName').textContent = username;
+        document.getElementById('orderEmail').textContent = email;
+        document.getElementById('orderDate').textContent = formatDate(orderDate);
+        document.getElementById('orderAmount').textContent = `NT$ ${amount}`;
+        document.getElementById('pickupDate').textContent = formatDate(pickupDate);
+        console.log(pickupDate);
+        document.getElementById('paymentMethod').textContent = '現金';
+        document.getElementById('pickupAddress').textContent = address;
+
+        // 清空舊的商品明細
+        const orderItemsTableBody = document.getElementById('orderItemsTableBody');
+        orderItemsTableBody.innerHTML = '';
+
+        // 顯示每一個商品的明細
+        res.forEach(item => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+            <td>${item.productName}</td>
+            <td>${item.quantity}</td>
+            <td>NT$ ${item.price * item.quantity}</td>
+        `;
+            orderItemsTableBody.appendChild(tr); // 將每一項商品追加到表格中
+        });
+
+        // 顯示 Modal
+        const orderModal = new bootstrap.Modal(document.getElementById('orderModal'));
+        orderModal.show();
+    }
+
 </script>
-<script  th:src="@{/js/common.js}"></script>
 </body>
 </html>

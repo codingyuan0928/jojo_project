@@ -146,11 +146,7 @@ public class PostController {
         Integer post_id = Integer.valueOf(req.getParameter("post_id"));
         System.out.println("============" + post_id);
 
-        Integer getAllReplyAmount = replySvc.getAllReplyAmount(post_id);
-        Integer getAllResponseAmount = responseSvc.getAllResponseAmount(user_id);
 
-        req.setAttribute("getAllReplyAmount", getAllReplyAmount);
-        req.setAttribute("getAllResponseAmount",getAllResponseAmount);
 
         String reply_content = req.getParameter("reply_content");
 
@@ -166,8 +162,6 @@ public class PostController {
             List<ReplyVO> list = replySvc.getOnePostReply(post_id);
             req.setAttribute("list", list);
 
-
-
             //確認用戶是否在某篇文章讚過讚
             ResponseVO responseVO = responseSvc.getPostAllResponse(post_id, user_id);
             if (responseVO == null) { // 檢查 responseVO 是否為 null
@@ -178,6 +172,11 @@ public class PostController {
             }
             req.setAttribute("responseVO", responseVO);
 
+            Integer getAllReplyAmount = replySvc.getAllReplyAmount(post_id);
+            Integer getAllResponseAmount = responseSvc.getAllResponseAmount(user_id);
+
+            req.setAttribute("getAllReplyAmount", getAllReplyAmount);
+            req.setAttribute("getAllResponseAmount",getAllResponseAmount);
 
 
 
@@ -204,6 +203,13 @@ public class PostController {
             responseVO.setResponse_status(0); // 如果狀態為 null，也設定為 0
         }
         req.setAttribute("responseVO", responseVO);
+
+        Integer getAllReplyAmount = replySvc.getAllReplyAmount(post_id);
+        Integer getAllResponseAmount = responseSvc.getAllResponseAmount(post_id);
+
+        req.setAttribute("getAllReplyAmount", getAllReplyAmount);
+        req.setAttribute("getAllResponseAmount",getAllResponseAmount);
+
 
         /*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
 

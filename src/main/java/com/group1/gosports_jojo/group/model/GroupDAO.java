@@ -92,7 +92,7 @@ public class GroupDAO implements GroupDAO_interface {
 	
 	private static final String SERCH_GROUP_NAME = "SELECT group_id,group_leader_id,group_name,group_status_desc,group_address"
 			+ ",group_playing_datetime,group_primary_member,group_type,group_city,secondary_member FROM group_lists "
-			+ "where group_name like '%' ? '%' OR group_address like '%' ? '%' OR group_note like '%' ? '%'"
+			+ "where (group_name like '%' ? '%' OR group_address like '%' ? '%' OR group_note like '%' ? '%')"
 			+ "and group_join_deadline >=current_time() and group_show='YES' order by group_playing_datetime";
 	//選擇球類及縣市後查詢頁面serchGroupName
 

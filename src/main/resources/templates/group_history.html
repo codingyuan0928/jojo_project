@@ -246,10 +246,8 @@
 
 <body th:fragment="group_history_fra">
 
-    
-    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-<div align="center" th:fragment="group_history_div">
+<div th:fragment="group_history_div">
 
 <!-- 三個卡片的 div -->
 <div class="fake-header-rate mt-2" >
@@ -346,9 +344,8 @@
               
 
                 <div th:each="memberVO1, gStat: ${listCurrent}"
-                 th:class="'group_list_big_scope group_list_big_scope1'+ ${gStat.count}"
-                 th:onclick="ahandleClick({ groupId: [[${memberVO1.groupId}]] });"
-                >
+                 th:class="'choose group_list_big_scope group_list_big_scope1'+ ${gStat.count}">
+                    <input th:value="${memberVO1.groupId}" class="mem1-groupId" hidden/>
 
                     <div class="group_list_left_up">
                       <div class="item item11" th:text="${memberVO1.groupType} + '-' + ${memberVO1.groupName}"></div>
@@ -363,21 +360,7 @@
               
                 </div>
                 
-                  <script th:inline="javascript">
-   
-   
-                  const path1 = [[@{/group_join}]];
 
-                	  const ahandleClick = (param) => {
-                	  	window.location=`${path1}/?groupId=${param.groupId}`;
-                	  }
-                  
-                  
-// 				 $("div.group_list_big_scope1${s.count}").on("click",function(e){
-// 				     window.location='<%=request.getContextPath()%>/group/group.do?action=choose_group&groupId=${memberVO1.groupId}';
-// 				 });
-				 
-				 </script>
 
             
             </div>
@@ -388,9 +371,8 @@
             <!-- ============頁籤二內容======================= -->
             <div class="tab tab2">
                 <div th:each="memberVO2, gStat: ${listHistory}"
-                th:class="'group_list_big_scope group_list_big_scope2'+ ${gStat.count}"
-                 th:onclick="bhandleClick({ groupId: [[${memberVO2.groupId}]] });">
-
+                th:class="'choose2 group_list_big_scope group_list_big_scope2'+ ${gStat.count}">
+                    <input th:value="${memberVO2.groupId}" class="mem2-groupId" hidden/>
                     <div class="group_list_left_up">
                       <div class="item item11" th:text="${memberVO2.groupType} + '-' + ${memberVO2.groupName}"> </div>
                      
@@ -412,25 +394,7 @@
                     </div>
               
                 </div>
-                
-                  <script th:inline="javascript">
-   
-                  
-                  const path2 = [[@{/group_join_close}]];
 
-                	  const bhandleClick = (param) => {
-                	  	window.location=`${path2}/?groupId=${param.groupId}`;
-                	  }
-                  
-   
-// 				 $("div.group_list_big_scope2${s.count}").on("click",function(e){
-// 				     window.location='<%=request.getContextPath()%>/group/group.do?action=choose_old_group&groupId=${memberVO2.groupId}';
-// 				 });
-				 
-				 </script>
-                
-                
-              
             </div>
     
 
@@ -457,130 +421,133 @@
           </div>
     
         </div>
-    
-    
-    
-    
-    
-        <script>
-    // ↓↓↓ script第二步 ↓↓↓
-          // ↓↓↓↓ 從老師網頁貼來的!!!!! ↓↓↓↓ 
-            function tab_active(){
-              console.log(location);  //觀察location，Location是網址的各部位資訊
-    
-              let target_tab;
-              switch(location.hash){    //
-                case "#tab1":
-                  target_tab = "tab1";
-                  break;
-                case "#tab2":
-                  target_tab = "tab2";
-                  break;
-                case "#tab3":
-                  target_tab = "tab3";
-                  break;
-                default:
-                  target_tab = "tab1";
-              }
-              
-              var all_a_tab = document.querySelectorAll("a.tab");
-              for(let i = 0; i < all_a_tab.length; i++){
-                all_a_tab[i].classList.remove("-on");   //刪除三個a標籤的-on
-              }
-              document.querySelector("a.tab[data-target=" + target_tab + "]").classList.add("-on"); //用data-target決定要幫誰加上-on
-              
-              var all_div = document.querySelectorAll("div.tab");
-              for(let i = 0; i < all_div.length; i++){
-                all_div[i].classList.remove("-on");   //刪除三個a標籤的-on
-              }
-              document.querySelector("div.tab." + target_tab).classList.add("-on"); //幫某a標籤加上-on
-            }
-          // ↑↑↑↑ 從老師網頁貼來的!!!!! ↑↑↑↑
-    // ↑↑↑ script第二步 ↑↑↑
-    
-    
-    // ↓↓↓ script第一步 ↓↓↓
-            // console.log(this);          //此處this指的是「全域物件window」
-    
-            document.addEventListener("DOMContentLoaded",function(){
-    
-    // ↓↓↓ script第四步 ↓↓↓
-              // 第三步：連到外部網站，再按上一頁時，會觸發 DOMContentLoaded 事件，所以再執行：
-            tab_active();
-    // ↑↑↑ script第四步 ↑↑↑
 
-                let all_a = document.querySelectorAll("a.tab");
-                // console.log(all_a);  //NodeList(3) [a.tab.-on, a.tab, a.tab]
-                for(let i = 0 ; i < all_a.length ; i++){
-                    // console.log(i);
-                    all_a[i].addEventListener("click", function(r){
-                    // all_a[i].addEventListener("click", (r) => { //測：改用箭頭函式，不用#175的匿名函式，
-    
-                        console.log(r);
-                        r.preventDefault();     //使用preventDefault把a標籤原本的行為關掉(點擊a標籤，不會跳頁到頁籤二或頁籤三)
-                    
-                        all_a.forEach(function(item, j){
-                          console.log(j);  //不管點頁籤一/二/三，都會印出跑出三個頁籤
-                          item.classList.remove("-on"); //目的：刪掉class的-on
-                        });
-                        // console.log(this);  //當使用#125匿名函式，this用於指物件，此處this指的是「當點擊頁籤一，會出現對應的標籤」；this限用於匿名函式!!!
-                                               //若#175匿名函式改用#176箭頭函式時，此處this指的是「document物件」
-                        // console.log(e.target); //不管使用匿名函式還是箭頭函式，都會出現a標籤!!
-                        this.classList.add("-on");  //點擊後會出現黑線外框
-    
-                        let content_div = this.closest("div.tab_container").querySelectorAll("div.tab");  //使用closet往父層找元素(div標籤，class為tab_container)，再往內層找
-                        //console.log(content_div);
-    
-    
-                        content_div.forEach(function(item,j){
-                          // console.log(item);
-                          item.classList.remove("-on");
-                        })
-    
-    
-                        //使用querySelector找到某個內容的div，替它加上-on
-                        // document.querySelector("div.tab.tab2").classList.add("-on");
-    
-                        //替每個a標籤，加上自訂屬性data-target=1/2/3，改寫上列語法#201如下
-                        document.querySelector("div.tab." + this.getAttribute("data-target")).classList.add("-on");
-    
-                        // 點擊頁籤時，加進瀏覽歷程(點擊頁籤三時，再點上一頁/下一頁，網址會變，但內容不變)，故須搭配「加上自訂函式(在script最上半段)」
-                        history.pushState(null, null, "#" + this.getAttribute("data-target"));
-    
-                      });
-    
-                }
-            });
-    // ↑↑↑ script第一步 ↑↑↑
-    
-    
-    
-    // ↓↓↓ script第三步 ↓↓↓
-            // script最開始的自訂函式之後：popstate 事件觸發，執行 tab_active() 函式
-                window.addEventListener("popstate", function(){
-                  // console.log("ttt");
-                  tab_active();
+</div>
+<script>
+    // ↓↓↓ script第二步 ↓↓↓
+    // ↓↓↓↓ 從老師網頁貼來的!!!!! ↓↓↓↓
+    function tab_active(){
+        console.log(location);  //觀察location，Location是網址的各部位資訊
+
+        let target_tab;
+        switch(location.hash){    //
+            case "#tab1":
+                target_tab = "tab1";
+                break;
+            case "#tab2":
+                target_tab = "tab2";
+                break;
+            case "#tab3":
+                target_tab = "tab3";
+                break;
+            default:
+                target_tab = "tab1";
+        }
+
+        var all_a_tab = document.querySelectorAll("a.tab");
+        for(let i = 0; i < all_a_tab.length; i++){
+            all_a_tab[i].classList.remove("-on");   //刪除三個a標籤的-on
+        }
+        document.querySelector("a.tab[data-target=" + target_tab + "]").classList.add("-on"); //用data-target決定要幫誰加上-on
+
+        var all_div = document.querySelectorAll("div.tab");
+        for(let i = 0; i < all_div.length; i++){
+            all_div[i].classList.remove("-on");   //刪除三個a標籤的-on
+        }
+        document.querySelector("div.tab." + target_tab).classList.add("-on"); //幫某a標籤加上-on
+    }
+    // ↑↑↑↑ 從老師網頁貼來的!!!!! ↑↑↑↑
+    // ↑↑↑ script第二步 ↑↑↑
+
+
+    // ↓↓↓ script第一步 ↓↓↓
+    // console.log(this);          //此處this指的是「全域物件window」
+
+    document.addEventListener("DOMContentLoaded",function(){
+
+        // ↓↓↓ script第四步 ↓↓↓
+        // 第三步：連到外部網站，再按上一頁時，會觸發 DOMContentLoaded 事件，所以再執行：
+        tab_active();
+        // ↑↑↑ script第四步 ↑↑↑
+
+        let all_a = document.querySelectorAll("a.tab");
+        // console.log(all_a);  //NodeList(3) [a.tab.-on, a.tab, a.tab]
+        for(let i = 0 ; i < all_a.length ; i++){
+            // console.log(i);
+            all_a[i].addEventListener("click", function(r){
+                // all_a[i].addEventListener("click", (r) => { //測：改用箭頭函式，不用#175的匿名函式，
+
+                console.log(r);
+                r.preventDefault();     //使用preventDefault把a標籤原本的行為關掉(點擊a標籤，不會跳頁到頁籤二或頁籤三)
+
+                all_a.forEach(function(item, j){
+                    console.log(j);  //不管點頁籤一/二/三，都會印出跑出三個頁籤
+                    item.classList.remove("-on"); //目的：刪掉class的-on
                 });
+                // console.log(this);  //當使用#125匿名函式，this用於指物件，此處this指的是「當點擊頁籤一，會出現對應的標籤」；this限用於匿名函式!!!
+                //若#175匿名函式改用#176箭頭函式時，此處this指的是「document物件」
+                // console.log(e.target); //不管使用匿名函式還是箭頭函式，都會出現a標籤!!
+                this.classList.add("-on");  //點擊後會出現黑線外框
+
+                let content_div = this.closest("div.tab_container").querySelectorAll("div.tab");  //使用closet往父層找元素(div標籤，class為tab_container)，再往內層找
+                //console.log(content_div);
+
+
+                content_div.forEach(function(item,j){
+                    // console.log(item);
+                    item.classList.remove("-on");
+                })
+
+
+                //使用querySelector找到某個內容的div，替它加上-on
+                // document.querySelector("div.tab.tab2").classList.add("-on");
+
+                //替每個a標籤，加上自訂屬性data-target=1/2/3，改寫上列語法#201如下
+                document.querySelector("div.tab." + this.getAttribute("data-target")).classList.add("-on");
+
+                // 點擊頁籤時，加進瀏覽歷程(點擊頁籤三時，再點上一頁/下一頁，網址會變，但內容不變)，故須搭配「加上自訂函式(在script最上半段)」
+                history.pushState(null, null, "#" + this.getAttribute("data-target"));
+
+            });
+
+        }
+    });
+    // ↑↑↑ script第一步 ↑↑↑
+
+
+
+    // ↓↓↓ script第三步 ↓↓↓
+    // script最開始的自訂函式之後：popstate 事件觸發，執行 tab_active() 函式
+    window.addEventListener("popstate", function(){
+        // console.log("ttt");
+        tab_active();
+    });
     // ↑↑↑ script第三步 ↑↑↑
 
 </script>
 
 
+<script th:inline="javascript">
+window.addEventListener("DOMContentLoaded",function (){
+    document.querySelectorAll('.choose').forEach((item) => {
+        item.addEventListener('click', function () {
+            const groupId = item.querySelector('.mem1-groupId').value; // 獲取當前點擊的 groupId
+            window.location = `/group_join/?groupId=${groupId}`;
+        });
+    });
+
+    document.querySelectorAll('.choose2').forEach((item) => {
+        item.addEventListener('click', function () {
+            const groupId2 = item.querySelector('.mem2-groupId').value; // 獲取當前點擊的 groupId
+            window.location = `/group_join_close/?groupId=${groupId2}`;
+        });
+    });
+
+})
 
 
+</script>
 
-
-
-
-
-
-
-
-
-    
-
-
-</div>
 
 </body>
 

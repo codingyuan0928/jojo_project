@@ -225,10 +225,6 @@
 
 
 
-
-<!--   <script src="./jquery/jquery-3.7.1.min.js"></script> -->
-<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
   <!--Bootstrap js-->
 
 
@@ -380,27 +376,27 @@
         </div>
 
 
-	<script >
-	
-	
-	document.querySelector(".delete_team_form").addEventListener("submit",function(e){
-		e.preventDefault();
-		var confirmed= window.confirm('確定要取消揪團嗎?');
-	    if (confirmed) {
-	        this.submit();
-	    } else {
-	        console.log("沒有刪除");
-	    }
-	})
-	
-	
-	</script>
+
 
  </main>
 
     <!-- 頁尾 -->
     <footer th:replace="fragments/footer :: footer"></footer>
 </div>
+
+
+<script >
+    document.querySelector(".delete_team_form").addEventListener("submit",function(e){
+        e.preventDefault();
+        var confirmed= window.confirm('確定要取消揪團嗎?');
+        if (confirmed) {
+            this.submit();
+        } else {
+            console.log("沒有刪除");
+        }
+    })
+
+</script>
 
 <script  th:src="@{/js/common.js}"></script>
 <script
