@@ -41,7 +41,7 @@ public class CustomerSupportDAO implements CustomerSupportDAO_interface {
 
 	// 查詢administrator_id = 1廠商審核單，狀態「未處理、待處理」
 	private static final String GET_PENDING_V_STMT = "SELECT administrator_id, vendor_id, submission_datetime, status FROM customer_support_forms "
-			+ "WHERE administrator_id = 1 AND status IN ('1:未處理', '4：發送通知信件(待處理)') ORDER BY submission_datetime DESC";
+			+ "WHERE administrator_id = 1 AND status IN ('1: 未處理', '4：發送通知信件(待處理)') ORDER BY submission_datetime DESC";
 
 	// 查詢所有administrator_id = 1廠商審核單，不分狀態
 	public static final String GET_ALL_V_STMT = "SELECT administrator_id, vendor_id, submission_datetime, status FROM customer_support_forms "
@@ -60,13 +60,13 @@ public class CustomerSupportDAO implements CustomerSupportDAO_interface {
 	// 查詢過去1分鐘更新狀態，且須發送通知的「移除檢舉揪團」名單
 	public static final String GET_REPORTED_GROUP_LIST = "SELECT reference_id, group_leader_id, group_name "
 			+ "FROM customer_support_forms LEFT JOIN group_lists ON customer_support_forms.reference_id = group_lists.group_id "
-			+ "WHERE administrator_id = 2 AND status='3：結案_發送通知信件' AND notification_content = '移除揪團' "
+			+ "WHERE administrator_id = 2 AND status='3: 結案_發送通知信件' AND notification_content = '移除揪團' "
 			+ "AND DATE_SUB(now(),INTERVAL 2 minute) <= reviewed_datetime AND reviewed_datetime < now() ";
 
 	// 查詢過去1分鐘更新狀態，且須發送通知的「移除檢舉文章」名單
 	public static final String GET_REPORTED_ARTICLE_LIST = "SELECT reference_id, posts.user_id as user_id, post_title "
 			+ "FROM customer_support_forms LEFT JOIN posts ON customer_support_forms.reference_id = posts.post_id "
-			+ "WHERE administrator_id = 2 AND status='3：結案_發送通知信件' AND notification_content = '移除文章' "
+			+ "WHERE administrator_id = 2 AND status='3: 結案_發送通知信件' AND notification_content = '移除文章' "
 			+ "AND DATE_SUB(now(),INTERVAL 2 minute) <= reviewed_datetime AND reviewed_datetime < now() ";
 
 	// 查詢過去1分鐘更新狀態，且須發送通知的「移除檢舉留言」名單
@@ -74,20 +74,20 @@ public class CustomerSupportDAO implements CustomerSupportDAO_interface {
 	public static final String GET_REPORTED_REPLY_LIST = "SELECT reference_id, a.user_id AS user_id, posts.post_id AS post_id, post_title "
 			+ "FROM (SELECT reference_id, reply_details.user_id, post_id "
 			+ "FROM customer_support_forms LEFT JOIN reply_details ON customer_support_forms.reference_id = reply_details.reply_id "
-			+ "WHERE administrator_id = 2 AND status='3：結案_發送通知信件' AND notification_content = '移除留言' "
+			+ "WHERE administrator_id = 2 AND status='3: 結案_發送通知信件' AND notification_content = '移除留言' "
 			+ "AND DATE_SUB(now(),INTERVAL 2 minute) <= reviewed_datetime AND reviewed_datetime < now()) a, posts "
 			+ "WHERE a.post_id = posts.post_id ";
 	
 	// 查詢過去1分鐘更新狀態，且須發送通知的「商品下架(經檢舉)(seller)」名單
 	public static final String GET_REPORTED_PRODUCT_LIST = "SELECT reference_id, products.vendor_id as vendor_id, product_name "
 			+ "FROM customer_support_forms LEFT JOIN products ON customer_support_forms.reference_id = products.product_id "
-			+ "WHERE administrator_id = 2 AND status='3：結案_發送通知信件' AND notification_content = '商品下架(經檢舉)(seller)' "
+			+ "WHERE administrator_id = 2 AND status='3: 結案_發送通知信件' AND notification_content = '商品下架(經檢舉)(seller)' "
 			+ "AND DATE_SUB(now(),INTERVAL 2 minute) <= reviewed_datetime AND reviewed_datetime < now() ";
 
 	
 	// 查詢過去1分鐘更新狀態，且須發送通知的「廠商停權(經檢舉)(seller)」名單
 	public static final String GET_REPORTED_VENDOR_LIST = "SELECT reference_id FROM customer_support_forms "
-			+ "WHERE administrator_id = 2 AND status='3：結案_發送通知信件' AND notification_content = '廠商停權(經檢舉)(seller)' "
+			+ "WHERE administrator_id = 2 AND status='3: 結案_發送通知信件' AND notification_content = '廠商停權(經檢舉)(seller)' "
 			+ "AND DATE_SUB(now(),INTERVAL 2 minute) <= reviewed_datetime AND reviewed_datetime < now()";
 	
 	
