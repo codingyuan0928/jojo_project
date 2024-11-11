@@ -81,6 +81,7 @@
                         <tr>
                             <th>商品名稱</th>
                             <th>數量</th>
+                            <th>單價</th>
                             <th>小計</th>
                         </tr>
                         </thead>
@@ -209,6 +210,7 @@
                 tr.innerHTML = `
             <td>${item.productName}</td>
             <td>${item.quantity}</td>
+            <td>${item.price}</td>
             <td>NT$ ${item.price * item.quantity}</td>
         `;
                 orderItemsTableBody.appendChild(tr); // 將每一項商品追加到表格中
