@@ -1,6 +1,9 @@
 package com.group1.gosports_jojo.rest.shop;
 import com.group1.gosports_jojo.dto.shopping.ProductStatusUpdateRequest;
+import com.group1.gosports_jojo.entity.Order;
+import com.group1.gosports_jojo.service.impl.shop.OrderService;
 import com.group1.gosports_jojo.service.impl.shop.ProductService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +18,8 @@ public class ProductSellerRestController {
 
     @Autowired
     private ProductService productService;
-
-
+    @Autowired
+    private OrderService orderService;
     /**
      *
      * @param draw 表格中的查詢次數，用來追蹤該次查詢（例如前端 DataTable 的 AJAX 請求）
@@ -77,5 +80,12 @@ public class ProductSellerRestController {
         Map<String, String> response = new HashMap<>();
         response.put("message", "刪除成功");
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/sellerOrder/{vendorId}")
+    @Operation(summary = "我的訂單列表",description = "")
+    public ResponseEntity<List<Order>>getMyOrder(@PathVariable Integer vendorId){
+        List<Order> myOrders = orderService.getMyOrder(vendorId);
+        return ResponseEntity.ok(myOrders);
     }
 }

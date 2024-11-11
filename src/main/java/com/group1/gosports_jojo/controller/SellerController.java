@@ -1,6 +1,7 @@
 package com.group1.gosports_jojo.controller;
 
 import com.group1.gosports_jojo.dao.impl.AddProductDAO;
+import com.group1.gosports_jojo.entity.Order;
 import com.group1.gosports_jojo.entity.Vendor;
 import com.group1.gosports_jojo.model.AddProductVO;
 import com.group1.gosports_jojo.model.OrderVO;
@@ -46,21 +47,31 @@ public class SellerController {
 
 
 @GetMapping("/order_finish")
-public String orderFinish(HttpServletRequest req, Model model, HttpServletResponse res) {
-
-
-    List<OrderVO> list = orderSvc.getAll(1); // 呼叫無參數版本的 getAll 方法
-    req.setAttribute("list", list);
-
+public String orderFinish(HttpServletRequest req, Model model) {
     //書懿新增
     HttpSession session = req.getSession();
     Vendor vendor = (Vendor) session.getAttribute("vendorAccount");
     model.addAttribute("vendorId", vendor.getVendorId());
     Integer vendorId = vendor.getVendorId();
+    List<OrderVO> list = orderSvc.getOrderByVendorId(vendorId);
+    req.setAttribute("list", list);
     model.addAttribute("unreadV", notificationSvc.getCountUnreadNotificationV(vendorId).getCount());
 
     return "order_finish";
 }
+
+    @GetMapping("/order_pending")
+    public String orderviews(HttpServletRequest req,Model model) {
+        HttpSession session = req.getSession();
+        Vendor vendor = (Vendor) session.getAttribute("vendorAccount");
+        model.addAttribute("vendorId", vendor.getVendorId());
+        Integer vendorId = vendor.getVendorId();
+        List<OrderVO> list = orderSvc.getOrderByVendorId(vendorId);
+        model.addAttribute("list", list);
+        model.addAttribute("unreadV", notificationSvc.getCountUnreadNotificationV(vendorId).getCount());
+
+        return "order_pending";
+    }
 
 @PostMapping("/order_views")
 public String orderPending(Model model, @RequestParam("id") Integer id
@@ -72,20 +83,7 @@ public String orderPending(Model model, @RequestParam("id") Integer id
     return "order_pending";
 }
 
-@GetMapping("/order_pending")
-public String orderviews(HttpServletRequest req,Model model) {
-    List<OrderVO> list = orderSvc.getAll(0); // 呼叫無參數版本的 getAll 方法
-    model.addAttribute("list", list);
 
-    //書懿新增
-    HttpSession session = req.getSession();
-    Vendor vendor = (Vendor) session.getAttribute("vendorAccount");
-    model.addAttribute("vendorId", vendor.getVendorId());
-    Integer vendorId = vendor.getVendorId();
-    model.addAttribute("unreadV", notificationSvc.getCountUnreadNotificationV(vendorId).getCount());
-
-    return "order_pending";
-}
 
 @GetMapping("/product_menu")
 public String productMenu(HttpServletRequest req, Model model, HttpServletResponse res) {
@@ -352,6 +350,7 @@ public String insertProduct(HttpServletRequest req, Model model, HttpServletResp
 
         return "notification_vendor";
     }
+
 
 
 

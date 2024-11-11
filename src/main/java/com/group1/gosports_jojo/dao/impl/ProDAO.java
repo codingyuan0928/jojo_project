@@ -51,7 +51,7 @@ public class ProDAO implements ProDAO_interface {
 
 		//下拉式選單：最新商品
 		private static final String getNew =
-			"SELECT product_id,vendor_id,product_name,product_content,price,product_spec,stock,created_datetime,removed_datetime,product_status,product_updated_datetime FROM products order by removed_datetime desc";
+			"SELECT product_id,vendor_id,product_name,product_content,price,product_spec,stock,created_datetime,removed_datetime,product_status,product_updated_datetime FROM products order by created_datetime desc";
 
 		//搜尋欄：關鍵字查詢
 		private static final String getSearchnam =

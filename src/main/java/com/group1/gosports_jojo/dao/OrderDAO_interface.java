@@ -11,4 +11,5 @@ public interface OrderDAO_interface {
           public OrderVO findByPrimaryKey();
 	      public List<OrderVO> getAll(Integer orderStatus);
 	      public Set<OrderVO> getOrdersByTime(Timestamp begintTime, Timestamp endTime);
+            List<OrderVO> findOrderByVendorId(Integer vendorId);
 }

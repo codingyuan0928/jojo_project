@@ -206,4 +206,37 @@ public class OrderDAO implements OrderDAO_interface {
 		}
 		return set;
 	}
+	@Override
+	public List<OrderVO> findOrderByVendorId(Integer vendorId) {
+		List<OrderVO> orders = new ArrayList<>();
+		String sql = "SELECT * FROM orders WHERE vendor_id = ?";
+
+		try (Connection conn = ds.getConnection();
+			 PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+			stmt.setInt(1, vendorId);
+
+			try (ResultSet rs = stmt.executeQuery()) {
+				while (rs.next()) {
+					OrderVO order = new OrderVO();
+					order.setOrderId(rs.getInt("order_id"));
+					order.setCreatedDatetime(rs.getTimestamp("created_datetime"));
+					order.setOrderStatus(rs.getInt("order_status"));
+					order.setPickupDate(rs.getTimestamp("pickup_date"));
+					order.setTotalAmount(rs.getInt("total_amount"));
+					order.setUpdatedDatetime(rs.getTimestamp("updated_datetime"));
+					order.setUserId(rs.getInt("user_id"));
+					order.setVendorId(rs.getInt("vendor_id"));
+					// 根據你的 Order 類別補充其他屬性
+					orders.add(order);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return orders;
+	}
+
+
 }

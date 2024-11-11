@@ -11,6 +11,9 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
     @Query("select o from Order o where o.user.userId = ?1")
     List<Order> findByUser_UserId(Integer userId);
 
+    @Query("select o from Order o where o.vendor.vendorId = ?1")
+        List<Order> findByVendor_VendorId(Integer vendorId);
+
 
     @Override
     Optional<Order> findById(Integer integer);

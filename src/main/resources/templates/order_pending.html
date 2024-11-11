@@ -420,7 +420,6 @@
             <!-- 訂單表格 -->
             <div class="table-responsive">
                 <table class="table table-bordered">
-
                     <tr>
                         <th>訂單編號</th>
                         <th>訂購日期</th>
@@ -430,47 +429,37 @@
                         <th>訂單狀態</th>
                     </tr>
 
-                    <!--                    <c:forEach var="order" items="${list}">-->
-                    <!--                        <c:if test="${order.orderStatus == 0}">-->
-                    <div th:each = "order : ${list}" class="abc">
-                            <span th:if="${order.orderStatus == 0}">
+                    <!-- 使用 th:each 迭代列表 -->
+                    <tr th:each="order : ${list}" th:if="${order.orderStatus == 0}">
+                        <td>
+                            <button class="orderId" th:onclick="|getOrderItems(${order.orderId})|" th:text="${order.orderId}">
+                            </button>
+                        </td>
+                        <td th:text="${#dates.format(order.createdDatetime, 'yyyy-MM-dd')}"></td>
+                        <td th:text="${order.userId}"></td>
+                        <td class="tds" th:text="${#dates.format(order.pickupDate, 'yyyy-MM-dd')}"></td>
+                        <td th:text="${order.totalAmount}"></td>
+                        <td>
+                            <div class="button-group">
+                                <form th:action="@{/vendors/order_views}" method="post">
+                                    <button type="submit" class="btn btn-sm status-button completed">完成</button>
+                                    <input type="hidden" name="status" value="1">
+                                    <input type="hidden" name="action" value="update">
+                                    <input type="hidden" name="id" th:value="${order.orderId}">
+                                </form>
 
-                            <tr>
-                                <td>
-                                    <button class="orderId" th:onclick="'getOrderItems(' + ${order.orderId} + ')'" th:text="${order.orderId}">
-                                    </button>
-                                </td>
-                                <td th:text="${#dates.format(order.createdDatetime, 'yyyy-MM-dd')}"></td>
-                                <td th:text="${order.userId}"></td>
-                                <td class="tds" th:text="${#dates.format(order.pickupDate, 'yyyy-MM-dd') }"></td>
-                                <td th:text="${order.totalAmount}"></td>
-
-
-                                <td>
-                                    <div class="button-group">
-                                        <form th:action="@{/vendors/order_views}" method="post">
-                                            <button type="submit"
-                                                    class="btn btn-sm status-button completed">完成</button>
-                                            <input type="hidden" name="status" value="1"> <input
-                                                type="hidden" name="action" value="update"> <input
-                                                type="hidden" name="id" th:value="${order.orderId}">
-                                        </form>
-
-                                        <form th:action="@{/vendors/order_views}" method="post">
-                                            <button type="submit"
-                                                    class="btn btn-sm status-button cancel">取消</button>
-                                            <input type="hidden" name="status" value="2"> <input
-                                                type="hidden" name="action" value="update"> <input
-                                                type="hidden" name="id" th:value="${order.orderId}">
-                                        </form>
-                                    </div>
-                                </td>
-                                </tr>
-                        </span>
-                    </div>
-
+                                <form th:action="@{/vendors/order_views}" method="post">
+                                    <button type="submit" class="btn btn-sm status-button cancel">取消</button>
+                                    <input type="hidden" name="status" value="2">
+                                    <input type="hidden" name="action" value="update">
+                                    <input type="hidden" name="id" th:value="${order.orderId}">
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
                 </table>
             </div>
+
 
 
 
@@ -516,24 +505,32 @@
 
     // 訂單 Table API
     function getOrder() {
-        const url = `${port}/order/${fakUserId}`;
+        let vendorId = sessionStorage.getItem('vendorId');
+        const url = `/products/sellerOrder/${vendorId}`;
         return fetch(url)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok ' + response.statusText);
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error('Network response was not ok ' + res.statusText);
                 }
-                return response.json();
+                return res.json(); // 在確認 res.ok 後才解析 JSON
+            })
+            .then(data => {
+                console.log(data);
+                return data;
             })
             .catch(error => {
                 console.error('There was a problem with the fetch operation:', error);
-            })
+            });
     }
-
-    // 顯示訂單資料的函數
+    //
+    // // 顯示訂單資料的函數
     async function displayOrders() {
         const orders = await getOrder();
+        if (!orders) return; // 如果 orders 為空，直接返回避免錯誤
+
         const orderTableBody = document.getElementById('orderTableBody');
         orderTableBody.innerHTML = '';  // 清空列表
+
         orders.forEach(order => {
             const tr = document.createElement('tr');
 
@@ -547,7 +544,6 @@
             <td><button class="btn btn-primary" onclick='getOrderItems(${order.id})'>顯示訂單</button></td>
         `;
             orderTableBody.appendChild(tr); // 追加到表格
-
         });
     }
 
